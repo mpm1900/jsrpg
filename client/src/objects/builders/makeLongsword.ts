@@ -23,6 +23,7 @@ export const makeLongsword = (): WeaponT => {
     ...base,
     type: 'weapon',
     name: `Long Sword`,
+    cost: 1,
     rarity: getRarity[total] || 'common',
     weaponType: 'longsword',
     accuracyCheck: {

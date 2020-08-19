@@ -15,6 +15,7 @@ export const makeElementalSword = (
     name: `${type.charAt(0).toUpperCase() + type.slice(1)} Sword`,
     icon: `${type}-sword` as string,
     rarity: 'mythic',
+    cost: 1,
     weaponType: 'longsword',
     accuracyCheck: {
       keys: ['dexterity'],

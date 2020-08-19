@@ -23,6 +23,7 @@ export const makePistol = (): WeaponT => {
     ...base,
     type: 'weapon',
     name: `Pistol`,
+    cost: 1,
     rarity: getRarity[total] || 'common',
     weaponType: 'pistol',
     accuracyCheck: {

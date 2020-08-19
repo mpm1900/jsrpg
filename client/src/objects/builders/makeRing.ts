@@ -22,8 +22,10 @@ export const makeRing = (): ArmorT => {
   const wilRoll = basicRoll({ roll: '1d4-3' }).total
   const perRoll = basicRoll({ roll: '1d4-3' }).total
   const spdRoll = basicRoll({ roll: '1d4-3' }).total
+  let hpRoll = 0
   const total =
     strRoll + dexRoll + intRoll + vigRoll + wilRoll + perRoll + spdRoll
+  if (total === 0) hpRoll = 1
   return {
     ...base,
     type: 'armor',
@@ -48,7 +50,7 @@ export const makeRing = (): ArmorT => {
           vigor: vigRoll,
         },
         statsModifiers: {
-          health: 0,
+          health: hpRoll,
           focus: 0,
           will: wilRoll,
           perception: perRoll,
