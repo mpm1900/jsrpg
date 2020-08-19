@@ -14,6 +14,7 @@ import { BASIC_RING } from './basicRing'
 import { makeElementalSword } from './builders/makeElementalSword'
 import { makeLongsword } from './builders/makeLongsword'
 import { makePistol } from './builders/makePistol'
+import { makeRing } from './builders/makeRing'
 
 export const BASE_CHARACTER: CharacterT = {
   name: 'Test Character',
@@ -25,7 +26,7 @@ export const BASE_CHARACTER: CharacterT = {
     heads: 0,
     bodies: 0,
     hands: 0,
-    fingers: 9,
+    fingers: 3,
     feet: 0,
   },
   abilities: {
@@ -68,7 +69,25 @@ export const BASE_CHARACTER: CharacterT = {
     makePistol(),
     makePistol(),
     makePistol(),
+    ...Array(101)
+      .fill(null)
+      .map(() => makeRing()),
   ],
   equippedItems: [BASIC_SHIELD],
-  armor: [BASIC_RING, BASIC_COWL, BASIC_ROBE, BASIC_GLOVES, BASIC_BOOTS],
+  armor: [
+    BASIC_COWL,
+    BASIC_ROBE,
+    BASIC_GLOVES,
+    BASIC_BOOTS,
+    makeRing(),
+    makeRing(),
+    makeRing(),
+    makeRing(),
+    makeRing(),
+    makeRing(),
+    makeRing(),
+    makeRing(),
+    makeRing(),
+    makeRing(),
+  ],
 }
