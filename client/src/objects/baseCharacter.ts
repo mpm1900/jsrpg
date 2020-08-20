@@ -11,7 +11,7 @@ export const BASE_CHARACTER: CharacterT = {
   power: 600,
   resources: {
     characterPoints: 250,
-    weaponHands: 1,
+    weaponHands: 2,
     heads: 1,
     bodies: 1,
     hands: 2,
@@ -35,8 +35,6 @@ export const BASE_CHARACTER: CharacterT = {
 
   traits: [],
   skills: [],
-
-  weapon: buildWeapon('elementalSword'),
 
   items: [
     BASIC_SHIELD,

@@ -1,6 +1,12 @@
 import React, { useMemo, useState } from 'react'
 import { useCharacterContext } from '../../contexts/CharacterContext'
-import { ItemT, EquippableT, ItemRarityColorMap } from '../../types/Item'
+import {
+  ItemT,
+  EquippableT,
+  ItemRarityColorMap,
+  ItemTypeT,
+  ItemRarityT,
+} from '../../types/Item'
 import { CharacterT, canEquip, equipItem } from '../../types/Character'
 import { WeaponIcon } from '../WeaponIcon'
 import { WeaponT } from '../../types/Weapon'
@@ -10,25 +16,57 @@ import Tooltip from 'react-tooltip-lite'
 import { ArmorIcon } from '../ArmorIcon'
 import { ArmorT } from '../../types/Armor'
 import { EquipedWeaponCompare } from '../WeaponCompare'
-import { ItemPreview } from '../ItemPreview'
 import { ItemIcon } from '../ItemIcon'
 import { EquipeItemCompare } from '../ItemCompare'
 
 export const CharacterItems = () => {
   const { character, rawCharacter, onChange } = useCharacterContext()
+  const [itemType, setItemType] = useState<ItemTypeT | undefined>()
+  const [itemRarity, setItemRarity] = useState<ItemRarityT | undefined>()
   return (
-    <div style={{ overflow: 'auto' }}>
-      <FlexContainer style={{ flexWrap: 'wrap', maxWidth: 400 }}>
-        {character.items.map((item) => (
-          <Item
-            key={item.id}
-            item={item}
-            rawCharacter={rawCharacter}
-            onEquip={(id) => onChange(equipItem(rawCharacter)(id))}
-          />
-        ))}
+    <FlexContainer style={{ overflow: 'auto' }} $direction='column'>
+      <FlexContainer>
+        <button onClick={() => setItemRarity('common')}>common</button>
+        <button onClick={() => setItemRarity('uncommon')}>uncommon</button>
+        <button onClick={() => setItemRarity('rare')}>rare</button>
+        <button onClick={() => setItemRarity('legendary')}>legendary</button>
+        <button onClick={() => setItemRarity('unique')}>unique</button>
+        <button onClick={() => setItemRarity('mythic')}>mythic</button>
+        <button onClick={() => setItemRarity('set')}>set</button>
       </FlexContainer>
-    </div>
+      <FlexContainer>
+        <button onClick={() => setItemType('armor')}>armor</button>
+        <button onClick={() => setItemType('weapon')}>weapons</button>
+        {itemType !== undefined ||
+          (itemRarity !== undefined && (
+            <button
+              onClick={() => {
+                setItemType(undefined)
+                setItemRarity(undefined)
+              }}
+            >
+              reset
+            </button>
+          ))}
+      </FlexContainer>
+      <FlexContainer style={{ flexWrap: 'wrap', maxWidth: 400, marginTop: 10 }}>
+        {character.items
+          .filter((i) => {
+            let ret = true
+            if (itemType) ret = ret && (i as EquippableT).type === itemType
+            if (itemRarity) ret = ret && i.rarity === itemRarity
+            return ret
+          })
+          .map((item) => (
+            <Item
+              key={item.id}
+              item={item}
+              rawCharacter={rawCharacter}
+              onEquip={(id) => onChange(equipItem(rawCharacter)(id))}
+            />
+          ))}
+      </FlexContainer>
+    </FlexContainer>
   )
 }
 

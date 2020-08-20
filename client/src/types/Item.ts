@@ -29,11 +29,11 @@ export interface EquippableT extends ItemT {
 }
 
 export const ItemRarityColorMap: Record<ItemRarityT, string> = {
-  common: '#ddd',
-  uncommon: '#a1cea1',
+  common: '#fff',
+  uncommon: '#9fbd9f',
   rare: '#91b4f2',
   legendary: '#cda5f3',
   unique: '#c2af6b',
   mythic: 'lightsalmon',
-  set: '#4bebc6',
+  set: '#38f5e2',
 }
