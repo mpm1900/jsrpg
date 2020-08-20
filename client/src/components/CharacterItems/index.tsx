@@ -25,7 +25,10 @@ export const CharacterItems = () => {
   const [itemType, setItemType] = useState<ItemTypeT | undefined>()
   const [itemRarity, setItemRarity] = useState<ItemRarityT | undefined>()
   return (
-    <FlexContainer style={{ overflow: 'auto' }} $direction='column'>
+    <FlexContainer
+      style={{ overflow: 'auto', minWidth: 400 }}
+      $direction='column'
+    >
       <FlexContainer>
         <button onClick={() => setItemType('armor')}>armor</button>
         <button onClick={() => setItemType('weapon')}>weapons</button>
@@ -41,7 +44,7 @@ export const CharacterItems = () => {
         )}
       </FlexContainer>
       <CharacterItemFilters onClick={(r) => setItemRarity(r)} />
-      <FlexContainer style={{ flexWrap: 'wrap', maxWidth: 400, marginTop: 10 }}>
+      <FlexContainer style={{ flexWrap: 'wrap', width: 400, marginTop: 10 }}>
         {character.items
           .filter((i) => {
             let ret = true

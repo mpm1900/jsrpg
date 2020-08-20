@@ -35,7 +35,7 @@ export const App = () => {
                   rpgjs
                 </div>
               </BoxContainer>
-              <FlexContainer $full>
+              <FlexContainer $full style={{ overflow: 'auto' }}>
                 <Character />
                 <ApplicationLog />
               </FlexContainer>

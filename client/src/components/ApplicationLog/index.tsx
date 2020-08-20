@@ -41,6 +41,7 @@ export const ApplicationLog = (props: ApplicationLogPropsT) => {
     <BoxContainer
       style={{
         height: 'calc(100% - 2px)',
+        minWidth: 400,
       }}
       substyle={{ overflow: 'auto', display: 'flex', padding: 0 }}
     >
@@ -50,7 +51,6 @@ export const ApplicationLog = (props: ApplicationLogPropsT) => {
           style={{
             borderRight: '1px solid black',
             background: '#111',
-            minWidth: 400,
           }}
         >
           {options.find((o) => o.key === activeKey).render()}
@@ -87,13 +87,14 @@ export const ApplicationLogSideBar = (props: ApplicationLogSideBarPropsT) => {
   const { activeKey, setActiveKey } = props
   return (
     <FlexContainer $direction='column'>
-      {options.map((option) => (
+      {options.map((option, i) => (
         <div
           key={option.key}
           onClick={() => setActiveKey(option.key)}
           style={{
             ...baseStyles,
             ...(option.key === activeKey ? activeStyles : {}),
+            ...(i === 0 ? { borderTop: 'none' } : {}),
           }}
         >
           <Icon src={option.icon} size={24} />
