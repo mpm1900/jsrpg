@@ -14,8 +14,11 @@ import {
   WeaponDamages,
 } from './stats'
 
-export const buildWeapon = (type: WeaponTypeT): WeaponT => {
-  let rarity = Rarity3d6Map[getRollValue('3d6')]
+export const buildWeapon = (
+  type: WeaponTypeT,
+  rarity?: ItemRarityT,
+): WeaponT => {
+  rarity = rarity || Rarity3d6Map[getRollValue('3d6')]
   if (rarity === 'set') rarity = 'mythic'
   const requirementCheck = makeRequirementCheck(
     [getRandom(WeaponRequirementKeys[type])],

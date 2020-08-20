@@ -3,10 +3,22 @@ import { makeStaticRoll } from '../types/Roll'
 import { BASIC_SHIELD } from './basicShield'
 import { BASIC_TOME } from './basicTome'
 import makeItem from './builders/makeItem'
-import { buildWeapon } from './builders/weapons/createWeapon'
+
+import {
+  uniqueNamesGenerator,
+  Config,
+  adjectives,
+  names,
+} from 'unique-names-generator'
+
+const config: Config = {
+  dictionaries: [adjectives, names],
+  length: 2,
+  separator: ' ',
+}
 
 export const BASE_CHARACTER: CharacterT = {
-  name: 'Test Character',
+  name: uniqueNamesGenerator(config),
   id: 'base',
   power: 600,
   resources: {

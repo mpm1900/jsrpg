@@ -1,11 +1,16 @@
 import React from 'react'
+import { Switch, Link } from 'react-router-dom'
+
 import { CharacterStateContextProvider } from './contexts/CharacterContext'
 import { RollStateContextProvider } from './contexts/RollContext'
+
 import { Character } from './domain'
+
 import { FlexContainer } from './elements/flex'
 import { ApplicationLog } from './components/ApplicationLog'
 import { AttackContextProvider } from './contexts/AttackContext'
 import { BoxContainer } from './elements/box'
+import { makeRoute } from './routes'
 
 export const App = () => {
   return (
@@ -35,8 +40,8 @@ export const App = () => {
                   rpgjs
                 </div>
                 <BoxContainer
-                  tag='a'
-                  href='google.com'
+                  tag={Link}
+                  to=''
                   style={{
                     height: '100%',
                   }}
@@ -52,8 +57,8 @@ export const App = () => {
                   character
                 </BoxContainer>
                 <BoxContainer
-                  tag='a'
-                  href='google.com'
+                  tag={Link}
+                  to='/battle'
                   style={{
                     height: '100%',
                   }}
@@ -68,8 +73,17 @@ export const App = () => {
                   battle
                 </BoxContainer>
               </BoxContainer>
-              <FlexContainer $full style={{ overflow: 'auto' }}>
-                <Character />
+              <FlexContainer $full>
+                <FlexContainer $full style={{ overflow: 'auto' }}>
+                  <Switch>
+                    {makeRoute('/battle', () => (
+                      <h1>battle</h1>
+                    ))}
+                    {makeRoute('/', () => (
+                      <Character />
+                    ))}
+                  </Switch>
+                </FlexContainer>
                 <ApplicationLog />
               </FlexContainer>
             </FlexContainer>

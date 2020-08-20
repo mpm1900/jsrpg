@@ -10,6 +10,8 @@ import { Client as Styletron } from 'styletron-engine-atomic'
 import { Provider as ReduxProvider } from 'react-redux'
 import { makeStore } from './state'
 
+import { BrowserRouter as Router } from 'react-router-dom'
+
 const debug = process.env.NODE_ENV === 'production' ? void 0 : new DebugEngine()
 const engine: Styletron = new Styletron()
 const store = makeStore()
@@ -18,7 +20,9 @@ ReactDOM.render(
   <React.StrictMode>
     <ReduxProvider store={store}>
       <StyletronProvider value={engine} debug={debug} debugAfterHydration>
-        <App />
+        <Router>
+          <App />
+        </Router>
       </StyletronProvider>
     </ReduxProvider>
   </React.StrictMode>,

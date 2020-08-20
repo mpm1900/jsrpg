@@ -19,8 +19,8 @@ import { MYTHIC_ARMORS } from './mythics'
 import { Rarity3d6Map } from '../util'
 import { SET_ARMORS } from './sets'
 
-export const buildArmor = (type: ArmorTypeT): ArmorT => {
-  const rarity = Rarity3d6Map[getRollValue('3d6')]
+export const buildArmor = (type: ArmorTypeT, rarity?: ItemRarityT): ArmorT => {
+  rarity = rarity || Rarity3d6Map[getRollValue('3d6')]
   const requirementCheck = makeRequirementCheck(
     [getRandom(ArmorRequirementKeys[type])],
     10, //getRollValue('3d6'),

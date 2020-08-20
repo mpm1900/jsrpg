@@ -3,6 +3,7 @@ import React from 'react'
 export interface BoxContainerPropsT extends React.HTMLProps<HTMLDivElement> {
   substyle?: React.CSSProperties
   tag?: any
+  to?: string
 }
 export const BoxContainer = (props: BoxContainerPropsT) => {
   const {

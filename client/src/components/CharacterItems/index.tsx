@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react'
+import Color from 'color'
 import { useCharacterContext } from '../../contexts/CharacterContext'
 import {
   ItemT,
@@ -132,17 +133,24 @@ const Item = (props: ItemPropsT) => {
         <BoxContainer
           style={{ width: 40, height: 40 }}
           substyle={{
-            backgroundColor: !canEquipItem ? '#444' : '#222',
+            backgroundColor: !canEquipItem ? '#333' : '#222',
             cursor: canEquipItem ? 'pointer' : 'default',
-            borderColor: isHovering ? rarityColor : '#555',
-            boxShadow: `inset 0 0 3px ${
-              item.rarity !== 'common' && canEquipItem ? rarityColor : 'black'
+            borderColor: isHovering
+              ? rarityColor
+              : item.rarity === 'common'
+              ? '#555'
+              : Color(rarityColor).fade(0.5).hsl().toString(),
+            boxShadow: `inset 0 0 ${!canEquipItem ? '3px' : '16px'} ${
+              item.rarity !== 'common' && canEquipItem
+                ? Color(rarityColor).fade(0.5).hsl().toString()
+                : 'black'
             }`,
             display: 'flex',
             padding: 0,
             justifyContent: 'center',
             alignItems: 'center',
             margin: 0,
+            opacity: canEquipItem ? 1 : 0.5,
           }}
           onClick={(event) => {
             event.preventDefault()
