@@ -13,7 +13,14 @@ export const StatScore = (props: StatScorePropsT) => {
   const { execCheck } = useRollContext()
   const displayName = id //CharacterKeyMap3[id]
   return (
-    <BoxContainer substyle={{ display: 'flex', fontFamily: 'monospace' }}>
+    <BoxContainer
+      style={{ flex: 1 }}
+      substyle={{
+        display: 'flex',
+        fontFamily: 'monospace',
+        alignItems: 'center',
+      }}
+    >
       <a
         href='#'
         style={{ display: 'inline-block', flex: 1, marginRight: 10 }}

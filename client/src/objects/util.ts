@@ -40,7 +40,6 @@ export const BASE_EQUIPPABLE = (type: ItemTypeT): EquippableT => {
           perception: 0,
           lift: 0,
           agility: 0,
-          speed: 0,
         },
       },
     ],

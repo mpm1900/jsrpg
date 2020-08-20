@@ -12,9 +12,10 @@ import { FlexContainer } from '../../elements/flex'
 
 export interface AbilityScorePropsT {
   id: CharacterAbilityKeyT
+  edit?: boolean
 }
 export const AbilityScore = (props: AbilityScorePropsT) => {
-  const { id } = props
+  const { id, edit = true } = props
   const { character, rawCharacter, onChange } = useCharacterContext()
   const { execCheck } = useRollContext()
   const keyName = CharacterKeyMap3[id]
@@ -30,6 +31,7 @@ export const AbilityScore = (props: AbilityScorePropsT) => {
       rawValue={rawValue}
       points={points}
       cost={cost}
+      edit={edit}
       onClick={() => {
         execCheck({
           keys: [id],
@@ -60,6 +62,7 @@ export const AbilityScore = (props: AbilityScorePropsT) => {
 export const PureAbilityScore = (props: any) => {
   const {
     name,
+    edit,
     rawValue,
     value,
     points,
@@ -86,36 +89,38 @@ export const PureAbilityScore = (props: any) => {
         </a>
         <span style={{ fontSize: 36, fontWeight: 'bolder' }}>{value}</span>
       </FlexContainer>
-      <FlexContainer
-        $direction='column'
-        style={{
-          width: 30,
-        }}
-      >
-        <button
-          style={{ margin: 0 }}
-          disabled={points < cost || rawValue === 18}
-          onClick={onIncrement}
-        >
-          +
-        </button>
+      {edit && (
         <FlexContainer
-          $full
+          $direction='column'
           style={{
-            alignItems: 'center',
-            justifyContent: 'center',
+            width: 30,
           }}
         >
-          <div>{cost}</div>
+          <button
+            style={{ margin: 0 }}
+            disabled={points < cost || rawValue === 18}
+            onClick={onIncrement}
+          >
+            +
+          </button>
+          <FlexContainer
+            $full
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <div>{cost}</div>
+          </FlexContainer>
+          <button
+            style={{ margin: 0 }}
+            disabled={rawValue === 3}
+            onClick={onDecrement}
+          >
+            -
+          </button>
         </FlexContainer>
-        <button
-          style={{ margin: 0 }}
-          disabled={rawValue === 3}
-          onClick={onDecrement}
-        >
-          -
-        </button>
-      </FlexContainer>
+      )}
     </BoxContainer>
   )
 }

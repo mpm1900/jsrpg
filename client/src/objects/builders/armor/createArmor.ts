@@ -90,7 +90,6 @@ export const createArmor = (
           perception: statRolls.perception || 0,
           lift: statRolls.lift || 0,
           agility: statRolls.agility || 0,
-          speed: statRolls.speed || 0,
         },
       },
     ],

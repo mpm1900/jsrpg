@@ -38,3 +38,24 @@ export const BoxContainer = (props: BoxContainerPropsT) => {
     </div>
   )
 }
+
+export const SmallBox = (props: BoxContainerPropsT) => (
+  <BoxContainer
+    {...props}
+    style={{
+      height: 40,
+      width: 40,
+      ...props.style,
+    }}
+    substyle={{
+      display: 'flex',
+      padding: 0,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#111',
+      ...props.substyle,
+    }}
+  >
+    {props.children}
+  </BoxContainer>
+)

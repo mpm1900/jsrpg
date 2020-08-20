@@ -28,7 +28,6 @@ export type CharacterStatKeyT =
   | 'perception'
   | 'lift'
   | 'agility'
-  | 'speed'
 export type CharacterStatsT = Record<CharacterStatKeyT, number>
 
 export type CharacterResourceKeyT =
@@ -123,7 +122,6 @@ export const getStats = (character: CharacterT): CharacterStatsT => {
         perception: result.perception + cur.perception,
         lift: result.lift + cur.lift,
         agility: result.agility + cur.agility,
-        speed: result.speed + cur.speed,
       }),
       {
         health: abilities.strength,
@@ -132,7 +130,6 @@ export const getStats = (character: CharacterT): CharacterStatsT => {
         perception: abilities.intelligence,
         lift: (abilities.strength * abilities.strength) / 5,
         agility: (abilities.vigor + abilities.dexterity) / 4,
-        speed: Math.floor((abilities.vigor + abilities.dexterity) / 4),
       },
     )
 }
@@ -295,7 +292,6 @@ export const CharacterKeyMap3: Record<CharacterSkillCheckKeyT, string> = {
   perception: 'PER',
   lift: 'LFT',
   agility: 'AGL',
-  speed: 'SPD',
 }
 
 export const characterAbilityScoreCosts: Record<
@@ -316,7 +312,6 @@ export const CharacterStatsCostsMap: Record<CharacterSkillCheckKeyT, number> = {
   perception: 10,
   lift: 1,
   agility: 10,
-  speed: 10,
 }
 
 export const canEquip = (character: CharacterT) => (
@@ -498,7 +493,6 @@ export const combineTraits = (traits: CharacterTraitT[]): CharacterTraitT => {
           perception: sr.perception + sc.perception,
           lift: sr.lift + sc.lift,
           agility: sr.agility + sc.agility,
-          speed: sr.speed + sc.speed,
         },
       }
     },
@@ -518,7 +512,6 @@ export const combineTraits = (traits: CharacterTraitT[]): CharacterTraitT => {
         perception: 0,
         lift: 0,
         agility: 0,
-        speed: 0,
       },
     },
   )

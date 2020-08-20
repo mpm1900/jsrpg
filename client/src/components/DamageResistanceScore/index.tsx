@@ -29,10 +29,12 @@ export const DamageResistanceScore = (props: DamageResistanceScorePropsT) => {
 
   return (
     <BoxContainer
+      style={{ flex: 1 }}
       substyle={{
         display: 'flex',
         whiteSpace: 'nowrap',
         fontFamily: 'monospace',
+        alignItems: 'center',
       }}
     >
       <div style={{ flex: 1, marginRight: 20 }}>

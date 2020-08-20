@@ -11,6 +11,7 @@ import { ApplicationLog } from './components/ApplicationLog'
 import { AttackContextProvider } from './contexts/AttackContext'
 import { BoxContainer } from './elements/box'
 import { makeRoute } from './routes'
+import { Battle } from './domain/Battle'
 
 export const App = () => {
   return (
@@ -77,7 +78,7 @@ export const App = () => {
                 <FlexContainer $full style={{ overflow: 'auto' }}>
                   <Switch>
                     {makeRoute('/battle', () => (
-                      <h1>battle</h1>
+                      <Battle />
                     ))}
                     {makeRoute('/', () => (
                       <Character />

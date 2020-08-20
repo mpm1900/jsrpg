@@ -33,7 +33,6 @@ export const BASIC_TOME: EquippableT = {
         perception: 0,
         lift: 0,
         agility: 0,
-        speed: 0,
       },
     },
   ],

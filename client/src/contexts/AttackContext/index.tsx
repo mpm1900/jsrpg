@@ -12,10 +12,12 @@ import { v4 } from 'uuid'
 export interface AttackContextT {
   attackResults: AttackResultT[]
   runAttackRoll: () => AttackResultT
+  addAttackResult: (result: AttackResultT) => void
 }
 export const AttackContext = React.createContext<AttackContextT>({
   attackResults: [],
   runAttackRoll: () => ZERO_RESULT,
+  addAttackResult: (r: AttackResultT) => {},
 })
 export const useAttackContext = () => useContext(AttackContext)
 
@@ -101,6 +103,7 @@ export const AttackContextProvider = (props: AttackContextProviderPropsT) => {
       value={{
         attackResults,
         runAttackRoll,
+        addAttackResult: (r) => setAttackResults((ar) => [...ar, r]),
       }}
     >
       {children}

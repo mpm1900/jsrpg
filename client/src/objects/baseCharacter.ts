@@ -18,7 +18,7 @@ const config: Config = {
 }
 
 export const BASE_CHARACTER: CharacterT = {
-  name: uniqueNamesGenerator(config),
+  name: 'base character v0.0.1', //uniqueNamesGenerator(config),
   id: 'base',
   power: 600,
   resources: {

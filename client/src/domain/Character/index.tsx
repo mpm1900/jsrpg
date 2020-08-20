@@ -39,7 +39,6 @@ export const Character = () => {
             <StatScore id='perception' />
             <StatScore id='lift' />
             <StatScore id='agility' />
-            <StatScore id='speed' />
           </div>
           <div>
             <DamageResistanceScore id='slashing' />
