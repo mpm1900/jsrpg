@@ -1,4 +1,4 @@
-import React, { useContext, useState, useMemo } from 'react'
+import React, { useContext, useState, useMemo, useEffect } from 'react'
 import { useCharacterContext } from '../CharacterContext'
 import { makeNpc } from '../../objects/makeNpc'
 import {
@@ -34,15 +34,31 @@ export const BattleContextProvider = (props: BattleContextProviderPropsT) => {
     rawCharacter,
     enemy,
   ])
-  const processCharacters = useMemo(
+  const processedCharacters = useMemo(
     () => characters.map((c) => processCharacter(c)),
     [characters],
   )
+
+  const removeCharacter = (id: string) =>
+    setCharacters((cs) => cs.filter((c) => c.id !== id))
+
+  const addNewNpc = () => setCharacters((cs) => [...cs, makeNpc()])
+
   const updateCharacter = (char: CharacterT): void =>
     setCharacters((chars) => chars.map((c) => (c.id === char.id ? char : c)))
 
+  useEffect(() => {
+    processedCharacters.forEach((c) => {
+      console.log(c.healthOffset, c.stats.health)
+      if (c.healthOffset >= c.stats.health) {
+        removeCharacter(c.id)
+        addNewNpc()
+      }
+    })
+  }, [processedCharacters])
+
   const attack = (targetId: string, sourceId: string): AttackResultT => {
-    const attackResult = execAttack(processCharacters)(targetId, sourceId)
+    const attackResult = execAttack(processedCharacters)(targetId, sourceId)
     const target = characters.find((c) => c.id === targetId)
     if (target) {
       updateCharacter({
@@ -55,7 +71,7 @@ export const BattleContextProvider = (props: BattleContextProviderPropsT) => {
   return (
     <BattleContext.Provider
       value={{
-        characters: processCharacters,
+        characters: processedCharacters,
         rawCharacters: characters,
         attack,
         updateCharacter,

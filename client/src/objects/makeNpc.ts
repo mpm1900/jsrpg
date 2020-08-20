@@ -5,6 +5,9 @@ import { makeStaticRoll } from '../types/Roll'
 import { uniqueNamesGenerator, Config, names } from 'unique-names-generator'
 import { CharacterResourcesT, CharacterAbilitiesT } from '../types/Character'
 import { DamageTypeRollsT } from '../types/Damage'
+import { buildWeapon } from './builders/weapons/createWeapon'
+import { getRandom } from '../util/getRandom'
+import { buildArmor } from './builders/armor/createArmor'
 
 const randomNameConfig: Config = {
   dictionaries: [names],
@@ -48,11 +51,18 @@ export const makeNpc = (
       ...damageResistances,
     },
 
+    weapon: buildWeapon(getRandom(['axe'])),
+
     traits: [],
     skills: [],
     items: [],
     equippedItems: [],
-    armor: [],
+    armor: [
+      buildArmor('cowl'),
+      buildArmor('chestplate'),
+      buildArmor('gloves'),
+      buildArmor('boots'),
+    ],
 
     healthOffset: 0,
   }

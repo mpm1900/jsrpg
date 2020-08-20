@@ -32,7 +32,7 @@ export const execAttack = (characters: ProcessedCharacterT[]) => (
     if (hitRoll.result) {
       const criticalSuccess = hitRoll.criticalSuccess
       attackResult.hitSuccess = true
-      attackResult.criticalSuccess = true
+      attackResult.criticalSuccess = criticalSuccess
       const damageRoll = rollDamage(basicRollCharacter(source))(
         weapon.damageRolls,
         criticalSuccess,
