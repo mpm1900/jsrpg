@@ -2,9 +2,16 @@ import React from 'react'
 
 export interface BoxContainerPropsT extends React.HTMLProps<HTMLDivElement> {
   substyle?: React.CSSProperties
+  tag?: any
 }
 export const BoxContainer = (props: BoxContainerPropsT) => {
-  const { style = {}, substyle = {}, children, ...rest } = props
+  const {
+    style = {},
+    substyle = {},
+    children,
+    tag: Element = 'div',
+    ...rest
+  } = props
   return (
     <div
       style={{
@@ -14,7 +21,7 @@ export const BoxContainer = (props: BoxContainerPropsT) => {
         ...style,
       }}
     >
-      <div
+      <Element
         style={{
           border: '1px solid #555',
           background: '#222',
@@ -26,7 +33,7 @@ export const BoxContainer = (props: BoxContainerPropsT) => {
         {...rest}
       >
         {children}
-      </div>
+      </Element>
     </div>
   )
 }

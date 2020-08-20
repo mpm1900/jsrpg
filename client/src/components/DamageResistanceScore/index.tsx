@@ -2,7 +2,7 @@ import React from 'react'
 import { DamageTypeKeyT, DamageTypeKeyColors } from '../../types/Damage'
 import { useCharacterContext } from '../../contexts/CharacterContext'
 import { FlexContainer } from '../../elements/flex'
-import { getRollText } from '../../types/Roll'
+import { getRollText, getRollRange } from '../../types/Roll'
 import { useRollContext } from '../../contexts/RollContext'
 import { Icon } from '../Icon'
 import { IconDamageTypeMap } from '../../icons/maps'
@@ -17,7 +17,13 @@ export const DamageResistanceScore = (props: DamageResistanceScorePropsT) => {
   const { execStaticRoll } = useRollContext()
   const { damageResistances } = character
   const roll = damageResistances[id]
-  const rollText = roll ? getRollText(roll) : ''
+  console.log(roll)
+  const rollText = roll
+    ? `(${getRollRange({
+        ...roll,
+        roll: roll.roll || '1d1-1',
+      })})`
+    : ''
   const iconUrl = IconDamageTypeMap[id]
   const fill = DamageTypeKeyColors[id]
 

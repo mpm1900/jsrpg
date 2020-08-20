@@ -2,7 +2,7 @@ import React from 'react'
 import { WeaponT } from '../../types/Weapon'
 import { DamageTypeKeyT, DamageTypeKeyColors } from '../../types/Damage'
 import { FlexContainer } from '../../elements/flex'
-import { getRollText, RollCheckT } from '../../types/Roll'
+import { getRollText, RollCheckT, getRollRange } from '../../types/Roll'
 import { Icon } from '../Icon'
 import { IconDamageTypeMap } from '../../icons/maps'
 import { BoxContainer } from '../../elements/box'
@@ -23,11 +23,7 @@ export const DamageRollScores = (props: DamageRollScoresPropsT) => {
     (key) => damageRolls[key],
   )
   const getDamageRange = (roll: RollCheckT) => {
-    const result = execRoll(roll, false)
-    const resultRoll = result.__roll as DiceRoll
-    return `${resultRoll.minTotal > 0 ? resultRoll.minTotal : 0}-${
-      resultRoll.maxTotal
-    }`
+    return getRollRange(roll, false, execRoll)
   }
 
   return (

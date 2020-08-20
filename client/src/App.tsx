@@ -29,11 +29,44 @@ export const App = () => {
                   style={{
                     fontFamily: 'monospace',
                     fontSize: 24,
-                    marginLeft: 30,
+                    margin: '0 30px',
                   }}
                 >
                   rpgjs
                 </div>
+                <BoxContainer
+                  tag='a'
+                  href='google.com'
+                  style={{
+                    height: '100%',
+                  }}
+                  substyle={{
+                    padding: '0 20px',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: '#111',
+                    boxShadow: 'inset 0 0 3px black',
+                  }}
+                >
+                  character
+                </BoxContainer>
+                <BoxContainer
+                  tag='a'
+                  href='google.com'
+                  style={{
+                    height: '100%',
+                  }}
+                  substyle={{
+                    padding: '0 20px',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: '#333',
+                  }}
+                >
+                  battle
+                </BoxContainer>
               </BoxContainer>
               <FlexContainer $full style={{ overflow: 'auto' }}>
                 <Character />

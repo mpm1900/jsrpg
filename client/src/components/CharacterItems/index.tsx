@@ -25,26 +25,25 @@ export const CharacterItems = () => {
   const [itemType, setItemType] = useState<ItemTypeT | undefined>()
   const [itemRarity, setItemRarity] = useState<ItemRarityT | undefined>()
   return (
-    <FlexContainer
-      style={{ overflow: 'auto', minWidth: 400 }}
-      $direction='column'
-    >
-      <FlexContainer>
-        <button onClick={() => setItemType('armor')}>armor</button>
-        <button onClick={() => setItemType('weapon')}>weapons</button>
-        {(itemType !== undefined || itemRarity !== undefined) && (
-          <button
-            onClick={() => {
-              setItemType(undefined)
-              setItemRarity(undefined)
-            }}
-          >
-            reset
-          </button>
-        )}
-      </FlexContainer>
-      <CharacterItemFilters onClick={(r) => setItemRarity(r)} />
-      <FlexContainer style={{ flexWrap: 'wrap', width: 400, marginTop: 10 }}>
+    <FlexContainer style={{ minWidth: 400 }} $direction='column'>
+      <CharacterItemFilters
+        onClick={(r, t) => {
+          if (r) setItemRarity(r)
+          if (t) setItemType(t)
+          if (!r && !t) {
+            setItemRarity(undefined)
+            setItemType(undefined)
+          }
+        }}
+      />
+      <FlexContainer
+        style={{
+          flexWrap: 'wrap',
+          width: 400,
+          marginTop: 10,
+          overflow: 'auto',
+        }}
+      >
         {character.items
           .filter((i) => {
             let ret = true
@@ -136,11 +135,14 @@ const Item = (props: ItemPropsT) => {
             backgroundColor: !canEquipItem ? '#444' : '#222',
             cursor: canEquipItem ? 'pointer' : 'default',
             borderColor: isHovering ? rarityColor : '#555',
-            boxShadow: 'inset 0 0 3px black',
+            boxShadow: `inset 0 0 3px ${
+              item.rarity !== 'common' && canEquipItem ? rarityColor : 'black'
+            }`,
             display: 'flex',
             padding: 0,
             justifyContent: 'center',
             alignItems: 'center',
+            margin: 0,
           }}
           onClick={(event) => {
             event.preventDefault()

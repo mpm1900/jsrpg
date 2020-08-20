@@ -70,6 +70,8 @@ export interface CharacterT {
   equippedItems: EquippableT[]
   armor: ArmorT[]
   weapon?: WeaponT
+
+  healthOffset: number
 }
 export interface ProcessedCharacterT extends CharacterT {
   stats: CharacterStatsT

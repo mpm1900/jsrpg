@@ -47,7 +47,7 @@ export interface AttackContextProviderPropsT {
 }
 export const AttackContextProvider = (props: AttackContextProviderPropsT) => {
   const { children } = props
-  const { character } = useCharacterContext()
+  const { character, rawCharacter, onChange } = useCharacterContext()
   const { execCheck, execRoll } = useRollContext()
   const [attackResults, setAttackResults] = useState<AttackResultT[]>([])
 
@@ -72,7 +72,14 @@ export const AttackContextProvider = (props: AttackContextProviderPropsT) => {
           .forEach((key) => {
             const result = damageRoll.rollResults[key] as RollResultT
             const resRoll = damageResistances[key] as RollCheckT
-            const resRollResult = execRoll(resRoll, true, true)
+            const resRollResult = execRoll(
+              {
+                ...resRoll,
+                roll: resRoll.roll || '1d1-1',
+              },
+              true,
+              true,
+            )
             const damageTotal = result.total - resRollResult.total
             attackResult.blockedDamage +=
               result.total > 0 ? resRollResult.total : 0
@@ -82,6 +89,10 @@ export const AttackContextProvider = (props: AttackContextProviderPropsT) => {
         attackResult.dodgeSuccess = true
       }
     }
+    onChange({
+      ...rawCharacter,
+      healthOffset: rawCharacter.healthOffset + attackResult.totalDamage,
+    })
     setAttackResults((ar) => [...ar, attackResult])
     return attackResult
   }

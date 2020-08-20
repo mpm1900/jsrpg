@@ -39,10 +39,12 @@ export const BASE_CHARACTER: CharacterT = {
   items: [
     BASIC_SHIELD,
     BASIC_TOME,
-    ...Array(200)
+    ...Array(204)
       .fill(null)
       .map(() => makeItem()),
   ],
   equippedItems: [],
   armor: [],
+
+  healthOffset: 0,
 }

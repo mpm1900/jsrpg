@@ -1,11 +1,11 @@
 import React from 'react'
 import Color from 'color'
 import { BoxContainer } from '../../elements/box'
-import { ItemRarityT, ItemRarityColorMap } from '../../types/Item'
+import { ItemRarityT, ItemRarityColorMap, ItemTypeT } from '../../types/Item'
 import { FlexContainer } from '../../elements/flex'
 
 export interface CharacterItemFilters {
-  onClick: (rarity: ItemRarityT) => void
+  onClick: (rarity?: ItemRarityT, type?: ItemTypeT) => void
 }
 export const CharacterItemFilters = (props: CharacterItemFilters) => {
   const { onClick } = props
@@ -18,38 +18,51 @@ export const CharacterItemFilters = (props: CharacterItemFilters) => {
       <CharacterItemFilterButton rarity='unique' onClick={onClick} />
       <CharacterItemFilterButton rarity='mythic' onClick={onClick} />
       <CharacterItemFilterButton rarity='set' onClick={onClick} />
+      <CharacterItemFilterButton type='weapon' onClick={onClick}>
+        W
+      </CharacterItemFilterButton>
+      <CharacterItemFilterButton type='armor' onClick={onClick}>
+        A
+      </CharacterItemFilterButton>
+      <CharacterItemFilterButton onClick={onClick}>R</CharacterItemFilterButton>
     </FlexContainer>
   )
 }
 
 export interface CharacterItemFilterButtonPropsT {
-  rarity: ItemRarityT
-  onClick: (rarity: ItemRarityT) => void
+  rarity?: ItemRarityT
+  type?: ItemTypeT
+  children?: React.ReactNode | React.ReactNode[]
+  onClick: (rarity?: ItemRarityT, type?: ItemTypeT) => void
 }
 export const CharacterItemFilterButton = (
   props: CharacterItemFilterButtonPropsT,
 ) => {
-  const { rarity, onClick } = props
+  const { rarity, type, children, onClick } = props
+  const backgroundColor = rarity
+    ? Color(ItemRarityColorMap[rarity]).fade(0.75).hsl().toString()
+    : '#222'
+  const borderColor = rarity
+    ? Color(ItemRarityColorMap[rarity]).fade(0.5).hsl().toString()
+    : '#555'
   return (
     <BoxContainer
+      tag='button'
       style={{ width: 40, height: 40 }}
       substyle={{
-        backgroundColor: Color(ItemRarityColorMap[rarity])
-          .fade(0.75)
-          .hsl()
-          .toString(),
+        backgroundColor: backgroundColor,
         cursor: 'pointer',
-        borderColor: Color(ItemRarityColorMap[rarity])
-          .fade(0.5)
-          .hsl()
-          .toString(),
+        borderColor: borderColor,
         boxShadow: 'inset 0 0 3px black',
         display: 'flex',
         padding: 0,
         justifyContent: 'center',
         alignItems: 'center',
+        margin: 0,
       }}
-      onClick={() => onClick(rarity)}
-    ></BoxContainer>
+      onClick={() => onClick(rarity, type)}
+    >
+      {children}
+    </BoxContainer>
   )
 }

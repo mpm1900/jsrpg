@@ -184,6 +184,23 @@ export const makeStaticRoll = (
   static: true,
 })
 
+export const getRollRange = (
+  roll: RollCheckT,
+  allowNegative: boolean = false,
+  resolveRoll: (
+    check: RollCheckT,
+    allowNegative?: boolean,
+  ) => RollResultT = basicRoll,
+): string => {
+  const result = resolveRoll(roll, allowNegative)
+  const resultRoll = result.__roll as DiceRoll
+  if (resultRoll.maxTotal === resultRoll.minTotal)
+    return `${resultRoll.maxTotal}`
+  return `${resultRoll.minTotal > 0 ? resultRoll.minTotal : 0}-${
+    resultRoll.maxTotal
+  }`
+}
+
 /**
  *
  *

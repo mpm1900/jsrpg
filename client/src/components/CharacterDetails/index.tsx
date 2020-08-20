@@ -6,7 +6,7 @@ import { Gauge } from '../Gauge'
 
 export const CharacterDetails = () => {
   const { character } = useCharacterContext()
-  const [value, setValue] = useState(character.stats.health)
+  const health = character.stats.health - character.healthOffset
   return (
     <BoxContainer>
       <FlexContainer $direction='column'>
@@ -28,7 +28,7 @@ export const CharacterDetails = () => {
         <Gauge
           color='#8f4e4d'
           max={character.stats.health}
-          value={value}
+          value={health > 0 ? health : 0}
           height={10}
         ></Gauge>
         <Gauge
