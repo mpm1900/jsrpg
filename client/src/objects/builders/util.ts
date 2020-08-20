@@ -40,7 +40,7 @@ export const getItemStatRolls = (
   offset = offset > 0 ? offset : 0
 
   let statCount = count + offset
-  statCount = statCount > 0 ? statCount : 1
+  statCount = statCount > 0 ? statCount : 0
 
   let statRolls: ItemModifierValuesT = {}
   for (let i = 0; i < statCount; ++i) {

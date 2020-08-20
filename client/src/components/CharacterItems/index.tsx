@@ -18,6 +18,7 @@ import { ArmorT } from '../../types/Armor'
 import { EquipedWeaponCompare } from '../WeaponCompare'
 import { ItemIcon } from '../ItemIcon'
 import { EquipeItemCompare } from '../ItemCompare'
+import { CharacterItemFilters } from '../CharacterItemFilters'
 
 export const CharacterItems = () => {
   const { character, rawCharacter, onChange } = useCharacterContext()
@@ -26,29 +27,20 @@ export const CharacterItems = () => {
   return (
     <FlexContainer style={{ overflow: 'auto' }} $direction='column'>
       <FlexContainer>
-        <button onClick={() => setItemRarity('common')}>common</button>
-        <button onClick={() => setItemRarity('uncommon')}>uncommon</button>
-        <button onClick={() => setItemRarity('rare')}>rare</button>
-        <button onClick={() => setItemRarity('legendary')}>legendary</button>
-        <button onClick={() => setItemRarity('unique')}>unique</button>
-        <button onClick={() => setItemRarity('mythic')}>mythic</button>
-        <button onClick={() => setItemRarity('set')}>set</button>
-      </FlexContainer>
-      <FlexContainer>
         <button onClick={() => setItemType('armor')}>armor</button>
         <button onClick={() => setItemType('weapon')}>weapons</button>
-        {itemType !== undefined ||
-          (itemRarity !== undefined && (
-            <button
-              onClick={() => {
-                setItemType(undefined)
-                setItemRarity(undefined)
-              }}
-            >
-              reset
-            </button>
-          ))}
+        {(itemType !== undefined || itemRarity !== undefined) && (
+          <button
+            onClick={() => {
+              setItemType(undefined)
+              setItemRarity(undefined)
+            }}
+          >
+            reset
+          </button>
+        )}
       </FlexContainer>
+      <CharacterItemFilters onClick={(r) => setItemRarity(r)} />
       <FlexContainer style={{ flexWrap: 'wrap', maxWidth: 400, marginTop: 10 }}>
         {character.items
           .filter((i) => {

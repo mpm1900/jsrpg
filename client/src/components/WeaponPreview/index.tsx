@@ -48,7 +48,7 @@ export const WeaponPreview = (props: WeaponPreviewPropsT) => {
   const trait = combineTraits(weapon.traits)
   return (
     <BoxContainer
-      style={{ width: 320 }}
+      style={{ width: 380 }}
       substyle={{ borderColor: borderColor }}
     >
       <FlexContainer style={{ marginBottom: 10 }}>

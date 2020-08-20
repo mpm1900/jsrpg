@@ -52,7 +52,7 @@ export const ItemPreview = (props: ItemPreviewPropsT) => {
     .string()
   return (
     <BoxContainer
-      style={{ minWidth: 320 }}
+      style={{ width: 380 }}
       substyle={{ borderColor: borderColor }}
     >
       <FlexContainer style={{ marginBottom: collapsed ? 0 : 10 }}>
@@ -158,15 +158,16 @@ export const ItemPreview = (props: ItemPreviewPropsT) => {
                   fontFamily: 'monospace',
                   flexWrap: 'wrap',
                   marginTop: 20,
+                  justifyContent: 'space-evenly',
                 }}
               >
                 {getDamageTypeKeys(item.damageResistances)
                   .filter((k) => item.damageResistances[k])
                   .map((key) => (
                     <FlexContainer
+                      // $full
                       key={key}
                       style={{
-                        minWidth: '33%',
                         marginBottom: 8,
                       }}
                     >

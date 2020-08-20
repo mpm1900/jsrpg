@@ -7,7 +7,7 @@ import { ArmorT } from '../../types/Armor'
 import { ItemPreview } from '../ItemPreview'
 import Tooltip from 'react-tooltip-lite'
 
-const size = 32
+const size = 38
 export interface ItemPreviewSmallPropsT {
   item?: EquippableT
   onClick?: (item: EquippableT) => void

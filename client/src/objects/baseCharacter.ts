@@ -25,12 +25,12 @@ export const BASE_CHARACTER: CharacterT = {
     vigor: 10,
   },
   damageResistances: {
-    slashing: makeStaticRoll(-2, '1d4'),
-    piercing: makeStaticRoll(-2, '1d4'),
-    fire: makeStaticRoll(-2, '1d4'),
-    blood: makeStaticRoll(-2, '1d4'),
-    light: makeStaticRoll(-2, '1d4'),
-    dark: makeStaticRoll(-2, '1d4'),
+    slashing: makeStaticRoll(0),
+    piercing: makeStaticRoll(0),
+    fire: makeStaticRoll(0),
+    blood: makeStaticRoll(0),
+    light: makeStaticRoll(0),
+    dark: makeStaticRoll(0),
   },
 
   traits: [],

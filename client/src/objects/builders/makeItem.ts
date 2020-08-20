@@ -21,7 +21,14 @@ export const getTotal = (rollResults: ItemModifierValuesT): number => {
     .reduce((sum, current) => sum + current, 0)
 }
 
-const ITEM_TYPES: ItemTypeT[] = ['weapon', 'armor']
+const ITEM_TYPES: ItemTypeT[] = [
+  'weapon',
+  'weapon',
+  'armor',
+  'armor',
+  'armor',
+  'armor',
+]
 export type ItemMakerMapT = Record<ItemTypeT, () => EquippableT>
 export const makeItem = (core: ItemMakerMapT): EquippableT => {
   return core[getRandom<ItemTypeT>(ITEM_TYPES)]()
