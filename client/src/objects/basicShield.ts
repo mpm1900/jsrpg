@@ -39,7 +39,7 @@ export const BASIC_SHIELD: EquippableT = {
   ],
   damageResistances: {
     slashing: makeStaticRoll(3),
-    crushing: makeStaticRoll(2),
+    piercing: makeStaticRoll(2),
     fire: makeStaticRoll(0),
     blood: makeStaticRoll(0),
     light: makeStaticRoll(0),

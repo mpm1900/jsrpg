@@ -50,7 +50,7 @@ export const ApplicationLog = (props: ApplicationLogPropsT) => {
           style={{
             borderRight: '1px solid black',
             background: '#111',
-            width: 400,
+            minWidth: 400,
           }}
         >
           {options.find((o) => o.key === activeKey).render()}

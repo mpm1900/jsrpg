@@ -27,7 +27,7 @@ pre {
 
 a,
 a:visited {
-  color: turquoise;
+  color: #4bebc6;
   text-decoration: none;
 }
 a:hover {
@@ -43,9 +43,9 @@ div > svg > * {
 
 button {
   background-color: #111;
-  border: 1px solid turquoise;
-  color: turquoise;
-  fill: turquoise;
+  border: 1px solid #4bebc6;
+  color: #4bebc6;
+  fill: #4bebc6;
   padding: 4px;
   margin: 1px;
   font-family: monospace;

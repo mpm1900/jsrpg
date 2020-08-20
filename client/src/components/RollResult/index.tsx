@@ -72,7 +72,7 @@ const getColor = (result: boolean | null) => {
     case false:
       return 'lightcoral'
     default:
-      return 'turquoise'
+      return '#4bebc6'
   }
 }
 const getText = (result: boolean | null) => {

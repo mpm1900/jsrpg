@@ -5,6 +5,7 @@ import { ArmorTypeSortKey } from '../../types/Armor'
 import { ItemPreviewSmall } from '../ItemPreviewSmall'
 import { FlexContainer } from '../../elements/flex'
 import { unequipItem } from '../../types/Character'
+import { v4 } from 'uuid'
 
 export interface ArmorScoreListPropsT {}
 export const ArmorScoreList = (props: ArmorScoreListPropsT) => {
@@ -17,6 +18,7 @@ export const ArmorScoreList = (props: ArmorScoreListPropsT) => {
       <FlexContainer>
         {[...arr, ...rings].map((item) => (
           <ItemPreviewSmall
+            key={item ? item.id : v4()}
             item={item}
             onClick={(item) => onChange(unequipItem(rawCharacter)(item.id))}
           />

@@ -1,20 +1,9 @@
 import { CharacterT } from '../types/Character'
-import { LONG_SWORD } from './longSword'
-import { GREAT_SWORD } from './greatSword'
 import { makeStaticRoll } from '../types/Roll'
-import { BASIC_HELMET } from './basicHelmet'
-import { BASIC_CHESTPLATE } from './basicChestplate'
-import { BASIC_ROBE } from './basicRobe'
 import { BASIC_SHIELD } from './basicShield'
-import { BASIC_COWL } from './basicHood'
-import { BASIC_BOOTS } from './basicBoots'
 import { BASIC_TOME } from './basicTome'
-import { BASIC_GLOVES } from './basicGloves'
-import { BASIC_RING } from './basicRing'
-import { makeElementalSword } from './builders/makeElementalSword'
-import { makeLongsword } from './builders/makeLongsword'
-import { makePistol } from './builders/makePistol'
-import { makeRing } from './builders/makeRing'
+import makeItem from './builders/makeItem'
+import { buildWeapon } from './builders/weapons/createWeapon'
 
 export const BASE_CHARACTER: CharacterT = {
   name: 'Test Character',
@@ -22,12 +11,12 @@ export const BASE_CHARACTER: CharacterT = {
   power: 600,
   resources: {
     characterPoints: 250,
-    weaponHands: 0,
-    heads: 0,
-    bodies: 0,
-    hands: 0,
-    fingers: 3,
-    feet: 0,
+    weaponHands: 1,
+    heads: 1,
+    bodies: 1,
+    hands: 2,
+    fingers: 10,
+    feet: 2,
   },
   abilities: {
     strength: 10,
@@ -37,7 +26,7 @@ export const BASE_CHARACTER: CharacterT = {
   },
   damageResistances: {
     slashing: makeStaticRoll(-2, '1d4'),
-    crushing: makeStaticRoll(-2, '1d4'),
+    piercing: makeStaticRoll(-2, '1d4'),
     fire: makeStaticRoll(-2, '1d4'),
     blood: makeStaticRoll(-2, '1d4'),
     light: makeStaticRoll(-2, '1d4'),
@@ -47,47 +36,15 @@ export const BASE_CHARACTER: CharacterT = {
   traits: [],
   skills: [],
 
-  weapon: makeElementalSword('fire'),
+  weapon: buildWeapon('elementalSword'),
 
   items: [
-    GREAT_SWORD,
-    BASIC_HELMET,
-    BASIC_CHESTPLATE,
+    BASIC_SHIELD,
     BASIC_TOME,
-    makeElementalSword('blood'),
-    makeElementalSword('light'),
-    makeElementalSword('dark'),
-    makeLongsword(),
-    makeLongsword(),
-    makeLongsword(),
-    makeLongsword(),
-    makeLongsword(),
-    makePistol(),
-    makePistol(),
-    makePistol(),
-    makePistol(),
-    makePistol(),
-    makePistol(),
-    makePistol(),
-    ...Array(101)
+    ...Array(200)
       .fill(null)
-      .map(() => makeRing()),
+      .map(() => makeItem()),
   ],
-  equippedItems: [BASIC_SHIELD],
-  armor: [
-    BASIC_COWL,
-    BASIC_ROBE,
-    BASIC_GLOVES,
-    BASIC_BOOTS,
-    makeRing(),
-    makeRing(),
-    makeRing(),
-    makeRing(),
-    makeRing(),
-    makeRing(),
-    makeRing(),
-    makeRing(),
-    makeRing(),
-    makeRing(),
-  ],
+  equippedItems: [],
+  armor: [],
 }

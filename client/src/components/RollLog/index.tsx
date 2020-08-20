@@ -53,7 +53,7 @@ export const RollLog = (props: RollLogPropsT) => {
           }}
         />
         <button onClick={submit}>
-          <Icon src={Dice6} size={18} fill='turquoise' />
+          <Icon src={Dice6} size={18} fill='#4bebc6' />
         </button>
       </FlexContainer>
     </FlexContainer>

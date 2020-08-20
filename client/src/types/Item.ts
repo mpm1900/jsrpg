@@ -9,6 +9,7 @@ export type ItemRarityT =
   | 'legendary'
   | 'unique'
   | 'mythic'
+  | 'set'
 export interface ItemT {
   id: string
   name: string
@@ -32,6 +33,7 @@ export const ItemRarityColorMap: Record<ItemRarityT, string> = {
   uncommon: '#a1cea1',
   rare: '#91b4f2',
   legendary: '#cda5f3',
-  unique: '#d6c48a',
+  unique: '#c2af6b',
   mythic: 'lightsalmon',
+  set: '#4bebc6',
 }

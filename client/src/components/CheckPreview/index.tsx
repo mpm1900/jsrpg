@@ -49,7 +49,7 @@ export const CheckPreview = (props: CheckPreviewPropsT) => {
       {showCheckButton && (
         <div>
           <button onClick={() => execCheck(check)}>
-            <Icon src={Dice6} size={18} fill='turquoise' />
+            <Icon src={Dice6} size={18} fill='4bebc6' />
           </button>
         </div>
       )}

@@ -43,7 +43,7 @@ export const Character = () => {
           </div>
           <div>
             <DamageResistanceScore id='slashing' />
-            <DamageResistanceScore id='crushing' />
+            <DamageResistanceScore id='piercing' />
             <DamageResistanceScore id='fire' />
             <DamageResistanceScore id='blood' />
             <DamageResistanceScore id='light' />

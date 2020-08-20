@@ -2,9 +2,9 @@ import { EquippableT } from './Item'
 import { DamageTypeRollsT } from './Damage'
 
 export type ArmorTypeT =
-  | 'head'
+  | 'helmet'
   | 'cowl'
-  | 'chest'
+  | 'chestplate'
   | 'robe'
   | 'gloves'
   | 'ring'
@@ -16,9 +16,9 @@ export interface ArmorT extends EquippableT {
 }
 
 export const ArmorTypeSortKey: Record<ArmorTypeT, number> = {
-  head: 0,
+  helmet: 0,
   cowl: 0,
-  chest: 1,
+  chestplate: 1,
   robe: 1,
   gloves: 2,
   ring: 3,

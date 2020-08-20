@@ -38,7 +38,8 @@ export const ZERO_RESULT: AttackResultT = {
   totalDamage: 0,
 }
 export const DODGE_CHECK: RollCheckT = {
-  keys: ['speed'],
+  keys: ['dexterity'],
+  value: -8,
 }
 
 export interface AttackContextProviderPropsT {

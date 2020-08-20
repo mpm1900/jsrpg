@@ -1,0 +1,502 @@
+import {
+  CharacterSkillCheckKeyT,
+  CharacterAbilityKeyT,
+  CharacterResourceKeyT,
+} from '../../../types/Character'
+import { ItemRarityT } from '../../../types/Item'
+import { ArmorTypeT } from '../../../types/Armor'
+import { getRandom } from '../../../util/getRandom'
+import { ItemModifierValuesT, getRollValue, makeRoll } from '../makeItem'
+import { ArmorUniqueNames } from './names'
+import { DamageTypeRollsT } from '../../../types/Damage'
+import { makeStaticRoll } from '../../../types/Roll'
+import { shuffleArray, getItemStatRolls } from '../util'
+
+export const ArmorRequirementKeys: Record<
+  ArmorTypeT,
+  CharacterAbilityKeyT[]
+> = {
+  helmet: ['strength', 'dexterity'],
+  cowl: ['dexterity', 'intelligence'],
+  chestplate: ['strength', 'vigor'],
+  robe: ['dexterity', 'intelligence'],
+  gloves: ['strength', 'dexterity', 'intelligence'],
+  ring: ['strength', 'dexterity', 'intelligence'],
+  boots: ['strength', 'dexterity', 'intelligence'],
+}
+
+export const ArmorCostsT: Record<ArmorTypeT, number> = {
+  helmet: 1,
+  cowl: 1,
+  chestplate: 1,
+  robe: 1,
+  gloves: 2,
+  ring: 1,
+  boots: 2,
+}
+
+export const ArmorResourcesT: Record<ArmorTypeT, CharacterResourceKeyT> = {
+  helmet: 'heads',
+  cowl: 'heads',
+  chestplate: 'bodies',
+  robe: 'bodies',
+  gloves: 'hands',
+  ring: 'fingers',
+  boots: 'feet',
+}
+
+export type ArmorStatKeyT = Record<ArmorTypeT, CharacterSkillCheckKeyT[]>
+const armorStatKeysBase: ArmorStatKeyT = {
+  helmet: ['strength', 'intelligence', 'vigor'],
+  cowl: ['dexterity', 'intelligence', 'speed'],
+  chestplate: ['strength', 'intelligence', 'vigor'],
+  robe: ['dexterity', 'intelligence', 'speed'],
+  gloves: [
+    'strength',
+    'dexterity',
+    'intelligence',
+    'vigor',
+    'health',
+    'focus',
+    'agility',
+    'speed',
+  ],
+  ring: [
+    'strength',
+    'dexterity',
+    'intelligence',
+    'vigor',
+    'health',
+    'focus',
+    'will',
+    'perception',
+    'agility',
+    'speed',
+  ],
+  boots: [
+    'strength',
+    'dexterity',
+    'intelligence',
+    'vigor',
+    'health',
+    'focus',
+    'agility',
+    'speed',
+  ],
+}
+export const ArmorRarityStatKeys: Record<ItemRarityT, ArmorStatKeyT> = {
+  common: armorStatKeysBase,
+  uncommon: armorStatKeysBase,
+  rare: armorStatKeysBase,
+  legendary: armorStatKeysBase,
+  unique: armorStatKeysBase,
+  mythic: armorStatKeysBase,
+  set: armorStatKeysBase,
+}
+
+export type ArmorNameKeyT = Record<ArmorTypeT, string>
+export const ArmorNameKeys = (): Record<ItemRarityT, ArmorNameKeyT> => ({
+  common: {
+    helmet: 'Common Helmet',
+    cowl: 'Common Hood',
+    chestplate: 'Common Chestplate',
+    robe: 'Common Robe',
+    gloves: 'Common Gloves',
+    ring: 'Common Ring',
+    boots: 'Common Boots',
+  },
+  uncommon: {
+    helmet: 'Uncommon Helmet',
+    cowl: 'Uncommon Hood',
+    chestplate: 'Uncommon Chestplate',
+    robe: 'Uncommon Robe',
+    gloves: 'Uncommon Gloves',
+    ring: 'Uncommon Ring',
+    boots: 'Uncommon Boots',
+  },
+  rare: {
+    helmet: 'Rare Helmet',
+    cowl: 'Rare Hood',
+    chestplate: 'Rare Chestplate',
+    robe: 'Rare Robe',
+    gloves: 'Rare Gloves',
+    ring: 'Rare Ring',
+    boots: 'Rare Boots',
+  },
+  legendary: {
+    helmet: 'Epic Helmet',
+    cowl: 'Epic Hood',
+    chestplate: 'Epic Chestplate',
+    robe: 'Epic Robe',
+    gloves: 'Epic Gloves',
+    ring: 'Epic Ring',
+    boots: 'Epic Boots',
+  },
+  unique: {
+    helmet: getRandom(ArmorUniqueNames.helmet),
+    cowl: getRandom(ArmorUniqueNames.cowl),
+    chestplate: getRandom(ArmorUniqueNames.chestplate),
+    robe: getRandom(ArmorUniqueNames.robe),
+    gloves: getRandom(ArmorUniqueNames.gloves),
+    ring: getRandom(ArmorUniqueNames.ring),
+    boots: getRandom(ArmorUniqueNames.boots),
+  },
+  mythic: {
+    helmet: 'Mythic Helmet',
+    cowl: 'Mythic Hood',
+    chestplate: 'Mythic Chestplate',
+    robe: 'Mythic Robe',
+    gloves: 'Mythic Gloves',
+    ring: 'Mythic Ring',
+    boots: 'Mythic Boots',
+  },
+  set: {
+    helmet: 'Set Helmet',
+    cowl: 'Set Hood',
+    chestplate: 'Set Chestplate',
+    robe: 'Set Robe',
+    gloves: 'Set Gloves',
+    ring: 'Set Ring',
+    boots: 'Set Boots',
+  },
+})
+
+export type ArmorStatCountT = Record<ArmorTypeT, number[]>
+export const ArmorRarityStatCounts: Record<ItemRarityT, number> = {
+  common: 1,
+  uncommon: 2,
+  rare: 3,
+  legendary: 4,
+  unique: 5,
+  mythic: 6,
+  set: 6,
+}
+
+export type ArmorResistanceT = Record<ArmorTypeT, DamageTypeRollsT>
+export const ArmorResistances = (): Record<ItemRarityT, ArmorResistanceT> => ({
+  common: {
+    helmet: {
+      slashing: makeStaticRoll(getRollValue('1d2-1')),
+      piercing: makeStaticRoll(getRollValue('1d2-1')),
+    },
+    cowl: {
+      blood: makeStaticRoll(getRollValue('1d2-1')),
+      light: makeStaticRoll(getRollValue('1d2-1')),
+      dark: makeStaticRoll(getRollValue('1d2-1')),
+    },
+    chestplate: {
+      slashing: makeStaticRoll(getRollValue('1d2-1')),
+      piercing: makeStaticRoll(getRollValue('1d2-1')),
+      fire: makeStaticRoll(getRollValue('1d2-1')),
+    },
+    robe: {
+      fire: makeStaticRoll(getRollValue('1d2-1')),
+      blood: makeStaticRoll(getRollValue('1d2-1')),
+      light: makeStaticRoll(getRollValue('1d2-1')),
+      dark: makeStaticRoll(getRollValue('1d2-1')),
+    },
+    gloves: {
+      slashing: makeStaticRoll(getRollValue('1d2-1')),
+      piercing: makeStaticRoll(getRollValue('1d2-1')),
+    },
+    ring: {
+      blood: makeStaticRoll(getRollValue('1d2-1')),
+      light: makeStaticRoll(getRollValue('1d2-1')),
+      dark: makeStaticRoll(getRollValue('1d2-1')),
+    },
+    boots: {
+      slashing: makeStaticRoll(getRollValue('1d2-1')),
+      piercing: makeStaticRoll(getRollValue('1d2-1')),
+    },
+  },
+  uncommon: {
+    helmet: {
+      slashing: makeStaticRoll(getRollValue('1d3-1')),
+      piercing: makeStaticRoll(getRollValue('1d3-1')),
+    },
+    cowl: {
+      blood: makeStaticRoll(getRollValue('1d3-1')),
+      light: makeStaticRoll(getRollValue('1d3-1')),
+      dark: makeStaticRoll(getRollValue('1d3-1')),
+    },
+    chestplate: {
+      slashing: makeStaticRoll(getRollValue('1d3-1')),
+      piercing: makeStaticRoll(getRollValue('1d3-1')),
+      fire: makeStaticRoll(getRollValue('1d3-1')),
+    },
+    robe: {
+      fire: makeStaticRoll(getRollValue('1d3-1')),
+      blood: makeStaticRoll(getRollValue('1d3-1')),
+      light: makeStaticRoll(getRollValue('1d3-1')),
+      dark: makeStaticRoll(getRollValue('1d3-1')),
+    },
+    gloves: {
+      slashing: makeStaticRoll(getRollValue('1d3-1')),
+      piercing: makeStaticRoll(getRollValue('1d3-1')),
+    },
+    ring: {
+      blood: makeStaticRoll(getRollValue('1d3-1')),
+      light: makeStaticRoll(getRollValue('1d3-1')),
+      dark: makeStaticRoll(getRollValue('1d3-1')),
+    },
+    boots: {
+      slashing: makeStaticRoll(getRollValue('1d3-1')),
+      piercing: makeStaticRoll(getRollValue('1d3-1')),
+    },
+  },
+  rare: {
+    helmet: {
+      slashing: makeStaticRoll(getRollValue('1d4-1')),
+      piercing: makeStaticRoll(getRollValue('1d4-1')),
+    },
+    cowl: {
+      blood: makeStaticRoll(getRollValue('1d4-1')),
+      light: makeStaticRoll(getRollValue('1d4-1')),
+      dark: makeStaticRoll(getRollValue('1d4-1')),
+    },
+    chestplate: {
+      slashing: makeStaticRoll(getRollValue('1d4-1')),
+      piercing: makeStaticRoll(getRollValue('1d4-1')),
+      fire: makeStaticRoll(getRollValue('1d4-1')),
+    },
+    robe: {
+      fire: makeStaticRoll(getRollValue('1d4-1')),
+      blood: makeStaticRoll(getRollValue('1d4-1')),
+      light: makeStaticRoll(getRollValue('1d4-1')),
+      dark: makeStaticRoll(getRollValue('1d4-1')),
+    },
+    gloves: {
+      slashing: makeStaticRoll(getRollValue('1d4-1')),
+      piercing: makeStaticRoll(getRollValue('1d4-1')),
+    },
+    ring: {
+      blood: makeStaticRoll(getRollValue('1d4-1')),
+      light: makeStaticRoll(getRollValue('1d4-1')),
+      dark: makeStaticRoll(getRollValue('1d4-1')),
+    },
+    boots: {
+      slashing: makeStaticRoll(getRollValue('1d4-1')),
+      piercing: makeStaticRoll(getRollValue('1d4-1')),
+    },
+  },
+  legendary: {
+    helmet: {
+      slashing: makeRoll('1d6', -2),
+      piercing: makeRoll('1d6', -2),
+    },
+    cowl: {
+      blood: makeRoll('1d6', -2),
+      light: makeRoll('1d6', -2),
+      dark: makeRoll('1d6', -2),
+    },
+    chestplate: {
+      slashing: makeRoll('1d6', -2),
+      piercing: makeRoll('1d6', -2),
+      fire: makeRoll('1d6', -2),
+    },
+    robe: {
+      fire: makeRoll('1d6', -2),
+      blood: makeRoll('1d6', -2),
+      light: makeRoll('1d6', -2),
+      dark: makeRoll('1d6', -2),
+    },
+    gloves: {
+      slashing: makeRoll('1d6', -2),
+      piercing: makeRoll('1d6', -2),
+    },
+    ring: {
+      fire: makeRoll('1d6', -2),
+      blood: makeRoll('1d6', -2),
+      light: makeRoll('1d6', -2),
+      dark: makeRoll('1d6', -2),
+    },
+    boots: {
+      slashing: makeRoll('1d6', -2),
+      piercing: makeRoll('1d6', -2),
+    },
+  },
+  unique: {
+    helmet: {
+      slashing: makeRoll('1d6', -1),
+      piercing: makeRoll('1d6', -1),
+      fire: makeRoll('1d6', -1),
+      blood: makeRoll('1d6', -1),
+      light: makeRoll('1d6', -1),
+      dark: makeRoll('1d6', -1),
+    },
+    cowl: {
+      slashing: makeRoll('1d6', -1),
+      piercing: makeRoll('1d6', -1),
+      fire: makeRoll('1d6', -1),
+      blood: makeRoll('1d6', -1),
+      light: makeRoll('1d6', -1),
+      dark: makeRoll('1d6', -1),
+    },
+    chestplate: {
+      slashing: makeRoll('1d6', -1),
+      piercing: makeRoll('1d6', -1),
+      fire: makeRoll('1d6', -1),
+      blood: makeRoll('1d6', -1),
+      light: makeRoll('1d6', -1),
+      dark: makeRoll('1d6', -1),
+    },
+    robe: {
+      slashing: makeRoll('1d6', -1),
+      piercing: makeRoll('1d6', -1),
+      fire: makeRoll('1d6', -1),
+      blood: makeRoll('1d6', -1),
+      light: makeRoll('1d6', -1),
+      dark: makeRoll('1d6', -1),
+    },
+    gloves: {
+      slashing: makeRoll('1d6', -1),
+      piercing: makeRoll('1d6', -1),
+      fire: makeRoll('1d6', -1),
+      blood: makeRoll('1d6', -1),
+      light: makeRoll('1d6', -1),
+      dark: makeRoll('1d6', -1),
+    },
+    ring: {
+      slashing: makeRoll('1d6', -1),
+      piercing: makeRoll('1d6', -1),
+      fire: makeRoll('1d6', -1),
+      blood: makeRoll('1d6', -1),
+      light: makeRoll('1d6', -1),
+      dark: makeRoll('1d6', -1),
+    },
+    boots: {
+      slashing: makeRoll('1d6', -1),
+      piercing: makeRoll('1d6', -1),
+      fire: makeRoll('1d6', -1),
+      blood: makeRoll('1d6', -1),
+      light: makeRoll('1d6', -1),
+      dark: makeRoll('1d6', -1),
+    },
+  },
+  mythic: {
+    helmet: {
+      slashing: makeRoll('1d6'),
+      piercing: makeRoll('1d6'),
+      fire: makeRoll('1d6'),
+      blood: makeRoll('1d6'),
+      light: makeRoll('1d6'),
+      dark: makeRoll('1d6'),
+    },
+    cowl: {
+      slashing: makeRoll('1d6'),
+      piercing: makeRoll('1d6'),
+      fire: makeRoll('1d6'),
+      blood: makeRoll('1d6'),
+      light: makeRoll('1d6'),
+      dark: makeRoll('1d6'),
+    },
+    chestplate: {
+      slashing: makeRoll('1d6'),
+      piercing: makeRoll('1d6'),
+      fire: makeRoll('1d6'),
+      blood: makeRoll('1d6'),
+      light: makeRoll('1d6'),
+      dark: makeRoll('1d6'),
+    },
+    robe: {
+      slashing: makeRoll('1d6'),
+      piercing: makeRoll('1d6'),
+      fire: makeRoll('1d6'),
+      blood: makeRoll('1d6'),
+      light: makeRoll('1d6'),
+      dark: makeRoll('1d6'),
+    },
+    gloves: {
+      slashing: makeRoll('1d6'),
+      piercing: makeRoll('1d6'),
+      fire: makeRoll('1d6'),
+      blood: makeRoll('1d6'),
+      light: makeRoll('1d6'),
+      dark: makeRoll('1d6'),
+    },
+    ring: {
+      slashing: makeRoll('1d6'),
+      piercing: makeRoll('1d6'),
+      fire: makeRoll('1d6'),
+      blood: makeRoll('1d6'),
+      light: makeRoll('1d6'),
+      dark: makeRoll('1d6'),
+    },
+    boots: {
+      slashing: makeRoll('1d6'),
+      piercing: makeRoll('1d6'),
+      fire: makeRoll('1d6'),
+      blood: makeRoll('1d6'),
+      light: makeRoll('1d6'),
+      dark: makeRoll('1d6'),
+    },
+  },
+  set: {
+    helmet: {
+      slashing: makeRoll('1d6'),
+      piercing: makeRoll('1d6'),
+      fire: makeRoll('1d6'),
+      blood: makeRoll('1d6'),
+      light: makeRoll('1d6'),
+      dark: makeRoll('1d6'),
+    },
+    cowl: {
+      slashing: makeRoll('1d6'),
+      piercing: makeRoll('1d6'),
+      fire: makeRoll('1d6'),
+      blood: makeRoll('1d6'),
+      light: makeRoll('1d6'),
+      dark: makeRoll('1d6'),
+    },
+    chestplate: {
+      slashing: makeRoll('1d6'),
+      piercing: makeRoll('1d6'),
+      fire: makeRoll('1d6'),
+      blood: makeRoll('1d6'),
+      light: makeRoll('1d6'),
+      dark: makeRoll('1d6'),
+    },
+    robe: {
+      slashing: makeRoll('1d6'),
+      piercing: makeRoll('1d6'),
+      fire: makeRoll('1d6'),
+      blood: makeRoll('1d6'),
+      light: makeRoll('1d6'),
+      dark: makeRoll('1d6'),
+    },
+    gloves: {
+      slashing: makeRoll('1d6'),
+      piercing: makeRoll('1d6'),
+      fire: makeRoll('1d6'),
+      blood: makeRoll('1d6'),
+      light: makeRoll('1d6'),
+      dark: makeRoll('1d6'),
+    },
+    ring: {
+      slashing: makeRoll('1d6'),
+      piercing: makeRoll('1d6'),
+      fire: makeRoll('1d6'),
+      blood: makeRoll('1d6'),
+      light: makeRoll('1d6'),
+      dark: makeRoll('1d6'),
+    },
+    boots: {
+      slashing: makeRoll('1d6'),
+      piercing: makeRoll('1d6'),
+      fire: makeRoll('1d6'),
+      blood: makeRoll('1d6'),
+      light: makeRoll('1d6'),
+      dark: makeRoll('1d6'),
+    },
+  },
+})
+
+export const getArmorStatRolls = (
+  type: ArmorTypeT,
+  rarity: ItemRarityT,
+  requirementScore: number,
+): ItemModifierValuesT => {
+  const keys = shuffleArray(ArmorRarityStatKeys[rarity][type])
+  const counts = ArmorRarityStatCounts[rarity]
+  return getItemStatRolls(keys, counts, requirementScore)
+}

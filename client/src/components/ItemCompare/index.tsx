@@ -28,7 +28,7 @@ export const EquipeItemCompare = (props: EquipedItemComparePropsT) => {
       <ItemPreview
         item={item}
         showEquipButton={false}
-        showRequirementCheck={false}
+        showRequirementCheck={true}
         showCollapseButton={false}
       />
     )

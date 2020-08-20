@@ -66,7 +66,7 @@ export const WeaponPreview = (props: WeaponPreviewPropsT) => {
             <Icon
               src={IconCharacterResourceMap[weapon.resource]}
               size={12}
-              fill='turquoise'
+              fill='#4bebc6'
               style={{ marginRight: 10 }}
             />
             {weapon.cost}

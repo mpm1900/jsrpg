@@ -18,15 +18,11 @@ export const FISTS: WeaponT = {
   },
   damageRolls: {
     slashing: undefined,
-    crushing: {
+    piercing: {
       roll: '1d6',
       keys: [],
       value: -3,
     },
-    fire: undefined,
-    blood: undefined,
-    light: undefined,
-    dark: undefined,
   },
   accuracyCheck: {
     keys: ['dexterity'],

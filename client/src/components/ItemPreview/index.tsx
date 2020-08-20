@@ -127,7 +127,7 @@ export const ItemPreview = (props: ItemPreviewPropsT) => {
             <Icon
               src={IconCharacterResourceMap[item.resource]}
               size={12}
-              fill='turquoise'
+              fill='#4bebc6'
               style={{ marginRight: 10 }}
             />
             {item.cost}

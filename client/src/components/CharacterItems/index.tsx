@@ -17,8 +17,8 @@ import { EquipeItemCompare } from '../ItemCompare'
 export const CharacterItems = () => {
   const { character, rawCharacter, onChange } = useCharacterContext()
   return (
-    <div>
-      <FlexContainer style={{ flexWrap: 'wrap' }}>
+    <div style={{ overflow: 'auto' }}>
+      <FlexContainer style={{ flexWrap: 'wrap', maxWidth: 400 }}>
         {character.items.map((item) => (
           <Item
             key={item.id}

@@ -306,6 +306,17 @@ export const characterAbilityScoreCosts: Record<
   vigor: 10,
 }
 
+export const CharacterStatsCostsMap: Record<CharacterSkillCheckKeyT, number> = {
+  ...characterAbilityScoreCosts,
+  health: 5,
+  focus: 5,
+  will: 10,
+  perception: 10,
+  lift: 1,
+  agility: 10,
+  speed: 10,
+}
+
 export const canEquip = (character: CharacterT) => (
   itemId: string,
   withWeapon?: boolean,

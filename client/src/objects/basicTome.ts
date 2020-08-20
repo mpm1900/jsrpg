@@ -39,7 +39,7 @@ export const BASIC_TOME: EquippableT = {
   ],
   damageResistances: {
     slashing: makeStaticRoll(0),
-    crushing: makeStaticRoll(0),
+    piercing: makeStaticRoll(0),
     fire: makeStaticRoll(0),
     blood: makeStaticRoll(0),
     light: makeStaticRoll(0),

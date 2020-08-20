@@ -1,15 +1,13 @@
 import { RollCheckT, RollResultT, considateRollChecks } from './Roll'
 import { getKeys } from '../util/getKeys'
 
-export type DamageTypeKeyT =
-  | 'slashing'
-  | 'crushing'
-  | 'fire'
-  | 'blood'
-  | 'light'
-  | 'dark'
-export type DamageTypeRollsT = Record<DamageTypeKeyT, RollCheckT | undefined>
-export type DamageTypeResultsT = Record<DamageTypeKeyT, RollResultT | undefined>
+export type DamageElementTypeT = 'fire' | 'blood' | 'light' | 'dark'
+export type DamageTypeKeyT = DamageElementTypeT | 'slashing' | 'piercing'
+
+type _DamageTypeRollsT = Record<DamageTypeKeyT, RollCheckT | undefined>
+export type DamageTypeRollsT = Partial<_DamageTypeRollsT>
+type _DamageTypeResultsT = Record<DamageTypeKeyT, RollResultT | undefined>
+export type DamageTypeResultsT = Partial<_DamageTypeResultsT>
 
 export interface DamageRollsResultT {
   total: number
@@ -18,7 +16,7 @@ export interface DamageRollsResultT {
 
 export const DamageTypeKeyColors: Record<DamageTypeKeyT, string> = {
   slashing: 'grey',
-  crushing: 'grey',
+  piercing: 'grey',
   fire: 'orange',
   blood: '#cd7474',
   light: 'lemonchiffon',
@@ -37,7 +35,7 @@ export const rollDamage = (execRoll: (check: RollCheckT) => RollResultT) => (
   const keys: DamageTypeKeyT[] = getKeys(rolls).filter((key) => rolls[key])
   let rollResults: DamageTypeResultsT = {
     slashing: undefined,
-    crushing: undefined,
+    piercing: undefined,
     fire: undefined,
     blood: undefined,
     light: undefined,

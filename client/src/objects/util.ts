@@ -1,4 +1,4 @@
-import { makeStaticRoll } from '../types/Roll'
+import { makeStaticRoll, RollCheckT } from '../types/Roll'
 import { EquippableT, ItemTypeT } from '../types/Item'
 import { v4 } from 'uuid'
 import { CharacterSkillCheckKeyT } from '../types/Character'
@@ -6,7 +6,7 @@ import { CharacterSkillCheckKeyT } from '../types/Character'
 export const makeRequirementCheck = (
   keys: CharacterSkillCheckKeyT[],
   roll: number,
-) => ({
+): RollCheckT => ({
   roll,
   keys,
   value: 0,
@@ -22,7 +22,7 @@ export const BASE_EQUIPPABLE = (type: ItemTypeT): EquippableT => {
     name: '',
     cost: 0,
     resource: 'weaponHands',
-    requirementCheck: makeRequirementCheck(['intelligence'], 12),
+    requirementCheck: makeRequirementCheck(['intelligence'], 1),
     traits: [
       {
         id: `${id}-0`,
@@ -46,7 +46,7 @@ export const BASE_EQUIPPABLE = (type: ItemTypeT): EquippableT => {
     ],
     damageResistances: {
       slashing: makeStaticRoll(0),
-      crushing: makeStaticRoll(0),
+      piercing: makeStaticRoll(0),
       fire: makeStaticRoll(0),
       blood: makeStaticRoll(0),
       light: makeStaticRoll(0),

@@ -29,7 +29,7 @@ export const ItemPreviewSmall = (props: ItemPreviewSmallPropsT) => {
     >
       <Tooltip
         isOpen={isHovering}
-        direction='left'
+        direction='bottom'
         tagName='div'
         padding='0'
         arrow={false}
