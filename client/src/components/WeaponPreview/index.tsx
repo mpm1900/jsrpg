@@ -5,7 +5,7 @@ import { CheckPreview } from '../CheckPreview'
 import { TraitScore } from '../TraitScore'
 import { WeaponT } from '../../types/Weapon'
 import { DamageRollScores, DamageRollScore } from '../DamageRollScores'
-import { BoxContainer } from '../../elements/box'
+import { BoxContainer, BoxButton } from '../../elements/box'
 import { FlexContainer, FullContainer } from '../../elements/flex'
 import { WeaponIcon } from '../WeaponIcon'
 import {
@@ -55,8 +55,8 @@ export const WeaponPreview = (props: WeaponPreviewPropsT) => {
         <WeaponIcon weapon={weapon} size={24} fill={rarityColor} />
         <h3 style={{ margin: '0 0 0 10px', flex: 1 }}>{weapon.name}</h3>
         {weapon.id !== FISTS.id && showEquipButton ? (
-          <button
-            style={{
+          <BoxButton
+            substyle={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -66,11 +66,11 @@ export const WeaponPreview = (props: WeaponPreviewPropsT) => {
             <Icon
               src={IconCharacterResourceMap[weapon.resource]}
               size={12}
-              fill='#4bebc6'
+              fill='rgba(255,255,255,0.8)'
               style={{ marginRight: 10 }}
             />
             {weapon.cost}
-          </button>
+          </BoxButton>
         ) : (
           <FlexContainer
             style={{

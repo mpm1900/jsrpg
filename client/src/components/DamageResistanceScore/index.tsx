@@ -17,7 +17,6 @@ export const DamageResistanceScore = (props: DamageResistanceScorePropsT) => {
   const { execStaticRoll } = useRollContext()
   const { damageResistances } = character
   const roll = damageResistances[id]
-  console.log(roll)
   const rollText = roll
     ? `(${getRollRange({
         ...roll,
@@ -45,7 +44,17 @@ export const DamageResistanceScore = (props: DamageResistanceScorePropsT) => {
             fill={fill}
             style={{ marginRight: 10 }}
           />
-          <a href='#' onClick={() => (roll ? execStaticRoll(roll) : null)}>
+          <a
+            href='#'
+            onClick={() =>
+              roll
+                ? execStaticRoll({
+                    ...roll,
+                    roll: roll.roll || '1d1-1',
+                  })
+                : null
+            }
+          >
             {id}
           </a>
         </FlexContainer>

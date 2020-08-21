@@ -6,11 +6,14 @@ import {
 import { FlexContainer } from '../../elements/flex'
 import { CharacterDetails } from '../../components/CharacterDetails'
 import { CharacterContextProvider } from '../../contexts/CharacterContext'
-import { useAttackContext } from '../../contexts/AttackContext'
 
 const BattleInternal = () => {
-  const { rawCharacters, updateCharacter, attack } = useBattleContext()
-  const { addAttackResult } = useAttackContext()
+  const {
+    rawCharacters,
+    updateCharacter,
+    battle,
+    pushAttack,
+  } = useBattleContext()
   const character = rawCharacters[0]
   const enemy = rawCharacters[1]
   return (
@@ -25,7 +28,12 @@ const BattleInternal = () => {
               <CharacterDetails />
             </CharacterContextProvider>
           </div>
-          <FlexContainer $full />
+          <FlexContainer
+            $full
+            style={{ justifyContent: 'center', color: 'white' }}
+          >
+            <h1>Round {battle.rounds.length}</h1>
+          </FlexContainer>
           <div>
             <CharacterContextProvider
               character={enemy}
@@ -38,7 +46,7 @@ const BattleInternal = () => {
         <FlexContainer>
           <button
             onClick={() => {
-              addAttackResult(attack(enemy.id, character.id))
+              pushAttack(enemy.id, character.id)
             }}
           >
             Make Attack

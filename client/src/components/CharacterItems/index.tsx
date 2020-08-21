@@ -37,11 +37,11 @@ export const CharacterItems = () => {
           }
         }}
       />
-      <div style={{ overflowY: 'auto', marginTop: 10 }}>
+      <div style={{ overflowY: 'auto', marginTop: 10, maxWidth: 420 }}>
         <FlexContainer
           style={{
             flexWrap: 'wrap',
-            width: 400,
+            //width: 400,
           }}
         >
           {character.items

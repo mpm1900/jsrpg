@@ -7,7 +7,7 @@ import {
   setCharacterAbilityScore,
 } from '../../types/Character'
 import { useRollContext } from '../../contexts/RollContext'
-import { BoxContainer } from '../../elements/box'
+import { BoxContainer, BoxButton } from '../../elements/box'
 import { FlexContainer } from '../../elements/flex'
 
 export interface AbilityScorePropsT {
@@ -96,13 +96,13 @@ export const PureAbilityScore = (props: any) => {
             width: 30,
           }}
         >
-          <button
+          <BoxButton
             style={{ margin: 0 }}
             disabled={points < cost || rawValue === 18}
             onClick={onIncrement}
           >
             +
-          </button>
+          </BoxButton>
           <FlexContainer
             $full
             style={{
@@ -112,13 +112,13 @@ export const PureAbilityScore = (props: any) => {
           >
             <div>{cost}</div>
           </FlexContainer>
-          <button
+          <BoxButton
             style={{ margin: 0 }}
             disabled={rawValue === 3}
             onClick={onDecrement}
           >
             -
-          </button>
+          </BoxButton>
         </FlexContainer>
       )}
     </BoxContainer>

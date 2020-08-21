@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 export interface BoxContainerPropsT extends React.HTMLProps<HTMLDivElement> {
   substyle?: React.CSSProperties
@@ -59,3 +59,26 @@ export const SmallBox = (props: BoxContainerPropsT) => (
     {props.children}
   </BoxContainer>
 )
+
+export const BoxButton = (props: BoxContainerPropsT) => {
+  const [hovering, setHovering] = useState(false)
+  return (
+    <BoxContainer
+      {...props}
+      tag='button'
+      style={{
+        margin: 0,
+        ...(props.style || {}),
+      }}
+      substyle={{
+        borderColor: hovering ? '#999' : '#555',
+        padding: '4px',
+        cursor: 'pointer',
+        background: '#111',
+        ...(props.substyle || {}),
+      }}
+      onMouseEnter={() => setHovering(true)}
+      onMouseLeave={() => setHovering(false)}
+    />
+  )
+}

@@ -11,7 +11,7 @@ import { getRollText, RollCheckT } from '../../types/Roll'
 import { TraitScore } from '../TraitScore'
 import { CheckPreview } from '../CheckPreview'
 import { unequipItem, CharacterSkillCheckKeyT } from '../../types/Character'
-import { BoxContainer } from '../../elements/box'
+import { BoxContainer, BoxButton } from '../../elements/box'
 import { IconDamageTypeMap, IconCharacterResourceMap } from '../../icons/maps'
 import { Icon } from '../Icon'
 import { ArmorIcon } from '../ArmorIcon'
@@ -82,8 +82,8 @@ export const ItemPreview = (props: ItemPreviewPropsT) => {
           {item.name}
         </h3>
         {showCollapseButton && (
-          <button
-            style={{
+          <BoxButton
+            substyle={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -93,7 +93,7 @@ export const ItemPreview = (props: ItemPreviewPropsT) => {
             }}
           >
             {collapsed ? 'more' : 'less'}
-          </button>
+          </BoxButton>
         )}
         {!showEquipButton && (
           <FlexContainer
@@ -114,8 +114,8 @@ export const ItemPreview = (props: ItemPreviewPropsT) => {
           </FlexContainer>
         )}
         {showEquipButton && (
-          <button
-            style={{
+          <BoxButton
+            substyle={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -127,11 +127,11 @@ export const ItemPreview = (props: ItemPreviewPropsT) => {
             <Icon
               src={IconCharacterResourceMap[item.resource]}
               size={12}
-              fill='#4bebc6'
+              fill='rgba(255,255,255,0.8)'
               style={{ marginRight: 10 }}
             />
             {item.cost}
-          </button>
+          </BoxButton>
         )}
       </FlexContainer>
       {!collapsed && (
