@@ -13,19 +13,19 @@ const F = ({ text }: FPPropT) => (
 )
 
 export const AttackLog = () => {
-  const { attackResults, runAttackRoll } = useAttackContext()
+  const { attackResults, clear } = useAttackContext()
   return (
     <FlexContainer
       $direction='column'
       $full
       style={{ overflow: 'auto', padding: 10, overflowY: 'auto' }}
     >
-      <button onClick={runAttackRoll} style={{ marginBottom: 20 }}>
-        Run Attack Roll
+      <button onClick={clear} style={{ marginBottom: 20 }}>
+        Clear Log
       </button>
       {attackResults.map((attackResult) => (
         <div key={attackResult.id} style={{ marginBottom: 10 }}>
-          <pre>ATTACK</pre>
+          <pre> {attackResult.label ? attackResult.label : 'ATTACK'}</pre>
           <pre>
             {`  [`}
             {attackResult.hitSuccess ? (

@@ -17,6 +17,7 @@ export interface BattleContextT {
   characters: ProcessedCharacterT[]
   rawCharacters: CharacterT[]
   battle: BattleT
+  wins: number
   pushAttack: (targetId: string, sourceId: string) => void
   attack: (targetId: string, sourceId: string) => AttackResultT
   updateCharacter: (character: CharacterT) => void
@@ -27,6 +28,7 @@ export const BattleContext = React.createContext<BattleContextT>({
   battle: {
     rounds: [],
   },
+  wins: 0,
   pushAttack: (t, s) => {},
   attack: (t, s) => ZERO_RESULT,
   updateCharacter: (c) => {},
@@ -42,6 +44,7 @@ export const BattleContextProvider = (props: BattleContextProviderPropsT) => {
   const { rawCharacter } = useCharacterContext()
   const { checkCharacter, basicRollCharacter } = useRollContext()
   const { addAttackResult } = useAttackContext()
+  const [wins, setWins] = useState(0)
 
   const enemy = useMemo(() => makeNpc(), [])
   const [characters, setCharacters] = useState<CharacterT[]>([
@@ -109,11 +112,13 @@ export const BattleContextProvider = (props: BattleContextProviderPropsT) => {
     const pc = processedCharacters.find(
       (c) => c.id === rawCharacter.id,
     ) as ProcessedCharacterT
-    if (pc.healthOffset <= pc.stats.health) {
+    if (pc && pc.healthOffset < pc.stats.health) {
       processedCharacters.forEach((c) => {
+        if (c.id === rawCharacter.id) return
         if (c.healthOffset >= c.stats.health) {
           removeCharacter(c.id)
           addNewNpc()
+          setWins((w) => w + 1)
           setBattle((b) => ({
             rounds: [
               {
@@ -138,17 +143,18 @@ export const BattleContextProvider = (props: BattleContextProviderPropsT) => {
     const round = rounds[roundIndex]
     if (round && getKeys(round).length === characters.length) {
       const sortedCharacters = processedCharacters.sort(
-        (a, b) => b.stats.agility - b.stats.agility,
+        (a, b) => b.stats.agility - a.stats.agility,
       )
       sortedCharacters.forEach((character) => {
         console.log(character.name + ' is attacking')
         const rounds = battle.rounds[roundIndex]
         console.log(character.id, rounds)
         const action = battle.rounds[roundIndex][character.id]
-        console.log(action, character.healthOffset <= character.stats.health)
-        console.log('=========================')
         if (action && character.healthOffset <= character.stats.health) {
-          addAttackResult(attack(action.targetId, character.id))
+          addAttackResult({
+            ...attack(action.targetId, character.id),
+            label: `${character.name} is Attacking`,
+          })
         }
       })
       setBattle((b) => ({
@@ -166,12 +172,22 @@ export const BattleContextProvider = (props: BattleContextProviderPropsT) => {
     }
   }, [battle])
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      pushAttack(enemy.id, rawCharacter.id)
+    }, 1000)
+    return () => {
+      clearInterval()
+    }
+  }, [])
+
   return (
     <BattleContext.Provider
       value={{
         characters: processedCharacters,
         rawCharacters: characters,
         battle,
+        wins,
         attack,
         pushAttack,
         updateCharacter,

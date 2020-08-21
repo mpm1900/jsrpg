@@ -12,6 +12,7 @@ const BattleInternal = () => {
     rawCharacters,
     updateCharacter,
     battle,
+    wins,
     pushAttack,
   } = useBattleContext()
   const character = rawCharacters[0]
@@ -33,6 +34,7 @@ const BattleInternal = () => {
             style={{ justifyContent: 'center', color: 'white' }}
           >
             <h1>Round {battle.rounds.length}</h1>
+            <h2>{wins} Wins</h2>
           </FlexContainer>
           <div>
             <CharacterContextProvider

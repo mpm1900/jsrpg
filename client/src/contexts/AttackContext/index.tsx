@@ -13,15 +13,18 @@ export interface AttackContextT {
   attackResults: AttackResultT[]
   runAttackRoll: () => AttackResultT
   addAttackResult: (result: AttackResultT) => void
+  clear: () => void
 }
 export const AttackContext = React.createContext<AttackContextT>({
   attackResults: [],
   runAttackRoll: () => ZERO_RESULT,
   addAttackResult: (r: AttackResultT) => {},
+  clear: () => {},
 })
 export const useAttackContext = () => useContext(AttackContext)
 
 export interface AttackResultT {
+  label?: string
   id: string
   hitSuccess: boolean
   criticalSuccess: boolean
@@ -52,6 +55,7 @@ export const AttackContextProvider = (props: AttackContextProviderPropsT) => {
   const { character, rawCharacter, onChange } = useCharacterContext()
   const { execCheck, execRoll } = useRollContext()
   const [attackResults, setAttackResults] = useState<AttackResultT[]>([])
+  const clear = () => setAttackResults([])
 
   const runAttackRoll = () => {
     const { weapon } = character
@@ -103,7 +107,9 @@ export const AttackContextProvider = (props: AttackContextProviderPropsT) => {
       value={{
         attackResults,
         runAttackRoll,
-        addAttackResult: (r) => setAttackResults((ar) => [...ar, r]),
+        addAttackResult: (r) =>
+          setAttackResults((ar) => [...ar, { ...r, label: r.label || '' }]),
+        clear,
       }}
     >
       {children}
