@@ -1,5 +1,6 @@
 import React from 'react'
 import { useAttackContext } from '../../contexts/AttackContext'
+import { FlexContainer } from '../../elements/flex'
 
 interface FPPropT {
   text?: string
@@ -14,7 +15,11 @@ const F = ({ text }: FPPropT) => (
 export const AttackLog = () => {
   const { attackResults, runAttackRoll } = useAttackContext()
   return (
-    <div style={{ overflow: 'auto', padding: 10, flex: 1 }}>
+    <FlexContainer
+      $direction='column'
+      $full
+      style={{ overflow: 'auto', padding: 10, overflowY: 'auto' }}
+    >
       <button onClick={runAttackRoll} style={{ marginBottom: 20 }}>
         Run Attack Roll
       </button>
@@ -61,6 +66,6 @@ export const AttackLog = () => {
           </pre>
         </div>
       ))}
-    </div>
+    </FlexContainer>
   )
 }

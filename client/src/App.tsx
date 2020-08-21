@@ -74,7 +74,7 @@ export const App = () => {
                   battle
                 </BoxContainer>
               </BoxContainer>
-              <FlexContainer $full>
+              <FlexContainer $full style={{ height: 'calc(100% - 70px)' }}>
                 <FlexContainer $full style={{ overflow: 'auto' }}>
                   <Switch>
                     {makeRoute('/battle', () => (

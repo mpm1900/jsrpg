@@ -1,13 +1,10 @@
-import {
-  ProcessedCharacterT,
-  checkCharacter,
-  basicRollCharacter,
-} from '../../types/Character'
+import { ProcessedCharacterT } from '../../types/Character'
 import { RollCheckT, RollResultT } from '../../types/Roll'
 import { ZERO_RESULT, AttackResultT } from '../AttackContext'
 import { v4 } from 'uuid'
 import { rollDamage, getDamageTypeKeys } from '../../types/Damage'
 import { noneg } from '../../util/noneg'
+import { RollCheckerT } from '../RollContext'
 
 export const DODGE_CHECK: RollCheckT = {
   keys: ['dexterity'],
@@ -19,10 +16,11 @@ const formatRoll = (roll: RollCheckT): RollCheckT => ({
   roll: roll.roll || '1d1-1',
 })
 
-export const execAttack = (characters: ProcessedCharacterT[]) => (
-  targetId: string,
-  sourceId: string,
-): AttackResultT => {
+export const execAttack = (
+  characters: ProcessedCharacterT[],
+  checkCharacter: (c: ProcessedCharacterT) => RollCheckerT,
+  basicRollCharacter: (c: ProcessedCharacterT) => RollCheckerT,
+) => (targetId: string, sourceId: string): AttackResultT => {
   const target = characters.find((c) => c.id === targetId)
   const source = characters.find((c) => c.id === sourceId)
   let attackResult = { ...ZERO_RESULT, id: v4() }

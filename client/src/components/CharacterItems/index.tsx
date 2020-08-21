@@ -26,7 +26,7 @@ export const CharacterItems = () => {
   const [itemType, setItemType] = useState<ItemTypeT | undefined>()
   const [itemRarity, setItemRarity] = useState<ItemRarityT | undefined>()
   return (
-    <FlexContainer style={{ minWidth: 400 }} $direction='column'>
+    <FlexContainer style={{}} $direction='column'>
       <CharacterItemFilters
         onClick={(r, t) => {
           if (r) setItemRarity(r)
@@ -37,30 +37,30 @@ export const CharacterItems = () => {
           }
         }}
       />
-      <FlexContainer
-        style={{
-          flexWrap: 'wrap',
-          width: 400,
-          marginTop: 10,
-          overflow: 'auto',
-        }}
-      >
-        {character.items
-          .filter((i) => {
-            let ret = true
-            if (itemType) ret = ret && (i as EquippableT).type === itemType
-            if (itemRarity) ret = ret && i.rarity === itemRarity
-            return ret
-          })
-          .map((item) => (
-            <Item
-              key={item.id}
-              item={item}
-              rawCharacter={rawCharacter}
-              onEquip={(id) => onChange(equipItem(rawCharacter)(id))}
-            />
-          ))}
-      </FlexContainer>
+      <div style={{ overflowY: 'auto', marginTop: 10 }}>
+        <FlexContainer
+          style={{
+            flexWrap: 'wrap',
+            width: 400,
+          }}
+        >
+          {character.items
+            .filter((i) => {
+              let ret = true
+              if (itemType) ret = ret && (i as EquippableT).type === itemType
+              if (itemRarity) ret = ret && i.rarity === itemRarity
+              return ret
+            })
+            .map((item) => (
+              <Item
+                key={item.id}
+                item={item}
+                rawCharacter={rawCharacter}
+                onEquip={(id) => onChange(equipItem(rawCharacter)(id))}
+              />
+            ))}
+        </FlexContainer>
+      </div>
     </FlexContainer>
   )
 }

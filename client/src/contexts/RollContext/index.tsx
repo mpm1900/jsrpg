@@ -5,11 +5,17 @@ import {
   basicRollCharacter,
   ProcessedCharacterT,
   getCharacterCheckProbability,
+  CharacterT,
 } from '../../types/Character'
 import { useCharacterContext } from '../CharacterContext'
 import { useRolls, actionCreators } from '../../state/rolls'
 import { useDispatch } from 'react-redux'
 
+export type RollCheckerT = (
+  roll: RollCheckT,
+  log?: boolean,
+  allowNegatives?: boolean,
+) => RollResultT
 export interface RollContextT {
   history: RollResultT[]
   execRoll: (
@@ -17,12 +23,10 @@ export interface RollContextT {
     log?: boolean,
     allowNegatives?: boolean,
   ) => RollResultT
-  execCheck: (roll: RollCheckT, log?: boolean) => RollResultT
-  execStaticRoll: (
-    roll: RollCheckT,
-    log?: boolean,
-    allowNegatives?: boolean,
-  ) => RollResultT
+  execCheck: RollCheckerT
+  execStaticRoll: RollCheckerT
+  basicRollCharacter: (c: ProcessedCharacterT) => RollCheckerT
+  checkCharacter: (c: ProcessedCharacterT) => RollCheckerT
   getProbability: (roll: RollCheckT) => number
 }
 export const RollContext = React.createContext<RollContextT>({
@@ -30,6 +34,8 @@ export const RollContext = React.createContext<RollContextT>({
   execRoll: (roll) => ({} as RollResultT),
   execCheck: (roll) => ({} as RollResultT),
   execStaticRoll: (roll) => ({} as RollResultT),
+  basicRollCharacter,
+  checkCharacter,
   getProbability: (roll) => 0,
 })
 export const useRollContext = () => useContext(RollContext)
@@ -65,6 +71,20 @@ export const RollContextProvider = (props: RollContextProviderPropsT) => {
           const result: RollResultT = basicRoll(roll, allowNegatives)
           if (log) addRoll(result)
           return result
+        },
+        basicRollCharacter: (character) => {
+          return (roll: RollCheckT, log = true, allowNegatives = false) => {
+            const result = basicRollCharacter(character)(roll, allowNegatives)
+            if (log) addRoll(result)
+            return result
+          }
+        },
+        checkCharacter: (character) => {
+          return (roll: RollCheckT, log = true, allowNegatives = false) => {
+            const result = checkCharacter(character)(roll)
+            if (log) addRoll(result)
+            return result
+          }
         },
         getProbability: (roll) => {
           return getCharacterCheckProbability(character)(roll)

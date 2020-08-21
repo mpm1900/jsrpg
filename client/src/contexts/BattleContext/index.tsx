@@ -8,6 +8,7 @@ import {
 } from '../../types/Character'
 import { execAttack } from './util'
 import { AttackResultT, ZERO_RESULT } from '../AttackContext'
+import { useRollContext } from '../RollContext'
 
 export interface BattleContextT {
   characters: ProcessedCharacterT[]
@@ -29,6 +30,7 @@ export interface BattleContextProviderPropsT {
 export const BattleContextProvider = (props: BattleContextProviderPropsT) => {
   const { children } = props
   const { rawCharacter } = useCharacterContext()
+  const { checkCharacter, basicRollCharacter } = useRollContext()
   const enemy = makeNpc()
   const [characters, setCharacters] = useState<CharacterT[]>([
     rawCharacter,
@@ -58,7 +60,11 @@ export const BattleContextProvider = (props: BattleContextProviderPropsT) => {
   }, [processedCharacters])
 
   const attack = (targetId: string, sourceId: string): AttackResultT => {
-    const attackResult = execAttack(processedCharacters)(targetId, sourceId)
+    const attackResult = execAttack(
+      processedCharacters,
+      checkCharacter,
+      basicRollCharacter,
+    )(targetId, sourceId)
     const target = characters.find((c) => c.id === targetId)
     if (target) {
       updateCharacter({

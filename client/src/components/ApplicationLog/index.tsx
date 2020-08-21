@@ -41,7 +41,6 @@ export const ApplicationLog = (props: ApplicationLogPropsT) => {
     <BoxContainer
       style={{
         height: 'calc(100% - 2px)',
-        minWidth: 400,
       }}
       substyle={{ overflow: 'auto', display: 'flex', padding: 0 }}
     >
@@ -49,6 +48,7 @@ export const ApplicationLog = (props: ApplicationLogPropsT) => {
         <FlexContainer
           $full
           style={{
+            minWidth: 400,
             borderRight: '1px solid black',
             background: '#111',
           }}
