@@ -131,20 +131,25 @@ const Item = (props: ItemPropsT) => {
         }
       >
         <BoxContainer
-          style={{ width: 40, height: 40 }}
-          substyle={{
+          style={{
+            width: 40,
+            height: 40,
             backgroundColor: !canEquipItem ? '#333' : '#222',
+            boxShadow: `inset 0 0 ${!canEquipItem ? '3px' : '12px'} ${
+              item.rarity !== 'common' && canEquipItem
+                ? Color(rarityColor).fade(0.5).hsl().toString()
+                : 'black'
+            }`,
+          }}
+          substyle={{
+            backgroundColor: 'transparent',
             cursor: canEquipItem ? 'pointer' : 'default',
             borderColor: isHovering
               ? rarityColor
               : item.rarity === 'common'
               ? '#555'
               : Color(rarityColor).fade(0.5).hsl().toString(),
-            boxShadow: `inset 0 0 ${!canEquipItem ? '3px' : '16px'} ${
-              item.rarity !== 'common' && canEquipItem
-                ? Color(rarityColor).fade(0.5).hsl().toString()
-                : 'black'
-            }`,
+            boxShadow: canEquipItem ? 'inset 0 0 3px black' : 'none',
             display: 'flex',
             padding: 0,
             justifyContent: 'center',
