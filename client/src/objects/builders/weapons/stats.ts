@@ -1,14 +1,12 @@
 import {
   CharacterSkillCheckKeyT,
   CharacterAbilityKeyT,
-  CharacterResourceKeyT,
 } from '../../../types/Character'
 import { ItemRarityT } from '../../../types/Item'
 import { ArmorTypeT } from '../../../types/Armor'
 import { getRandom } from '../../../util/getRandom'
 import { ItemModifierValuesT, getRollValue, makeRoll } from '../makeItem'
 import { DamageTypeRollsT, DamageElementTypeT } from '../../../types/Damage'
-import { makeStaticRoll } from '../../../types/Roll'
 import { shuffleArray, getItemStatRolls } from '../util'
 import { WeaponTypeT } from '../../../types/Weapon'
 

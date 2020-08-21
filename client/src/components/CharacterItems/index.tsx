@@ -107,7 +107,7 @@ const Item = (props: ItemPropsT) => {
         />
       )
     }
-  }, [item, isArmor, isEquipable, isWeapon, type])
+  }, [item, isArmor, isEquipable, isWeapon, rarityColor])
 
   return (
     <div

@@ -7,7 +7,6 @@ import { Icon } from '../Icon'
 import { IconDamageTypeMap } from '../../icons/maps'
 import { BoxContainer } from '../../elements/box'
 import { useRollContext } from '../../contexts/RollContext'
-import { DiceRoll } from 'rpg-dice-roller'
 import { getKeys } from '../../util/getKeys'
 import { CompareResultFn, ZERO_COMPARE, BASE_ARGS } from '../../util/compare'
 

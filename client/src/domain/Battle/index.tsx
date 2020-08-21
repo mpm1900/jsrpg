@@ -8,7 +8,7 @@ import { CharacterDetails } from '../../components/CharacterDetails'
 import { CharacterContextProvider } from '../../contexts/CharacterContext'
 import { useAttackContext } from '../../contexts/AttackContext'
 
-const _Battle = () => {
+const BattleInternal = () => {
   const { rawCharacters, updateCharacter, attack } = useBattleContext()
   const { addAttackResult } = useAttackContext()
   const character = rawCharacters[0]
@@ -51,6 +51,6 @@ const _Battle = () => {
 
 export const Battle = () => (
   <BattleContextProvider>
-    <_Battle />
+    <BattleInternal />
   </BattleContextProvider>
 )

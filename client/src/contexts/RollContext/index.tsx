@@ -5,7 +5,6 @@ import {
   basicRollCharacter,
   ProcessedCharacterT,
   getCharacterCheckProbability,
-  CharacterT,
 } from '../../types/Character'
 import { useCharacterContext } from '../CharacterContext'
 import { useRolls, actionCreators } from '../../state/rolls'

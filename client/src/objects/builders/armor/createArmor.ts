@@ -1,7 +1,7 @@
 import { BASE_EQUIPPABLE, makeRequirementCheck } from '../../util'
 import { DamageTypeRollsT } from '../../../types/Damage'
 import { ItemRarityT } from '../../../types/Item'
-import { ItemModifierValuesT, getTotal, getRollValue } from '../makeItem'
+import { ItemModifierValuesT, getRollValue } from '../makeItem'
 import { ArmorT, ArmorTypeT } from '../../../types/Armor'
 import { CharacterResourceKeyT } from '../../../types/Character'
 import { RollCheckT } from '../../../types/Roll'

@@ -27,6 +27,7 @@ export const CharacterDetails = (props: CharacterDetailsPropsT) => {
               substyle={{ padding: 0 }}
             >
               <img
+                alt='profile'
                 src='https://picsum.photos/60/60'
                 style={{ height: 60, width: 60 }}
               />
