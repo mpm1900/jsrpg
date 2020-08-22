@@ -1,7 +1,7 @@
 import { styled } from 'styletron-react'
 
 export interface FlexContainerPropsT {
-  $direction?: 'row' | 'column'
+  $direction?: 'row' | 'column' | 'column-reverse'
   $full?: boolean
 }
 export const FlexContainer = styled('div', (props: FlexContainerPropsT) => ({

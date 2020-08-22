@@ -23,41 +23,44 @@ export const AttackLog = () => {
       <button onClick={clear} style={{ marginBottom: 20 }}>
         Clear Log
       </button>
-      {attackResults.map((attackResult) => (
-        <div key={attackResult.id} style={{ marginBottom: 10 }}>
-          <pre> {attackResult.label ? attackResult.label : 'ATTACK'}</pre>
-          <pre>
-            {`  [`}
-            {attackResult.hitSuccess ? (
-              <P text='HIT SUCCESS' />
-            ) : (
-              <F text='ATTACK MISSED' />
+
+      <FlexContainer $direction='column-reverse'>
+        {attackResults.map((attackResult) => (
+          <div key={attackResult.id} style={{ marginBottom: 10 }}>
+            <pre> {attackResult.label ? attackResult.label : 'ATTACK'}</pre>
+            <pre>
+              {`  [`}
+              {attackResult.hitSuccess ? (
+                <P text='HIT SUCCESS' />
+              ) : (
+                <F text='ATTACK MISSED' />
+              )}
+              {`] `}
+            </pre>
+            {attackResult.criticalSuccess && (
+              <pre>
+                {`  [`}
+                <P text='CRITICAL HIT SUCCESS' />
+                {`] `}
+              </pre>
             )}
-            {`] `}
-          </pre>
-          {attackResult.criticalSuccess && (
-            <pre>
-              {`  [`}
-              <P text='CRITICAL HIT SUCCESS' />
-              {`] `}
-            </pre>
-          )}
-          {attackResult.dodgeSuccess && (
-            <pre>
-              {`  [`}
-              <F text='DODGE SUCCESS' />
-              {`] `}
-            </pre>
-          )}
-          {attackResult.rawDamage > 0 && (
-            <pre>
-              {`  [`}
-              {`DAMAGE:   \t ${attackResult.totalDamage} = ${attackResult.rawDamage} - ${attackResult.blockedDamage}`}
-              {`] `}
-            </pre>
-          )}
-        </div>
-      ))}
+            {attackResult.dodgeSuccess && (
+              <pre>
+                {`  [`}
+                <F text='DODGE SUCCESS' />
+                {`] `}
+              </pre>
+            )}
+            {attackResult.rawDamage > 0 && (
+              <pre>
+                {`  [`}
+                {`DAMAGE:   \t ${attackResult.totalDamage} = ${attackResult.rawDamage} - ${attackResult.blockedDamage}`}
+                {`] `}
+              </pre>
+            )}
+          </div>
+        ))}
+      </FlexContainer>
     </FlexContainer>
   )
 }
