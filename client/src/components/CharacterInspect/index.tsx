@@ -3,8 +3,11 @@ import { FlexContainer } from '../../elements/flex'
 import { AbilityScore } from '../AbilityScore'
 import { StatScore } from '../StatScore'
 import { DamageResistanceScore } from '../DamageResistanceScore'
+import { WeaponPreview } from '../WeaponPreview'
+import { useCharacterContext } from '../../contexts/CharacterContext'
 
 export const CharacterInspect = () => {
+  const { character } = useCharacterContext()
   return (
     <FlexContainer>
       <FlexContainer $direction='column'>

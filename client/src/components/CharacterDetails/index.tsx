@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Tooltip from 'react-tooltip-lite'
 import Inspect from '../../icons/svg/lorc/magnifying-glass.svg'
+import WeaponHands from '../../icons/svg/delapouite/sword-brandish.svg'
 import { useCharacterContext } from '../../contexts/CharacterContext'
 import { BoxContainer, SmallBox } from '../../elements/box'
 import { FlexContainer } from '../../elements/flex'
@@ -8,6 +9,7 @@ import { Gauge } from '../Gauge'
 import { CharacterInspect } from '../CharacterInspect'
 import { Icon } from '../Icon'
 import { ProcessedCharacterT } from '../../types/Character'
+import { WeaponPreview } from '../WeaponPreview'
 
 export interface CharacterDetailsPropsT {
   character?: ProcessedCharacterT
@@ -15,7 +17,8 @@ export interface CharacterDetailsPropsT {
 export const CharacterDetails = (props: CharacterDetailsPropsT) => {
   const characterContext = useCharacterContext()
   const character = props.character || characterContext.character
-  const [hovering, setHovering] = useState(false)
+  const [detailsHovering, setDetailsHovering] = useState(false)
+  const [weaponHovering, setWeaponHovering] = useState(false)
   const health = character.stats.health - character.healthOffset
   return (
     <BoxContainer style={{ minWidth: 430 }}>
@@ -38,7 +41,22 @@ export const CharacterDetails = (props: CharacterDetailsPropsT) => {
             </FlexContainer>
           </FlexContainer>
           <Tooltip
-            isOpen={hovering}
+            isOpen={detailsHovering}
+            direction='right'
+            tagName='div'
+            padding='0'
+            arrow={false}
+            content={<WeaponPreview weapon={character.weapon} />}
+          >
+            <SmallBox
+              onMouseEnter={() => setDetailsHovering(true)}
+              onMouseLeave={() => setDetailsHovering(false)}
+            >
+              <Icon src={WeaponHands} size={18} />
+            </SmallBox>
+          </Tooltip>
+          <Tooltip
+            isOpen={weaponHovering}
             direction='right'
             tagName='div'
             padding='0'
@@ -46,8 +64,8 @@ export const CharacterDetails = (props: CharacterDetailsPropsT) => {
             content={<CharacterInspect />}
           >
             <SmallBox
-              onMouseEnter={() => setHovering(true)}
-              onMouseLeave={() => setHovering(false)}
+              onMouseEnter={() => setWeaponHovering(true)}
+              onMouseLeave={() => setWeaponHovering(false)}
             >
               <Icon src={Inspect} size={18} />
             </SmallBox>

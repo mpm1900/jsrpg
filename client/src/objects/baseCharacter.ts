@@ -2,7 +2,10 @@ import { CharacterT } from '../types/Character'
 import { makeStaticRoll } from '../types/Roll'
 import { BASIC_SHIELD } from './basicShield'
 import { BASIC_TOME } from './basicTome'
-import makeItem from './builders/makeItem'
+import makeItem, { makeWeapon } from './builders/makeItem'
+import { buildArmor } from './builders/armor/createArmor'
+import { getRandom } from '../util/getRandom'
+import { buildWeapon } from './builders/weapons/createWeapon'
 /*
 import { Config, adjectives, names } from 'unique-names-generator'
 
@@ -19,12 +22,12 @@ export const BASE_CHARACTER: CharacterT = {
   power: 600,
   resources: {
     characterPoints: 250,
-    weaponHands: 2,
-    heads: 1,
-    bodies: 1,
-    hands: 2,
-    fingers: 10,
-    feet: 2,
+    weaponHands: 1,
+    heads: 0,
+    bodies: 0,
+    hands: 0,
+    fingers: 0,
+    feet: 0,
   },
   abilities: {
     strength: 10,
@@ -52,7 +55,38 @@ export const BASE_CHARACTER: CharacterT = {
       .map(() => makeItem()),
   ],
   equippedItems: [],
-  armor: [],
+  armor: [
+    buildArmor(getRandom(['cowl', 'helmet'])),
+    buildArmor(getRandom(['chestplate', 'robe'])),
+    buildArmor('gloves'),
+    buildArmor('boots'),
+    buildArmor('ring'),
+    buildArmor('ring'),
+    buildArmor('ring'),
+    buildArmor('ring'),
+    buildArmor('ring'),
+    buildArmor('ring'),
+    buildArmor('ring'),
+    buildArmor('ring'),
+    buildArmor('ring'),
+    buildArmor('ring'),
+  ],
+
+  weapon: buildWeapon(
+    getRandom([
+      'axe',
+      'greataxe',
+      'wand',
+      'staff',
+      'daggers',
+      'katana',
+      'sword',
+      'greatsword',
+      'flail',
+      'elementalGreatsword',
+      'elementalSword',
+    ]),
+  ),
 
   healthOffset: 0,
 }

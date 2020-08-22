@@ -59,7 +59,21 @@ export const makeNpc = (
       ...damageResistances,
     },
 
-    weapon: buildWeapon(getRandom(['axe'])),
+    weapon: buildWeapon(
+      getRandom([
+        'axe',
+        'greataxe',
+        'wand',
+        'staff',
+        'daggers',
+        'katana',
+        'sword',
+        'greatsword',
+        'flail',
+        'elementalGreatsword',
+        'elementalSword',
+      ]),
+    ),
 
     traits: [],
     skills: [],
