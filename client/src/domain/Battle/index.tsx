@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   BattleContextProvider,
   useBattleContext,
@@ -14,9 +14,13 @@ const BattleInternal = () => {
     battle,
     wins,
     pushAttack,
+    reset,
   } = useBattleContext()
   const character = rawCharacters[0]
   const enemy = rawCharacters[1]
+  useEffect(() => {
+    reset()
+  }, [])
   return (
     <FlexContainer style={{ margin: 10, flex: 1 }}>
       <FlexContainer $full $direction='column'>
@@ -31,6 +35,7 @@ const BattleInternal = () => {
           </div>
           <FlexContainer
             $full
+            $direction='column'
             style={{ justifyContent: 'center', color: 'white' }}
           >
             <h1>Round {battle.rounds.length}</h1>
@@ -44,15 +49,6 @@ const BattleInternal = () => {
               <CharacterDetails />
             </CharacterContextProvider>
           </div>
-        </FlexContainer>
-        <FlexContainer>
-          <button
-            onClick={() => {
-              pushAttack(enemy.id, character.id)
-            }}
-          >
-            Make Attack
-          </button>
         </FlexContainer>
       </FlexContainer>
     </FlexContainer>

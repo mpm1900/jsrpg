@@ -21,6 +21,7 @@ export interface BattleContextT {
   pushAttack: (targetId: string, sourceId: string) => void
   attack: (targetId: string, sourceId: string) => AttackResultT
   updateCharacter: (character: CharacterT) => void
+  reset: () => void
 }
 export const BattleContext = React.createContext<BattleContextT>({
   characters: [],
@@ -32,6 +33,7 @@ export const BattleContext = React.createContext<BattleContextT>({
   pushAttack: (t, s) => {},
   attack: (t, s) => ZERO_RESULT,
   updateCharacter: (c) => {},
+  reset: () => {},
 })
 export const useBattleContext = () => useContext(BattleContext)
 
@@ -51,6 +53,7 @@ export const BattleContextProvider = (props: BattleContextProviderPropsT) => {
     rawCharacter,
     enemy,
   ])
+  const reset = () => setCharacters([rawCharacter, enemy])
   const processedCharacters = useMemo(
     () => characters.map((c) => processCharacter(c)),
     [characters],
@@ -132,7 +135,7 @@ export const BattleContextProvider = (props: BattleContextProviderPropsT) => {
         }
       })
     } else {
-      alert('you ded')
+      alert(`you died (${wins} wins)`)
       history.push('/')
     }
   }, [processedCharacters])
@@ -153,7 +156,7 @@ export const BattleContextProvider = (props: BattleContextProviderPropsT) => {
         if (action && character.healthOffset <= character.stats.health) {
           addAttackResult({
             ...attack(action.targetId, character.id),
-            label: `${character.name} is Attacking`,
+            label: `${character.name} is attacking... (AGL = ${character.stats.agility})`,
           })
         }
       })
@@ -191,6 +194,7 @@ export const BattleContextProvider = (props: BattleContextProviderPropsT) => {
         attack,
         pushAttack,
         updateCharacter,
+        reset,
       }}
     >
       {children}

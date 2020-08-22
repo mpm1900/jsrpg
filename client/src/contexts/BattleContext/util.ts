@@ -51,9 +51,10 @@ export const execAttack = (
             formatRoll(resistanceCheck),
             true,
           )
-          const damageTotal = damageResult.total - resistanceRoll.total
+          const blockedDamage = criticalSuccess ? 0 : resistanceRoll.total
+          const damageTotal = damageResult.total - blockedDamage
           attackResult.blockedDamage +=
-            damageResult.total > 0 ? resistanceRoll.total : 0
+            damageResult.total > 0 ? blockedDamage : 0
           attackResult.totalDamage += noneg(damageTotal)
         })
       }

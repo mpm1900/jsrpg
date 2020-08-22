@@ -49,21 +49,13 @@ export const AttackLog = () => {
               {`] `}
             </pre>
           )}
-          <pre>
-            {`  [`}
-            {`RAW DAMAGE   \t= ${attackResult.rawDamage}`}
-            {`] `}
-          </pre>
-          <pre>
-            {`  [`}
-            {`BLOCKED DAMAGE \t= ${attackResult.blockedDamage}`}
-            {`] `}
-          </pre>
-          <pre>
-            {`  [`}
-            {`TOTAL DAMAGE \t= ${attackResult.totalDamage}`}
-            {`] `}
-          </pre>
+          {attackResult.rawDamage > 0 && (
+            <pre>
+              {`  [`}
+              {`DAMAGE:   \t ${attackResult.totalDamage} = ${attackResult.rawDamage} - ${attackResult.blockedDamage}`}
+              {`] `}
+            </pre>
+          )}
         </div>
       ))}
     </FlexContainer>

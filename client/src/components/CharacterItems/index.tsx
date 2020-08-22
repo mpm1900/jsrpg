@@ -41,7 +41,7 @@ export const CharacterItems = () => {
         <FlexContainer
           style={{
             flexWrap: 'wrap',
-            //width: 400,
+            width: 400,
           }}
         >
           {character.items

@@ -2,7 +2,14 @@ import { NpcT } from '../types/Npc'
 import { v4 } from 'uuid'
 import { makeStaticRoll } from '../types/Roll'
 
-import { uniqueNamesGenerator, Config, names } from 'unique-names-generator'
+import {
+  uniqueNamesGenerator,
+  Config,
+  names,
+  adjectives,
+  animals,
+  colors,
+} from 'unique-names-generator'
 import { CharacterResourcesT, CharacterAbilitiesT } from '../types/Character'
 import { DamageTypeRollsT } from '../types/Damage'
 import { buildWeapon } from './builders/weapons/createWeapon'
@@ -10,8 +17,9 @@ import { getRandom } from '../util/getRandom'
 import { buildArmor } from './builders/armor/createArmor'
 
 const randomNameConfig: Config = {
-  dictionaries: [names],
-  length: 1,
+  dictionaries: [adjectives, adjectives, animals],
+  length: 3,
+  separator: ' ',
 }
 
 export const makeNpc = (
