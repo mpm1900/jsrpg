@@ -14,7 +14,6 @@ import {
 } from './util'
 import { useCombatLogContext } from '../CombatLogContext'
 import { useInterval } from '../../hooks/useInterval'
-import { useRefresh } from '../../hooks/useRefresh'
 import { useModalContext } from '../ModalContext'
 
 export interface CombatContextT {
@@ -67,7 +66,6 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
   const [done, setDone] = useState(false)
   const rawEnemyParty = rawParties.filter((p) => p.id === ENEMY_PARTY_ID)[0]
   const enemyParty = parties.filter((p) => p.id === ENEMY_PARTY_ID)[0]
-  const [guid, refresh] = useRefresh()
   const { open } = useModalContext()
 
   const { start, stop, running } = useInterval(() => {
@@ -83,7 +81,6 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
     }
     setDone(false)
     setRounds([])
-    refresh(true)
     upsertParty(makeParty(ENEMY_PARTY_ID))
     upsertParty({
       ...rawUserParty,
@@ -112,32 +109,37 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
   }, [])
 
   const finish = (text: string) => {
-    open(() => <h1>{text}</h1>)
     stop()
     setDone(true)
+    open(() => <h1>{text}</h1>)
   }
 
   useEffect(() => {
     if (checkParty(userParty) && !done) {
-      setTimeout(() => finish('YOU DIED'), 50)
+      finish('YOU DIED')
     }
   }, [userParty])
 
   useEffect(() => {
     if (checkParty(enemyParty) && !done) {
-      setTimeout(() => finish('YOU WIN!'), 50)
+      finish('YOU WIN!')
     }
   }, [enemyParty])
 
   useEffect(() => {
-    resolveRound(rounds, rawUserParty, rawEnemyParty, addLine, upsertCharacter)
-    stop()
-    refresh()
+    if (rounds.length > 0) {
+      resolveRound(
+        rounds,
+        rawUserParty,
+        rawEnemyParty,
+        addLine,
+        upsertCharacter,
+      )
+      if (running) {
+        start()
+      }
+    }
   }, [rounds])
-
-  useEffect(() => {
-    if (guid) start()
-  }, [guid])
 
   return (
     <CombatContext.Provider
