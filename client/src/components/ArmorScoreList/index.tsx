@@ -6,10 +6,12 @@ import { ItemPreviewSmall } from '../ItemPreviewSmall'
 import { FlexContainer } from '../../elements/flex'
 import { unequipItem } from '../../types/Character'
 import { v4 } from 'uuid'
+import { usePartyContext } from '../../contexts/PartyContext'
 
 export interface ArmorScoreListPropsT {}
 export const ArmorScoreList = (props: ArmorScoreListPropsT) => {
-  const { character, rawCharacter, onChange } = useCharacterContext()
+  const { character, rawCharacter } = useCharacterContext()
+  const { unequipItem } = usePartyContext()
   const { armor } = character
   const rings = armor.filter((i) => i.armorType === 'ring')
   const arr = Array(10 - rings.length).fill(undefined)
@@ -20,7 +22,7 @@ export const ArmorScoreList = (props: ArmorScoreListPropsT) => {
           <ItemPreviewSmall
             key={item ? item.id : v4()}
             item={item}
-            onClick={(item) => onChange(unequipItem(rawCharacter)(item.id))}
+            onClick={(item) => unequipItem(rawCharacter.id, item.id)}
           />
         ))}
       </FlexContainer>

@@ -4,7 +4,6 @@ import { PartyT } from '../types/Party'
 
 export interface StateT {
   parties: PartyT[]
-  characters: CharacterT[]
   rolls: RollResultT[]
 }
 

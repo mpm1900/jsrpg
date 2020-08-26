@@ -19,6 +19,7 @@ import { ArmorT } from '../../types/Armor'
 import { EquippableT, ItemRarityColorMap } from '../../types/Item'
 import { ItemIcon } from '../ItemIcon'
 import { CompareResultFn, ZERO_COMPARE, BASE_ARGS } from '../../util/compare'
+import { usePartyContext } from '../../contexts/PartyContext'
 
 export interface ItemPreviewPropsT {
   item: EquippableT
@@ -37,7 +38,8 @@ export const ItemPreview = (props: ItemPreviewPropsT) => {
     showRequirementCheck = true,
     showCollapseButton = false,
   } = props
-  const { onChange, rawCharacter } = useCharacterContext()
+  const { rawCharacter } = useCharacterContext()
+  const { unequipItem } = usePartyContext()
   const [collapsed, setCollapsed] = useState(false)
   const requirementCompare = props.requirementCompare || ZERO_COMPARE
   const traitCompare = props.traitCompare || ((key) => ZERO_COMPARE)
@@ -121,7 +123,7 @@ export const ItemPreview = (props: ItemPreviewPropsT) => {
               justifyContent: 'center',
             }}
             onClick={() => {
-              onChange(unequipItem(rawCharacter)(item.id))
+              unequipItem(rawCharacter.id, item.id)
             }}
           >
             <Icon

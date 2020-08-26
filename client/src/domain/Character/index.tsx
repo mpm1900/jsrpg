@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useEffect } from 'react'
 import { FlexContainer } from '../../elements/flex'
 import { ResourceScore } from '../../components/ResourceScore'
 import { AbilityScore } from '../../components/AbilityScore'
@@ -6,23 +6,35 @@ import { StatScore } from '../../components/StatScore'
 import { DamageResistanceScore } from '../../components/DamageResistanceScore'
 import { ArmorScoreList } from '../../components/ArmorScoreList'
 import { ItemPreview } from '../../components/ItemPreview'
-import { useCharacterContext } from '../../contexts/CharacterContext'
 import { WeaponPreview } from '../../components/WeaponPreview'
 import { CharacterDetails } from '../../components/CharacterDetails'
 import { CharacterStateContextProvider } from '../../contexts/CharacterContext'
 import { RollStateContextProvider } from '../../contexts/RollContext'
-import { useParams } from 'react-router'
+import { useParams, useHistory } from 'react-router'
 import { usePartyContext } from '../../contexts/PartyContext'
 
 export const Character = () => {
   const { id } = useParams()
-  const { rawUserParty, updateCharacter } = usePartyContext()
+  const history = useHistory()
+  const { rawUserParty, setActiveCharacterId } = usePartyContext()
   const character = useMemo(() => {
-    const char = rawUserParty.characters.find((c) => c.id === id)
-    return char || rawUserParty.characters[0]
+    return rawUserParty.characters.find((c) => c.id === id)
   }, [id, rawUserParty])
+  useEffect(() => {
+    if (!character) {
+      history.push(`/characters/${rawUserParty.characters[0].id}`)
+    } else {
+      setActiveCharacterId(character.id)
+    }
+  }, [id])
+
+  useEffect(() => {
+    return () => setActiveCharacterId(null)
+  }, [])
+
+  if (!character) return null
   return (
-    <CharacterStateContextProvider characterId={id}>
+    <CharacterStateContextProvider>
       <RollStateContextProvider>
         <FlexContainer style={{ margin: 10, flex: 1 }}>
           <FlexContainer $direction='column' style={{ marginRight: 10 }}>

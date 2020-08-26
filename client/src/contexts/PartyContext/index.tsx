@@ -1,20 +1,16 @@
-import React, { useMemo, useContext } from 'react'
+import React, { useMemo, useContext, useState } from 'react'
 import { PartyT, ProcessedPartyT, processParty } from '../../types/Party'
 import { CharacterT, ProcessedCharacterT } from '../../types/Character'
 import { v4 } from 'uuid'
-import {
-  useParties,
-  PC_PARTY_ID,
-  actionCreators,
-  usePartiesActions,
-} from '../../state/parties'
-import { useDispatch } from 'react-redux'
+import { useParties, PC_PARTY_ID, usePartiesActions } from '../../state/parties'
+import { actionCreators } from '../../state/rolls'
 
 export interface PartyContextT {
   parties: ProcessedPartyT[]
   rawParties: PartyT[]
   userParty: ProcessedPartyT
   rawUserParty: PartyT
+  activeCharacterId: string | null
 
   upsertParty: (party: PartyT) => void
   updateCharacter: (character: CharacterT, partyId?: string) => void
@@ -26,16 +22,23 @@ export interface PartyContextT {
     characterId: string,
     partyId?: string,
   ) => CharacterT | undefined
+  equipItem: (characterId: string, itemId: string, partyId?: string) => void
+  unequipItem: (characterId: string, itemId: string, partyId?: string) => void
+  setActiveCharacterId: (id: string | null) => void
 }
 const defaultContextValue: PartyContextT = {
   parties: [],
   rawParties: [],
   userParty: { id: v4(), characters: [], processed: true, items: [] },
   rawUserParty: { id: v4(), characters: [], items: [] },
+  activeCharacterId: null,
   upsertParty: (party) => {},
   updateCharacter: (character, partyId) => {},
   findCharacter: (characterId, partyId) => undefined,
   findRawCharacter: (characterId, partyId) => undefined,
+  equipItem: (characterId, itemId, partyId) => {},
+  unequipItem: (characterId, itemId, partyId) => {},
+  setActiveCharacterId: (id) => {},
 }
 export const PartyContext = React.createContext<PartyContextT>(
   defaultContextValue,
@@ -53,6 +56,9 @@ export const PartyContextProvider = (props: PartyContextProviderPropsT) => {
   }, [rawParties])
   const userParty = parties.find((p) => p.id === PC_PARTY_ID) as ProcessedPartyT
   const rawUserParty = rawParties.find((p) => p.id === PC_PARTY_ID) as PartyT
+  const [activeCharacterId, setActiveCharacterId] = useState<string | null>(
+    null,
+  )
   const upsertParty = (party: PartyT) => {
     if (!party) return
     if ((party as ProcessedPartyT).processed) {
@@ -69,6 +75,20 @@ export const PartyContextProvider = (props: PartyContextProviderPropsT) => {
       throw new Error('No processed Characters Allowed')
     }
     actions.upsertCharacter(partyId, character)
+  }
+  const equipItem = (
+    characterId: string,
+    itemId: string,
+    partyId: string = PC_PARTY_ID,
+  ) => {
+    actions.equipItem(partyId, characterId, itemId)
+  }
+  const unequipItem = (
+    characterId: string,
+    itemId: string,
+    partyId: string = PC_PARTY_ID,
+  ) => {
+    actions.unequipItem(partyId, characterId, itemId)
   }
   const findCharacter = (
     characterId: string,
@@ -92,10 +112,14 @@ export const PartyContextProvider = (props: PartyContextProviderPropsT) => {
         rawParties,
         userParty,
         rawUserParty,
+        activeCharacterId,
         upsertParty,
         updateCharacter,
+        equipItem,
+        unequipItem,
         findCharacter,
         findRawCharacter,
+        setActiveCharacterId,
       }}
     >
       {children}

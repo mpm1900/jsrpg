@@ -6,6 +6,7 @@ import {
 } from '../../types/Character'
 import { BASE_CHARACTER } from '../../objects/baseCharacter'
 import { usePartyContext } from '../PartyContext'
+import { RollStateContextProvider } from '../RollContext'
 
 export interface CharacterContextT {
   character: ProcessedCharacterT
@@ -38,7 +39,7 @@ export const CharacterContextProvider = (props: CharacterContextProviderT) => {
         onChange,
       }}
     >
-      {children}
+      <RollStateContextProvider>{children}</RollStateContextProvider>
     </CharacterContext.Provider>
   )
 }
@@ -51,10 +52,11 @@ export const CharacterStateContextProvider = (
   props: CharacterStateContextProviderPropsT,
 ) => {
   const { children, characterId } = props
-  const { rawUserParty, updateCharacter } = usePartyContext()
+  const { activeCharacterId, rawUserParty, updateCharacter } = usePartyContext()
   const character =
     rawUserParty.characters.find((c) => c.id === characterId) ||
-    rawUserParty.characters[0]
+    rawUserParty.characters.find((c) => c.id === activeCharacterId) ||
+    BASE_CHARACTER
   const onChange = (character: CharacterT) => {
     if (!character) return
     if ((character as ProcessedCharacterT).processed) {

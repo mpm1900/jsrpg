@@ -1,5 +1,5 @@
 import React from 'react'
-import { Switch, Link } from 'react-router-dom'
+import { Switch } from 'react-router-dom'
 
 import { CharacterStateContextProvider } from './contexts/CharacterContext'
 import { RollStateContextProvider } from './contexts/RollContext'
@@ -24,32 +24,30 @@ export const App = () => {
     >
       <PartyContextProvider>
         <CharacterStateContextProvider>
-          <RollStateContextProvider>
-            <CombatLogContextProvider>
-              <FlexContainer $full $direction='column'>
-                <AppHeader />
-                <FlexContainer $full style={{ height: 'calc(100% - 70px)' }}>
-                  <AppSidebar />
-                  <FlexContainer $full style={{ overflow: 'auto' }}>
-                    <Switch>
-                      {makeRoute('/battle', () => (
-                        <CombatContextProvider>
-                          <Combat />
-                        </CombatContextProvider>
-                      ))}
-                      {makeRoute('/characters/:id', () => (
-                        <Character />
-                      ))}
-                      {makeRoute('/', () => (
-                        <Character />
-                      ))}
-                    </Switch>
-                  </FlexContainer>
-                  <ApplicationLog />
+          <CombatLogContextProvider>
+            <FlexContainer $full $direction='column'>
+              <AppHeader />
+              <FlexContainer $full style={{ height: 'calc(100% - 70px)' }}>
+                <AppSidebar />
+                <FlexContainer $full style={{ overflow: 'auto' }}>
+                  <Switch>
+                    {makeRoute('/battle', () => (
+                      <CombatContextProvider>
+                        <Combat />
+                      </CombatContextProvider>
+                    ))}
+                    {makeRoute('/characters/:id', () => (
+                      <Character />
+                    ))}
+                    {makeRoute('/', () => (
+                      <Character />
+                    ))}
+                  </Switch>
                 </FlexContainer>
+                <ApplicationLog />
               </FlexContainer>
-            </CombatLogContextProvider>
-          </RollStateContextProvider>
+            </FlexContainer>
+          </CombatLogContextProvider>
         </CharacterStateContextProvider>
       </PartyContextProvider>
     </div>

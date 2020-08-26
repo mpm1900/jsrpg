@@ -5,8 +5,8 @@ import { CombatParty } from '../../components/CombatParty'
 
 export const Combat = () => {
   const {
-    userParty,
-    enemyParty,
+    rawUserParty,
+    rawEnemyParty,
     running,
     done,
     start,
@@ -15,7 +15,7 @@ export const Combat = () => {
   } = useCombatContext()
   return (
     <FlexContainer id='Combat' $full style={{ padding: 10 }}>
-      <CombatParty party={userParty} />
+      <CombatParty party={rawUserParty} />
       <FlexContainer $full $direction='column'>
         <div>
           {!done &&
@@ -27,7 +27,7 @@ export const Combat = () => {
           {done && <button onClick={() => reset()}>Reset</button>}
         </div>
       </FlexContainer>
-      <CombatParty party={enemyParty} />
+      <CombatParty party={rawEnemyParty} />
     </FlexContainer>
   )
 }

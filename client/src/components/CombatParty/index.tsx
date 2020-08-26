@@ -1,5 +1,5 @@
 import React from 'react'
-import { ProcessedPartyT } from '../../types/Party'
+import { ProcessedPartyT, PartyT } from '../../types/Party'
 import {
   CharacterContext,
   CharacterContextProvider,
@@ -8,7 +8,7 @@ import { usePartyContext } from '../../contexts/PartyContext'
 import { CharacterDetails } from '../CharacterDetails'
 
 export interface CombatPartyPropsT {
-  party: ProcessedPartyT
+  party: PartyT
 }
 export const CombatParty = (props: CombatPartyPropsT) => {
   const { party } = props

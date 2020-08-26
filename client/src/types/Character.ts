@@ -65,7 +65,6 @@ export interface CharacterT {
   traits: CharacterTraitT[]
   skills: CharacterSkillT[]
 
-  items: ItemT[]
   equippedItems: EquippableT[]
   armor: ArmorT[]
   weapon?: WeaponT
@@ -154,31 +153,6 @@ export const getDamageResistances = (
     },
     character.damageResistances,
   )
-}
-
-export const getAllEquippables = (
-  character: ProcessedCharacterT,
-): EquippableT[] => {
-  let result: EquippableT[] = (character.items as EquippableT[]).filter(
-    (i) => i.type,
-  )
-  result = [...result, ...character.armor]
-  if (character.weapon) result = [...result, character.weapon]
-  return result
-}
-
-export const getAllWeapons = (character: ProcessedCharacterT): WeaponT[] => {
-  let result: WeaponT[] = (character.items as WeaponT[]).filter(
-    (i) => i.type === 'weapon',
-  )
-  if (character.weapon) result = [...result, character.weapon]
-  return result
-}
-
-export const getAllArmor = (character: ProcessedCharacterT): ArmorT[] => {
-  let result: ArmorT[] = (character.items as ArmorT[]).filter((i) => i.type)
-  result = [...result, ...character.armor]
-  return result
 }
 
 export const processCharacter = (
@@ -317,10 +291,9 @@ export const CharacterStatsCostsMap: Record<CharacterSkillCheckKeyT, number> = {
 }
 
 export const canEquip = (character: CharacterT) => (
-  itemId: string,
+  item: EquippableT,
   withWeapon?: boolean,
 ): boolean => {
-  const item = character.items.find((item) => item.id === itemId) as EquippableT
   if (!item) return false
   if (!item.equippable) return false
   const equipable = item as EquippableT
@@ -328,11 +301,7 @@ export const canEquip = (character: CharacterT) => (
   if (!checkCharacter(processedCharacter)(equipable.requirementCheck).result)
     return false
   if (equipable.type === 'weapon' && character.weapon) {
-    if (
-      processedCharacter.resources[equipable.resource] + character.weapon.cost <
-      equipable.cost
-    )
-      return false
+    return false
   } else {
     if (processedCharacter.resources[equipable.resource] < equipable.cost)
       return false
@@ -341,10 +310,9 @@ export const canEquip = (character: CharacterT) => (
 }
 
 export const equipItem = (character: CharacterT) => (
-  itemId: string,
+  item: EquippableT,
 ): CharacterT => {
-  if (!canEquip(character)(itemId)) return character
-  const item = character.items.find((item) => item.id === itemId) as EquippableT
+  if (!canEquip(character)(item)) return character
   if (item.type === 'armor') return equipArmor(character)(item as ArmorT)
   if (item.type === 'weapon') return equipWeapon(character)(item as WeaponT)
   return equipGenericItem(character)(item)
@@ -352,14 +320,15 @@ export const equipItem = (character: CharacterT) => (
 
 export const unequipItem = (character: CharacterT) => (
   itemId: string,
-): CharacterT => {
+): [EquippableT | undefined, CharacterT] => {
   if (character.weapon?.id === itemId)
-    return validateCharacter(unequipWeapon(character))
+    return [character.weapon, validateCharacter(unequipWeapon(character))]
   const armor = character.armor.find((i) => i.id === itemId)
-  if (armor) return validateCharacter(unequipArmor(character)(armor))
+  if (armor) return [armor, validateCharacter(unequipArmor(character)(armor))]
   const item = character.equippedItems.find((i) => i.id === itemId)
-  if (item) return validateCharacter(unequipGenericItem(character)(item))
-  return character
+  if (item)
+    return [item, validateCharacter(unequipGenericItem(character)(item))]
+  return [undefined, character]
 }
 
 export const equipGenericItem = (character: CharacterT) => (
@@ -373,7 +342,6 @@ export const equipGenericItem = (character: CharacterT) => (
       [item.resource]: resourceValue - item.cost,
     },
     equippedItems: [...character.equippedItems, item],
-    items: character.items.filter((i) => i.id !== item.id),
   }
 }
 
@@ -389,7 +357,6 @@ export const unequipGenericItem = (character: CharacterT) => (
       [item.resource]: resourceValue + item.cost,
     },
     equippedItems: character.equippedItems.filter((i) => i.id !== item.id),
-    items: [...character.items, item],
   }
 }
 
@@ -404,7 +371,6 @@ export const equipArmor = (character: CharacterT) => (
       [item.resource]: resourceValue - item.cost,
     },
     armor: [...character.armor, item],
-    items: character.items.filter((i) => i.id !== item.id),
   }
 }
 
@@ -420,7 +386,6 @@ export const unequipArmor = (character: CharacterT) => (
       [item.resource]: resourceValue + item.cost,
     },
     armor: character.armor.filter((i) => i.id !== item.id),
-    items: [...character.items, item],
   }
 }
 
@@ -430,7 +395,6 @@ export const equipWeapon = (character: CharacterT) => (
   if (item.type !== 'weapon') return character
   let weapon = character.weapon
   if (weapon?.id === FISTS.id) weapon = undefined
-  const items = character.items.filter((i) => i.id !== item.id)
   return {
     ...character,
     resources: {
@@ -441,7 +405,6 @@ export const equipWeapon = (character: CharacterT) => (
         (weapon ? weapon.cost : 0),
     },
     weapon: item,
-    items: weapon ? [...items, weapon] : items,
   }
 }
 
@@ -454,10 +417,6 @@ export const unequipWeapon = (character: CharacterT): CharacterT => {
       weaponHands: character.resources.weaponHands + character.weapon.cost,
     },
     weapon: undefined,
-    items:
-      character.weapon.id === FISTS.id
-        ? character.items
-        : [...character.items, character.weapon],
   }
 }
 
@@ -524,16 +483,16 @@ export const validateCharacter = (character: CharacterT): CharacterT => {
   const checker = checkCharacter(pc)
   let result = character
   if (!checker(pc.weapon.requirementCheck).result) {
-    result = unequipItem(result)(pc.weapon.id)
+    result = unequipItem(result)(pc.weapon.id)[1]
   }
   pc.armor.forEach((i) => {
     if (!checker(i.requirementCheck).result) {
-      result = unequipItem(character)(i.id)
+      result = unequipItem(character)(i.id)[1]
     }
   })
   pc.equippedItems.forEach((i) => {
     if (!checker(i.requirementCheck).result) {
-      result = unequipItem(character)(i.id)
+      result = unequipItem(character)(i.id)[1]
     }
   })
   return result

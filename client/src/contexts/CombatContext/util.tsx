@@ -57,7 +57,6 @@ export const getCombatRecordBuilder = (
       const bCharacters = processParty(partyB).characters.filter((c) => !c.dead)
       const target = getRandom(bCharacters)
       if (target) {
-        console.log(character.name, bCharacters, target)
         result = {
           ...result,
           [character.id]: {

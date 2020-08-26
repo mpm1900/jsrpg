@@ -8,7 +8,7 @@ import {
   ItemTypeT,
   ItemRarityT,
 } from '../../types/Item'
-import { CharacterT, canEquip, equipItem } from '../../types/Character'
+import { CharacterT, canEquip } from '../../types/Character'
 import { WeaponIcon } from '../WeaponIcon'
 import { WeaponT } from '../../types/Weapon'
 import { BoxContainer } from '../../elements/box'
@@ -20,9 +20,11 @@ import { EquipedWeaponCompare } from '../WeaponCompare'
 import { ItemIcon } from '../ItemIcon'
 import { EquipeItemCompare } from '../ItemCompare'
 import { CharacterItemFilters } from '../CharacterItemFilters'
+import { usePartyContext } from '../../contexts/PartyContext'
 
 export const CharacterItems = () => {
-  const { character, rawCharacter, onChange } = useCharacterContext()
+  const { rawCharacter } = useCharacterContext()
+  const { userParty, equipItem } = usePartyContext()
   const [itemType, setItemType] = useState<ItemTypeT | undefined>()
   const [itemRarity, setItemRarity] = useState<ItemRarityT | undefined>()
   return (
@@ -44,7 +46,7 @@ export const CharacterItems = () => {
             width: 400,
           }}
         >
-          {character.items
+          {userParty.items
             .filter((i) => {
               let ret = true
               if (itemType) ret = ret && (i as EquippableT).type === itemType
@@ -56,7 +58,7 @@ export const CharacterItems = () => {
                 key={item.id}
                 item={item}
                 rawCharacter={rawCharacter}
-                onEquip={(id) => onChange(equipItem(rawCharacter)(id))}
+                onEquip={(id) => equipItem(rawCharacter.id, id)}
               />
             ))}
         </FlexContainer>
@@ -78,7 +80,7 @@ const Item = (props: ItemPropsT) => {
   const isArmor = type === 'armor'
   const isWeapon = type === 'weapon'
   const canEquipItem = useMemo(
-    () => canEquip(rawCharacter)(item.id, !isWeapon),
+    () => canEquip(rawCharacter)(item as EquippableT, !isWeapon),
     [item, rawCharacter, isWeapon],
   )
   const iconSize = 18

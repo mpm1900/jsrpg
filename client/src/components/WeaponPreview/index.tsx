@@ -8,17 +8,14 @@ import { DamageRollScores, DamageRollScore } from '../DamageRollScores'
 import { BoxContainer, BoxButton } from '../../elements/box'
 import { FlexContainer, FullContainer } from '../../elements/flex'
 import { WeaponIcon } from '../WeaponIcon'
-import {
-  combineTraits,
-  CharacterSkillCheckKeyT,
-  unequipItem,
-} from '../../types/Character'
+import { combineTraits, CharacterSkillCheckKeyT } from '../../types/Character'
 import { CompareResultFn, ZERO_COMPARE, BASE_ARGS } from '../../util/compare'
 import { DamageTypeKeyT } from '../../types/Damage'
 import { Icon } from '../Icon'
 import { IconCharacterResourceMap } from '../../icons/maps'
 import { FISTS } from '../../objects/fists'
 import { ItemRarityColorMap } from '../../types/Item'
+import { usePartyContext } from '../../contexts/PartyContext'
 
 export interface WeaponPreviewPropsT {
   weapon?: WeaponT
@@ -32,6 +29,7 @@ export interface WeaponPreviewPropsT {
 }
 export const WeaponPreview = (props: WeaponPreviewPropsT) => {
   const { character, rawCharacter, onChange } = useCharacterContext()
+  const { unequipItem } = usePartyContext()
   const { showEquipButton = true, showRequirement = true } = props
   const weapon = props.weapon || character.weapon
   const rarityColor = ItemRarityColorMap[weapon.rarity]
@@ -61,7 +59,7 @@ export const WeaponPreview = (props: WeaponPreviewPropsT) => {
               alignItems: 'center',
               justifyContent: 'center',
             }}
-            onClick={() => onChange(unequipItem(rawCharacter)(weapon.id))}
+            onClick={() => unequipItem(rawCharacter.id, weapon.id)}
           >
             <Icon
               src={IconCharacterResourceMap[weapon.resource]}

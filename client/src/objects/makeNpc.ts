@@ -77,7 +77,6 @@ export const makeNpc = (
 
     traits: [],
     skills: [],
-    items: [],
     equippedItems: [],
     armor: [
       buildArmor('cowl'),

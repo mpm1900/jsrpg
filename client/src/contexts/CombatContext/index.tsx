@@ -5,7 +5,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import { ProcessedPartyT } from '../../types/Party'
+import { ProcessedPartyT, PartyT } from '../../types/Party'
 import { usePartyContext } from '../PartyContext'
 import { makeParty } from '../../objects/makeParty'
 import { v4 } from 'uuid'
@@ -24,7 +24,9 @@ import { useCombatLogContext } from '../CombatLogContext'
 export interface CombatContextT {
   rounds: any[]
   userParty: ProcessedPartyT
+  rawUserParty: PartyT
   enemyParty: ProcessedPartyT
+  rawEnemyParty: PartyT
   parties: ProcessedPartyT[]
   running: boolean
   done: boolean
@@ -37,7 +39,9 @@ export interface CombatContextT {
 const defaultContextValue: CombatContextT = {
   rounds: [],
   userParty: { id: v4(), characters: [], processed: true, items: [] },
+  rawUserParty: { id: v4(), characters: [], items: [] },
   enemyParty: { id: v4(), characters: [], processed: true, items: [] },
+  rawEnemyParty: { id: v4(), characters: [], items: [] },
   parties: [],
   running: false,
   done: false,
@@ -64,7 +68,7 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
     updateCharacter,
   } = usePartyContext()
   const { checkCharacter, basicRollCharacter } = useRollContext()
-  const { lines, addLine, clear } = useCombatLogContext()
+  const { lines, addLine } = useCombatLogContext()
   const [rounds, setRounds] = useState<CombatRoundT[]>([])
   const [running, setRunning] = useState<boolean>(false)
   const [done, setDone] = useState(false)
@@ -95,10 +99,12 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
       intervalRef.current = null
     }
   }
-  const reset = () => {
-    addLine(<strong style={{ color: 'turquoise' }}>Combat: {v4()}</strong>)
+  const reset = (log: boolean = true) => {
+    if (log)
+      addLine(<strong style={{ color: 'turquoise' }}>Combat: {v4()}</strong>)
     setDone(false)
     setRounds([])
+    setLastRoundId('')
     upsertParty(makeParty(ENEMY_PARTY_ID))
     upsertParty({
       ...rawUserParty,
@@ -115,6 +121,7 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
     reset()
     return () => {
       stop()
+      reset(false)
     }
   }, [])
 
@@ -179,7 +186,7 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
   }, [rounds])
 
   useEffect(() => {
-    start()
+    if (lastRoundId) start()
   }, [lastRoundId])
 
   return (
@@ -187,7 +194,9 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
       value={{
         rounds,
         userParty,
+        rawUserParty,
         enemyParty,
+        rawEnemyParty,
         parties,
         running,
         done,

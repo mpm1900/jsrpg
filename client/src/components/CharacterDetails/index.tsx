@@ -18,6 +18,7 @@ export interface CharacterDetailsPropsT {
 export const CharacterDetails = (props: CharacterDetailsPropsT) => {
   const characterContext = useCharacterContext()
   const character = props.character || characterContext.character
+  console.log('character', character)
   const [detailsHovering, setDetailsHovering] = useState(false)
   const [weaponHovering, setWeaponHovering] = useState(false)
   const health = character.stats.health - character.healthOffset
