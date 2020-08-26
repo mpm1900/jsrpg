@@ -71,6 +71,8 @@ export interface CharacterT {
   weapon?: WeaponT
 
   healthOffset: number
+  partyId?: string
+  dead: boolean
 }
 export interface ProcessedCharacterT extends CharacterT {
   stats: CharacterStatsT
@@ -184,7 +186,7 @@ export const processCharacter = (
   withWeapon: boolean = true,
 ): ProcessedCharacterT => {
   if ((character as ProcessedCharacterT).processed)
-    throw new Error('Bad Character')
+    return character as ProcessedCharacterT
   character = withWeapon
     ? character
     : {

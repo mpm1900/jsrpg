@@ -1,7 +1,9 @@
 import { CharacterT } from '../types/Character'
 import { RollResultT } from '../types/Roll'
+import { PartyT } from '../types/Party'
 
 export interface StateT {
+  parties: PartyT[]
   characters: CharacterT[]
   rolls: RollResultT[]
 }

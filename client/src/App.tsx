@@ -8,10 +8,13 @@ import { Character } from './domain'
 
 import { FlexContainer } from './elements/flex'
 import { ApplicationLog } from './components/ApplicationLog'
-import { AttackContextProvider } from './contexts/AttackContext'
-import { BoxContainer } from './elements/box'
 import { makeRoute } from './routes'
-import { Battle } from './domain/Battle'
+import { PartyContextProvider } from './contexts/PartyContext'
+import { AppSidebar } from './components/AppSidebar'
+import { Combat } from './domain/Combat'
+import { CombatContextProvider } from './contexts/CombatContext'
+import { AppHeader } from './components/AppHeader'
+import { CombatLogContextProvider } from './contexts/CombatLogContext'
 
 export const App = () => {
   return (
@@ -19,78 +22,36 @@ export const App = () => {
       className='App'
       style={{ height: '100%', width: '100%', display: 'flex' }}
     >
-      <CharacterStateContextProvider characterId='base'>
-        <RollStateContextProvider>
-          <AttackContextProvider>
-            <FlexContainer $full $direction='column'>
-              <BoxContainer
-                substyle={{
-                  height: 64,
-                  padding: 0,
-                  alignItems: 'center',
-                  display: 'flex',
-                }}
-              >
-                <div
-                  style={{
-                    fontFamily: 'monospace',
-                    fontSize: 24,
-                    margin: '0 30px',
-                  }}
-                >
-                  rpgjs
-                </div>
-                <BoxContainer
-                  tag={Link}
-                  to=''
-                  style={{
-                    height: '100%',
-                  }}
-                  substyle={{
-                    padding: '0 20px',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    backgroundColor: '#111',
-                    boxShadow: 'inset 0 0 3px black',
-                  }}
-                >
-                  character
-                </BoxContainer>
-                <BoxContainer
-                  tag={Link}
-                  to='/battle'
-                  style={{
-                    height: '100%',
-                  }}
-                  substyle={{
-                    padding: '0 20px',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    backgroundColor: '#333',
-                  }}
-                >
-                  battle
-                </BoxContainer>
-              </BoxContainer>
-              <FlexContainer $full style={{ height: 'calc(100% - 70px)' }}>
-                <FlexContainer $full style={{ overflow: 'auto' }}>
-                  <Switch>
-                    {makeRoute('/battle', () => (
-                      <Battle />
-                    ))}
-                    {makeRoute('/', () => (
-                      <Character />
-                    ))}
-                  </Switch>
+      <PartyContextProvider>
+        <CharacterStateContextProvider>
+          <RollStateContextProvider>
+            <CombatLogContextProvider>
+              <FlexContainer $full $direction='column'>
+                <AppHeader />
+                <FlexContainer $full style={{ height: 'calc(100% - 70px)' }}>
+                  <AppSidebar />
+                  <FlexContainer $full style={{ overflow: 'auto' }}>
+                    <Switch>
+                      {makeRoute('/battle', () => (
+                        <CombatContextProvider>
+                          <Combat />
+                        </CombatContextProvider>
+                      ))}
+                      {makeRoute('/characters/:id', () => (
+                        <Character />
+                      ))}
+                      {makeRoute('/', () => (
+                        <Character />
+                      ))}
+                    </Switch>
+                  </FlexContainer>
+                  <ApplicationLog />
                 </FlexContainer>
-                <ApplicationLog />
               </FlexContainer>
-            </FlexContainer>
-          </AttackContextProvider>
-        </RollStateContextProvider>
-      </CharacterStateContextProvider>
+            </CombatLogContextProvider>
+          </RollStateContextProvider>
+        </CharacterStateContextProvider>
+      </PartyContextProvider>
     </div>
   )
 }

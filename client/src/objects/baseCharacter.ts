@@ -6,6 +6,7 @@ import makeItem, { makeWeapon } from './builders/makeItem'
 import { buildArmor } from './builders/armor/createArmor'
 import { getRandom } from '../util/getRandom'
 import { buildWeapon } from './builders/weapons/createWeapon'
+import { v4 } from 'uuid'
 /*
 import { Config, adjectives, names } from 'unique-names-generator'
 
@@ -17,8 +18,8 @@ const config: Config = {
 */
 
 export const BASE_CHARACTER: CharacterT = {
-  name: 'base character v0.0.1', //uniqueNamesGenerator(config),
-  id: 'base',
+  name: 'base character', //uniqueNamesGenerator(config),
+  id: v4(),
   power: 600,
   resources: {
     characterPoints: 250,
@@ -89,4 +90,5 @@ export const BASE_CHARACTER: CharacterT = {
   ),
 
   healthOffset: 0,
+  dead: false,
 }

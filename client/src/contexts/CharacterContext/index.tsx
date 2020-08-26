@@ -5,8 +5,7 @@ import {
   processCharacter,
 } from '../../types/Character'
 import { BASE_CHARACTER } from '../../objects/baseCharacter'
-import { useCharacters, actionCreators } from '../../state/characters'
-import { useDispatch } from 'react-redux'
+import { usePartyContext } from '../PartyContext'
 
 export interface CharacterContextT {
   character: ProcessedCharacterT
@@ -46,20 +45,22 @@ export const CharacterContextProvider = (props: CharacterContextProviderT) => {
 
 export interface CharacterStateContextProviderPropsT {
   children: any
-  characterId: string
+  characterId?: string
 }
 export const CharacterStateContextProvider = (
   props: CharacterStateContextProviderPropsT,
 ) => {
   const { children, characterId } = props
-  const characters = useCharacters()
-  const dispatch = useDispatch()
-  const character = characters.find((c) => c.id === characterId)
+  const { rawUserParty, updateCharacter } = usePartyContext()
+  const character =
+    rawUserParty.characters.find((c) => c.id === characterId) ||
+    rawUserParty.characters[0]
   const onChange = (character: CharacterT) => {
+    if (!character) return
     if ((character as ProcessedCharacterT).processed) {
       throw new Error('no process characters allowed')
     }
-    dispatch(actionCreators.updateCharacter(character))
+    updateCharacter(character)
   }
   return (
     <CharacterContextProvider

@@ -5,6 +5,7 @@ import {
   basicRollCharacter,
   ProcessedCharacterT,
   getCharacterCheckProbability,
+  CharacterT,
 } from '../../types/Character'
 import { useCharacterContext } from '../CharacterContext'
 import { useRolls, actionCreators } from '../../state/rolls'
@@ -97,18 +98,19 @@ export const RollContextProvider = (props: RollContextProviderPropsT) => {
 
 export interface RollStateContextProviderPropsT {
   children: any
+  character?: ProcessedCharacterT
 }
 export const RollStateContextProvider = (
   props: RollStateContextProviderPropsT,
 ) => {
-  const { children } = props
+  const { children, character } = props
   const rolls = useRolls()
   const dispatch = useDispatch()
   const addRoll = (roll: RollResultT) => {
     dispatch(actionCreators.addRoll(roll))
   }
   return (
-    <RollContextProvider rolls={rolls} addRoll={addRoll}>
+    <RollContextProvider rolls={rolls} addRoll={addRoll} character={character}>
       {children}
     </RollContextProvider>
   )

@@ -17,8 +17,8 @@ import { getRandom } from '../util/getRandom'
 import { buildArmor } from './builders/armor/createArmor'
 
 const randomNameConfig: Config = {
-  dictionaries: [adjectives, adjectives, animals],
-  length: 3,
+  dictionaries: [adjectives, animals],
+  length: 2,
   separator: ' ',
 }
 
@@ -87,5 +87,6 @@ export const makeNpc = (
     ],
 
     healthOffset: 0,
+    dead: false,
   }
 }

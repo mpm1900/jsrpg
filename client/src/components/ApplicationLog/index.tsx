@@ -29,7 +29,7 @@ export const options: any[] = [
 
 export interface ApplicationLogPropsT {}
 export const ApplicationLog = (props: ApplicationLogPropsT) => {
-  const [activeKey, _setActiveKey] = useState<string | null>('items')
+  const [activeKey, _setActiveKey] = useState<string | null>(null)
   const setActiveKey = (key: string) => {
     if (key === activeKey) {
       _setActiveKey(null)

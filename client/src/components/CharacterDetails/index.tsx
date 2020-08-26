@@ -10,6 +10,7 @@ import { CharacterInspect } from '../CharacterInspect'
 import { Icon } from '../Icon'
 import { ProcessedCharacterT } from '../../types/Character'
 import { WeaponPreview } from '../WeaponPreview'
+import Tombstone from '../../icons/svg/lorc/tombstone.svg'
 
 export interface CharacterDetailsPropsT {
   character?: ProcessedCharacterT
@@ -29,11 +30,17 @@ export const CharacterDetails = (props: CharacterDetailsPropsT) => {
               style={{ marginRight: 10, height: 64, width: 64 }}
               substyle={{ padding: 0 }}
             >
-              <img
-                alt='profile'
-                src='https://picsum.photos/60/60'
-                style={{ height: 60, width: 60 }}
-              />
+              {character.dead ? (
+                <div>
+                  <Icon src={Tombstone} size={48} />
+                </div>
+              ) : (
+                <img
+                  alt='profile'
+                  src='https://picsum.photos/60/60'
+                  style={{ height: 60, width: 60 }}
+                />
+              )}
             </BoxContainer>
             <FlexContainer $direction='column'>
               <h2 style={{ margin: 0 }}>{character.name}</h2>

@@ -1,6 +1,6 @@
 import React from 'react'
-import { useAttackContext } from '../../contexts/AttackContext'
 import { FlexContainer } from '../../elements/flex'
+import { useCombatLogContext } from '../../contexts/CombatLogContext'
 
 interface FPPropT {
   text?: string
@@ -13,7 +13,8 @@ const F = ({ text }: FPPropT) => (
 )
 
 export const AttackLog = () => {
-  const { attackResults, clear } = useAttackContext()
+  // const { attackResults, clear } = useAttackContext()
+  const { lines, clear } = useCombatLogContext()
   return (
     <FlexContainer
       $direction='column'
@@ -23,42 +24,18 @@ export const AttackLog = () => {
       <button onClick={clear} style={{ marginBottom: 20 }}>
         Clear Log
       </button>
-
-      <FlexContainer $direction='column-reverse'>
-        {attackResults.map((attackResult) => (
-          <div key={attackResult.id} style={{ marginBottom: 10 }}>
-            <pre> {attackResult.label ? attackResult.label : 'ATTACK'}</pre>
-            <pre>
-              {`  [`}
-              {attackResult.hitSuccess ? (
-                <P text='HIT SUCCESS' />
-              ) : (
-                <F text='ATTACK MISSED' />
-              )}
-              {`] `}
-            </pre>
-            {attackResult.criticalSuccess && (
-              <pre>
-                {`  [`}
-                <P text='CRITICAL HIT SUCCESS' />
-                {`] `}
-              </pre>
-            )}
-            {attackResult.dodgeSuccess && (
-              <pre>
-                {`  [`}
-                <F text='DODGE SUCCESS' />
-                {`] `}
-              </pre>
-            )}
-            {attackResult.rawDamage > 0 && (
-              <pre>
-                {`  [`}
-                {`DAMAGE:   \t ${attackResult.totalDamage} = ${attackResult.rawDamage} - ${attackResult.blockedDamage}`}
-                {`] `}
-              </pre>
-            )}
-          </div>
+      <FlexContainer
+        $direction='column'
+        $full
+        style={{
+          color: 'white',
+          background: '#111',
+          width: 380,
+          overflowX: 'auto',
+        }}
+      >
+        {lines.map((l, i) => (
+          <pre key={i}>{l}</pre>
         ))}
       </FlexContainer>
     </FlexContainer>
