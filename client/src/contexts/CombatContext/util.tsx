@@ -1,7 +1,11 @@
 import React from 'react'
 import { ProcessedPartyT, PartyT, processParty } from '../../types/Party'
 import { getRandom } from '../../util/getRandom'
-import { ProcessedCharacterT, CharacterT } from '../../types/Character'
+import {
+  ProcessedCharacterT,
+  CharacterT,
+  processCharacter,
+} from '../../types/Character'
 import { RollCheckerT } from '../RollContext'
 import { RollCheckT, RollResultT } from '../../types/Roll'
 import { rollDamage, getDamageTypeKeys } from '../../types/Damage'
@@ -129,6 +133,49 @@ export const execAttack = (
     }
   }
   return attackResult
+}
+
+export const resolveRound = (
+  rounds: CombatRoundT[],
+  rawUserParty: PartyT,
+  rawEnemyParty: PartyT,
+  addLine: (line: React.ReactNode) => void,
+  updateCharacter: (character: CharacterT, partyId?: string) => void,
+) => {
+  if (rounds.length === 0) return
+  if (!rawUserParty || !rawEnemyParty) return
+  let rawCharacters = [...rawUserParty.characters, ...rawEnemyParty.characters]
+  const getCharacters = () => rawCharacters.map((c) => processCharacter(c))
+  const localUpdate = (character: CharacterT) => {
+    rawCharacters = rawCharacters.map((c) =>
+      c.id === character.id ? character : c,
+    )
+  }
+  const round = rounds[rounds.length - 1]
+  addLine(
+    <span style={{ color: 'lightblue' }}>{`ROUND ${rounds.length}`}</span>,
+  )
+  Object.values(round)
+    .sort((a, b) => a.index - b.index)
+    .forEach((attackResult) => {
+      const characters = getCharacters()
+      const source = characters.find((c) => c.id === attackResult.sourceId)
+      const target = characters.find((c) => c.id === attackResult.targetId)
+      const rawTarget = rawCharacters.find(
+        (c) => c.id === attackResult.targetId,
+      )
+      if (!source || !rawTarget || !target) return
+      if (!source.dead && !target.dead) {
+        logResult(attackResult, source, target, addLine)
+        const healthOffset = rawTarget.healthOffset + attackResult.totalDamage
+        localUpdate({
+          ...rawTarget,
+          dead: healthOffset >= target.stats.health,
+          healthOffset,
+        })
+      }
+    })
+  rawCharacters.forEach((c) => updateCharacter(c, c.partyId))
 }
 
 export const logResult = (

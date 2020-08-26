@@ -1,12 +1,13 @@
 import React, { useState, useMemo } from 'react'
 import { usePartyContext } from '../../contexts/PartyContext'
 import { ProcessedCharacterT } from '../../types/Character'
-import { BoxContainer } from '../../elements/box'
+import { BoxContainer, BoxButton } from '../../elements/box'
 
 import CharactersIcon from '../../icons/svg/lorc/two-shadows.svg'
 import { Icon } from '../Icon'
 import { FlexContainer } from '../../elements/flex'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
+import { makeCharacter } from '../../objects/makeCharacter'
 
 interface AppSideOptionT {
   key: string
@@ -89,7 +90,8 @@ export const AppSidebar = () => {
 }
 
 const AppSidebarCharacters = () => {
-  const { userParty } = usePartyContext()
+  const { userParty, upsertCharacter } = usePartyContext()
+  const history = useHistory()
   return (
     <FlexContainer $direction='column'>
       {userParty.characters.map((character: ProcessedCharacterT) => (
@@ -103,6 +105,17 @@ const AppSidebarCharacters = () => {
           {character.name}
         </Link>
       ))}
+      {userParty.characters.length < 4 && (
+        <BoxButton
+          onClick={() => {
+            const newCharacter = makeCharacter('new character')
+            upsertCharacter(newCharacter)
+            history.push(`/characters/${newCharacter.id}`)
+          }}
+        >
+          Add New Character
+        </BoxButton>
+      )}
     </FlexContainer>
   )
 }

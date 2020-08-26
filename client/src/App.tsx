@@ -2,7 +2,6 @@ import React from 'react'
 import { Switch } from 'react-router-dom'
 
 import { CharacterStateContextProvider } from './contexts/CharacterContext'
-import { RollStateContextProvider } from './contexts/RollContext'
 
 import { Character } from './domain'
 
@@ -15,41 +14,41 @@ import { Combat } from './domain/Combat'
 import { CombatContextProvider } from './contexts/CombatContext'
 import { AppHeader } from './components/AppHeader'
 import { CombatLogContextProvider } from './contexts/CombatLogContext'
+import { ModalContextProvider } from './contexts/ModalContext'
 
 export const App = () => {
   return (
-    <div
-      className='App'
-      style={{ height: '100%', width: '100%', display: 'flex' }}
-    >
-      <PartyContextProvider>
-        <CharacterStateContextProvider>
-          <CombatLogContextProvider>
-            <FlexContainer $full $direction='column'>
-              <AppHeader />
-              <FlexContainer $full style={{ height: 'calc(100% - 70px)' }}>
-                <AppSidebar />
-                <FlexContainer $full style={{ overflow: 'auto' }}>
-                  <Switch>
-                    {makeRoute('/battle', () => (
-                      <CombatContextProvider>
-                        <Combat />
-                      </CombatContextProvider>
-                    ))}
-                    {makeRoute('/characters/:id', () => (
-                      <Character />
-                    ))}
-                    {makeRoute('/', () => (
-                      <Character />
-                    ))}
-                  </Switch>
+    <div style={{ height: '100%', width: '100%', display: 'flex' }}>
+      <ModalContextProvider>
+        <PartyContextProvider>
+          <CharacterStateContextProvider>
+            <CombatLogContextProvider>
+              <FlexContainer $full $direction='column'>
+                <AppHeader />
+                <FlexContainer $full style={{ height: 'calc(100% - 70px)' }}>
+                  <AppSidebar />
+                  <FlexContainer $full style={{ overflow: 'auto' }}>
+                    <Switch>
+                      {makeRoute('/battle', () => (
+                        <CombatContextProvider>
+                          <Combat />
+                        </CombatContextProvider>
+                      ))}
+                      {makeRoute('/characters/:id', () => (
+                        <Character />
+                      ))}
+                      {makeRoute('/', () => (
+                        <Character />
+                      ))}
+                    </Switch>
+                  </FlexContainer>
+                  <ApplicationLog />
                 </FlexContainer>
-                <ApplicationLog />
               </FlexContainer>
-            </FlexContainer>
-          </CombatLogContextProvider>
-        </CharacterStateContextProvider>
-      </PartyContextProvider>
+            </CombatLogContextProvider>
+          </CharacterStateContextProvider>
+        </PartyContextProvider>
+      </ModalContextProvider>
     </div>
   )
 }

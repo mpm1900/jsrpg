@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 import { ProcessedPartyT, PartyT } from '../../types/Party'
 import { usePartyContext } from '../PartyContext'
 import { makeParty } from '../../objects/makeParty'
@@ -15,11 +9,13 @@ import {
   getCombatRecordBuilder,
   CombatRoundT,
   ENEMY_PARTY_ID,
-  logResult,
   checkParty,
+  resolveRound,
 } from './util'
-import { CharacterT, processCharacter } from '../../types/Character'
 import { useCombatLogContext } from '../CombatLogContext'
+import { useInterval } from '../../hooks/useInterval'
+import { useRefresh } from '../../hooks/useRefresh'
+import { useModalContext } from '../ModalContext'
 
 export interface CombatContextT {
   rounds: any[]
@@ -30,7 +26,6 @@ export interface CombatContextT {
   parties: ProcessedPartyT[]
   running: boolean
   done: boolean
-  log: React.ReactNode[]
   setAction: (characterId: string, actionId: string) => void
   start: () => void
   stop: () => void
@@ -45,7 +40,6 @@ const defaultContextValue: CombatContextT = {
   parties: [],
   running: false,
   done: false,
-  log: [],
   setAction: (characterId, actionId) => {},
   start: () => {},
   stop: () => {},
@@ -65,46 +59,31 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
     userParty,
     rawUserParty,
     upsertParty,
-    updateCharacter,
+    upsertCharacter,
   } = usePartyContext()
   const { checkCharacter, basicRollCharacter } = useRollContext()
-  const { lines, addLine } = useCombatLogContext()
+  const { addLine } = useCombatLogContext()
   const [rounds, setRounds] = useState<CombatRoundT[]>([])
-  const [running, setRunning] = useState<boolean>(false)
   const [done, setDone] = useState(false)
-  const [lastRoundId, setLastRoundId] = useState<string>('')
   const rawEnemyParty = rawParties.filter((p) => p.id === ENEMY_PARTY_ID)[0]
   const enemyParty = parties.filter((p) => p.id === ENEMY_PARTY_ID)[0]
+  const [guid, refresh] = useRefresh()
+  const { open } = useModalContext()
 
-  const intervalRef = useRef<NodeJS.Timeout | null>(null)
-  const start = () => {
+  const { start, stop, running } = useInterval(() => {
     if (!enemyParty || !userParty) return
-    if (intervalRef.current === null) {
-      setRunning(true)
-      intervalRef.current = setInterval(() => {
-        const builder = getCombatRecordBuilder(
-          checkCharacter,
-          basicRollCharacter,
-        )
-        console.log('ROUND', rounds.length + 1)
-        const round = builder(userParty, enemyParty, rawParties)
-        setRounds((r) => [...r, round])
-      }, 1000)
-    }
-  }
-  const stop = () => {
-    if (intervalRef.current !== null) {
-      setRunning(false)
-      clearInterval(intervalRef.current)
-      intervalRef.current = null
-    }
-  }
+    const builder = getCombatRecordBuilder(checkCharacter, basicRollCharacter)
+    const round = builder(userParty, enemyParty, rawParties)
+    setRounds((r) => [...r, round])
+  })
+
   const reset = (log: boolean = true) => {
-    if (log)
+    if (log) {
       addLine(<strong style={{ color: 'turquoise' }}>Combat: {v4()}</strong>)
+    }
     setDone(false)
     setRounds([])
-    setLastRoundId('')
+    refresh(true)
     upsertParty(makeParty(ENEMY_PARTY_ID))
     upsertParty({
       ...rawUserParty,
@@ -118,7 +97,14 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
   }
 
   useEffect(() => {
-    reset()
+    upsertParty(makeParty(ENEMY_PARTY_ID))
+    upsertParty({
+      ...rawUserParty,
+      characters: rawUserParty.characters.map((c) => ({
+        ...c,
+        partyId: PC_PARTY_ID,
+      })),
+    })
     return () => {
       stop()
       reset(false)
@@ -126,7 +112,7 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
   }, [])
 
   const finish = (text: string) => {
-    alert(text)
+    open(() => <h1>{text}</h1>)
     stop()
     setDone(true)
   }
@@ -144,50 +130,14 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
   }, [enemyParty])
 
   useEffect(() => {
-    if (rounds.length === 0) return
-    if (!rawUserParty || !rawEnemyParty) return
-    let rawCharacters = [
-      ...rawUserParty.characters,
-      ...rawEnemyParty.characters,
-    ]
-    const getCharacters = () => rawCharacters.map((c) => processCharacter(c))
-    const localUpdate = (character: CharacterT) => {
-      rawCharacters = rawCharacters.map((c) =>
-        c.id === character.id ? character : c,
-      )
-    }
-    const round = rounds[rounds.length - 1]
-    addLine(
-      <span style={{ color: 'lightblue' }}>{`ROUND ${rounds.length}`}</span>,
-    )
-    Object.values(round)
-      .sort((a, b) => a.index - b.index)
-      .forEach((attackResult) => {
-        const characters = getCharacters()
-        const source = characters.find((c) => c.id === attackResult.sourceId)
-        const target = characters.find((c) => c.id === attackResult.targetId)
-        const rawTarget = rawCharacters.find(
-          (c) => c.id === attackResult.targetId,
-        )
-        if (!source || !rawTarget || !target) return
-        if (!source.dead && !target.dead) {
-          logResult(attackResult, source, target, addLine)
-          const healthOffset = rawTarget.healthOffset + attackResult.totalDamage
-          localUpdate({
-            ...rawTarget,
-            dead: healthOffset >= target.stats.health,
-            healthOffset,
-          })
-        }
-      })
-    rawCharacters.forEach((c) => updateCharacter(c, c.partyId))
+    resolveRound(rounds, rawUserParty, rawEnemyParty, addLine, upsertCharacter)
     stop()
-    setLastRoundId(v4())
+    refresh()
   }, [rounds])
 
   useEffect(() => {
-    if (lastRoundId) start()
-  }, [lastRoundId])
+    if (guid) start()
+  }, [guid])
 
   return (
     <CombatContext.Provider
@@ -200,7 +150,6 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
         parties,
         running,
         done,
-        log: lines,
         setAction: (characterId, actionId) => {},
         start,
         stop,

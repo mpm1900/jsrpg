@@ -20,6 +20,7 @@ import { makeCharacter } from '../../objects/makeCharacter'
 
 export const UPSERT_PARTY = '@actions/parties/upsert-party'
 export const UPSERT_CHARACTER = '@actions/parties/upsert-character'
+export const DELETE_CHARACTER = '@actions/parties/delete-character'
 export const UPSERT_ITEM = '@actions/parties/upsert-item'
 export const DELETE_ITEM = '@actions/parties/delete-item'
 
@@ -36,6 +37,15 @@ export const actionCreators = {
       payload: {
         partyId,
         character,
+      },
+    }
+  },
+  deleteCharacter: (partyId: string, characterId: string) => {
+    return {
+      type: DELETE_CHARACTER,
+      payload: {
+        partyId,
+        characterId,
       },
     }
   },
@@ -67,6 +77,11 @@ export const actions = {
     dispatch: Dispatch,
   ) => {
     dispatch(actionCreators.upsertCharacter(partyId, character))
+  },
+  deleteCharacter: (partyId: string, characterId: string) => (
+    dispatch: Dispatch,
+  ) => {
+    dispatch(actionCreators.deleteCharacter(partyId, characterId))
   },
   upsertItem: (partyId: string, item: ItemT) => (dispatch: Dispatch) => {
     dispatch(actionCreators.upsertItem(partyId, item))
@@ -114,6 +129,14 @@ export const core: StateCoreT<PartyT[]> = {
       characters: upsertIn(party.characters, action.payload.character),
     }))
   },
+  [DELETE_CHARACTER]: (state, action) => {
+    return updateIn(state, action.payload.partyId, (party) => ({
+      ...party,
+      characters: party.characters.filter(
+        (c) => c.id !== action.payload.characterId,
+      ),
+    }))
+  },
   [UPSERT_ITEM]: (state, action) => {
     return updateIn(state, action.payload.partyId, (party) => ({
       ...party,
@@ -148,6 +171,7 @@ export const usePartiesActions = () =>
   useActions(actions) as {
     upsertParty: (party: PartyT) => void
     upsertCharacter: (partyId: string, character: CharacterT) => void
+    deleteCharacter: (partyId: string, characterId: string) => void
     upsertItem: (partyId: string, item: ItemT) => void
     removeItem: (partyId: string, itemId: string) => void
     equipItem: (partyId: string, characterId: string, itemId: string) => void

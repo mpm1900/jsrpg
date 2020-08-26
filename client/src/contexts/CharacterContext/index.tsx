@@ -52,7 +52,7 @@ export const CharacterStateContextProvider = (
   props: CharacterStateContextProviderPropsT,
 ) => {
   const { children, characterId } = props
-  const { activeCharacterId, rawUserParty, updateCharacter } = usePartyContext()
+  const { activeCharacterId, rawUserParty, upsertCharacter } = usePartyContext()
   const character =
     rawUserParty.characters.find((c) => c.id === characterId) ||
     rawUserParty.characters.find((c) => c.id === activeCharacterId) ||
@@ -62,7 +62,7 @@ export const CharacterStateContextProvider = (
     if ((character as ProcessedCharacterT).processed) {
       throw new Error('no process characters allowed')
     }
-    updateCharacter(character)
+    upsertCharacter(character)
   }
   return (
     <CharacterContextProvider

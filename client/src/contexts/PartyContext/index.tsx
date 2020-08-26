@@ -13,7 +13,8 @@ export interface PartyContextT {
   activeCharacterId: string | null
 
   upsertParty: (party: PartyT) => void
-  updateCharacter: (character: CharacterT, partyId?: string) => void
+  upsertCharacter: (character: CharacterT, partyId?: string) => void
+  deleteCharacter: (characterId: string, partyId?: string) => void
   findCharacter: (
     characterId: string,
     partyId?: string,
@@ -33,7 +34,8 @@ const defaultContextValue: PartyContextT = {
   rawUserParty: { id: v4(), characters: [], items: [] },
   activeCharacterId: null,
   upsertParty: (party) => {},
-  updateCharacter: (character, partyId) => {},
+  upsertCharacter: (character, partyId) => {},
+  deleteCharacter: (characterId, partyId) => {},
   findCharacter: (characterId, partyId) => undefined,
   findRawCharacter: (characterId, partyId) => undefined,
   equipItem: (characterId, itemId, partyId) => {},
@@ -66,7 +68,7 @@ export const PartyContextProvider = (props: PartyContextProviderPropsT) => {
     }
     actions.upsertParty(party)
   }
-  const updateCharacter = (
+  const upsertCharacter = (
     character: CharacterT,
     partyId: string = PC_PARTY_ID,
   ) => {
@@ -75,6 +77,12 @@ export const PartyContextProvider = (props: PartyContextProviderPropsT) => {
       throw new Error('No processed Characters Allowed')
     }
     actions.upsertCharacter(partyId, character)
+  }
+  const deleteCharacter = (
+    characterId: string,
+    partyId: string = PC_PARTY_ID,
+  ) => {
+    actions.deleteCharacter(partyId, characterId)
   }
   const equipItem = (
     characterId: string,
@@ -114,7 +122,8 @@ export const PartyContextProvider = (props: PartyContextProviderPropsT) => {
         rawUserParty,
         activeCharacterId,
         upsertParty,
-        updateCharacter,
+        upsertCharacter,
+        deleteCharacter,
         equipItem,
         unequipItem,
         findCharacter,

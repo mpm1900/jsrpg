@@ -2,16 +2,6 @@ import React from 'react'
 import { FlexContainer } from '../../elements/flex'
 import { useCombatLogContext } from '../../contexts/CombatLogContext'
 
-interface FPPropT {
-  text?: string
-}
-const P = ({ text }: FPPropT) => (
-  <span style={{ color: 'lightgreen' }}>{text}</span>
-)
-const F = ({ text }: FPPropT) => (
-  <span style={{ color: 'lightcoral' }}>{text}</span>
-)
-
 export const AttackLog = () => {
   // const { attackResults, clear } = useAttackContext()
   const { lines, clear } = useCombatLogContext()

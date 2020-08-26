@@ -38,7 +38,7 @@ export const Character = () => {
       <RollStateContextProvider>
         <FlexContainer style={{ margin: 10, flex: 1 }}>
           <FlexContainer $direction='column' style={{ marginRight: 10 }}>
-            <CharacterDetails />
+            <CharacterDetails showEdit={true} />
             <FlexContainer>
               <div>
                 <ResourceScore id='characterPoints' />
