@@ -63,7 +63,7 @@ export const getCombatRecordBuilder = (
       if (target) {
         result = {
           ...result,
-          [character.id]: {
+          [character.name]: {
             ...execAttack(
               characters,
               checkCharacter,
@@ -184,7 +184,7 @@ export const logResult = (
   target: ProcessedCharacterT,
   addLine: (line: React.ReactNode) => void,
 ) => {
-  if (attackResult.totalDamage > 0) {
+  if (attackResult.hitSuccess) {
     addLine(
       <span>
         {getNameSpan(source)} attacks {getNameSpan(target)} for{' '}
@@ -195,9 +195,7 @@ export const logResult = (
       addLine(<span style={{ color: 'khaki' }}>Critical hit!</span>)
     }
   } else {
-    if (!attackResult.hitSuccess) {
-      addLine(<span>{getNameSpan(source)}'s attack missed.</span>)
-    }
+    addLine(<span>{getNameSpan(source)}'s attack missed.</span>)
     if (attackResult.dodgeSuccess) {
       addLine(
         <span>

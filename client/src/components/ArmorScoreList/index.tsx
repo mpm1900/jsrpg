@@ -4,7 +4,6 @@ import { ItemPreview } from '../ItemPreview'
 import { ArmorTypeSortKey } from '../../types/Armor'
 import { ItemPreviewSmall } from '../ItemPreviewSmall'
 import { FlexContainer } from '../../elements/flex'
-import { unequipItem } from '../../types/Character'
 import { v4 } from 'uuid'
 import { usePartyContext } from '../../contexts/PartyContext'
 
@@ -37,7 +36,7 @@ export const ArmorScoreList = (props: ArmorScoreListPropsT) => {
             key={item.id}
             item={item}
             showRequirementCheck={false}
-            showCollapseButton={true}
+            showCollapseButton={false}
           />
         ))}
     </div>
