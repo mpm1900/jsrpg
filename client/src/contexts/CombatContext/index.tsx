@@ -115,16 +115,19 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
   }
 
   useEffect(() => {
+    console.log('check parties')
     if (checkParty(userParty) && !done) {
       finish('YOU DIED')
+    } else {
+      if (checkParty(enemyParty) && !done) {
+        finish('YOU WIN!')
+      } else {
+        if (running) {
+          start()
+        }
+      }
     }
-  }, [userParty])
-
-  useEffect(() => {
-    if (checkParty(enemyParty) && !done) {
-      finish('YOU WIN!')
-    }
-  }, [enemyParty])
+  }, [userParty, enemyParty])
 
   useEffect(() => {
     if (rounds.length > 0) {
@@ -135,9 +138,6 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
         addLine,
         upsertCharacter,
       )
-      if (running) {
-        start()
-      }
     }
   }, [rounds])
 
