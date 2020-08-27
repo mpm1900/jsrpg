@@ -65,6 +65,7 @@ export const createWeapon = (
       {
         id: `${base.id}--bonus`,
         name: 'Weapon Trait',
+        duration: -1,
         healthOffset: 0,
         abilitiesModifiers: {
           strength: statRolls.strength || 0,

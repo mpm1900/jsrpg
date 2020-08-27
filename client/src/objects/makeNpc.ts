@@ -15,6 +15,7 @@ import { DamageTypeRollsT } from '../types/Damage'
 import { buildWeapon } from './builders/weapons/createWeapon'
 import { getRandom } from '../util/getRandom'
 import { buildArmor } from './builders/armor/createArmor'
+import { makeSkill, BASIC_ATTACK } from './makeSkill'
 
 const randomNameConfig: Config = {
   dictionaries: [adjectives, animals],
@@ -76,7 +77,7 @@ export const makeNpc = (
     ),
 
     traits: [],
-    skills: [],
+    skills: [BASIC_ATTACK],
     equippedItems: [],
     armor: [
       buildArmor('cowl'),

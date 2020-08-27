@@ -6,7 +6,7 @@ import {
   RollResultT,
   considateRollChecks,
 } from './Roll'
-import { WeaponT } from './Weapon'
+import { WeaponT, WeaponEventsT } from './Weapon'
 import { EquippableT } from './Item'
 import { FISTS } from '../objects/fists'
 import { DamageTypeRollsT, getDamageTypeKeys, DamageTypeKeyT } from './Damage'
@@ -49,12 +49,18 @@ export interface CharacterTraitT {
   healthOffset: number
   abilitiesModifiers: CharacterAbilitiesT
   statsModifiers: CharacterStatsT
+  duration: number
 }
 
 export interface CharacterSkillT {
   id: string
   name: string
-  check: RollCheckT
+  checks: RollCheckT[]
+  damageRolls: DamageTypeRollsT
+  traits: CharacterTraitT[]
+  events: WeaponEventsT
+  combineWeaponDamage: boolean
+  focusCost: number
 }
 
 export interface CharacterT {
@@ -459,6 +465,7 @@ export const combineTraits = (traits: CharacterTraitT[]): CharacterTraitT => {
       return {
         id,
         name,
+        duration: current.duration,
         healthOffset: result.healthOffset + current.healthOffset,
         abilitiesModifiers: {
           strength: ar.strength + ac.strength,
@@ -479,6 +486,7 @@ export const combineTraits = (traits: CharacterTraitT[]): CharacterTraitT => {
     {
       id: '',
       name: '',
+      duration: -1,
       healthOffset: 0,
       abilitiesModifiers: {
         strength: 0,

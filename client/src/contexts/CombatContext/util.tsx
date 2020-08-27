@@ -163,7 +163,7 @@ export const resolveRound = (
   }
   const round = rounds[rounds.length - 1]
   addLine(
-    <span style={{ color: 'lightblue' }}>{`ROUND ${rounds.length}`}</span>,
+    <strong style={{ color: 'lightblue' }}>{`ROUND ${rounds.length}`}</strong>,
   )
   Object.values(round)
     .sort((a, b) => a.index - b.index)
@@ -194,7 +194,17 @@ export const resolveRound = (
         }
       }
     })
-  rawCharacters.forEach((c) => updateCharacter(c, c.partyId))
+  rawCharacters.forEach((c) =>
+    updateCharacter(
+      {
+        ...c,
+        traits: c.traits
+          .map((t) => ({ ...t, duration: t.duration - 1 }))
+          .filter((t) => t.duration !== 0),
+      },
+      c.partyId,
+    ),
+  )
 }
 
 export const processEvent = (
@@ -211,7 +221,7 @@ export const processEvent = (
       addLine(
         <span>
           {getNameSpan(source)} gained {combinedTrait.healthOffset} HP from{' '}
-          {(source.weapon as WeaponT).name}. ({WeaponEventsTypeMap[event]})
+          {(source.weapon as WeaponT).name}.
         </span>,
       )
     }
@@ -221,14 +231,17 @@ export const processEvent = (
         addLine(
           <span>
             {getNameSpan(source)} gained {value} {key} from{' '}
-            {(source.weapon as WeaponT).name}. ({WeaponEventsTypeMap[event]})
+            {(source.weapon as WeaponT).name}.
           </span>,
         )
       }
     })
     localUpdate({
       ...commitTrait(rawSource)(combinedTrait),
-      traits: [...rawSource.traits, { ...combinedTrait, healthOffset: 0 }],
+      traits: [
+        ...rawSource.traits,
+        ...addedTraits.map((t) => ({ ...t, healthOffset: 0 })),
+      ],
     })
   }
 }

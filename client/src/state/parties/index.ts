@@ -19,6 +19,10 @@ import makeItem from '../../objects/builders/makeItem'
 import { makeCharacter } from '../../objects/makeCharacter'
 import { WeaponT } from '../../types/Weapon'
 import { makeTrait } from '../../objects/util'
+import {
+  SWORD_OF_BLOOD_AND_FIRE,
+  SWORD_OF_THE_INFINITE,
+} from '../../objects/builders/weapons/mythics'
 
 export const UPSERT_PARTY = '@actions/parties/upsert-party'
 export const UPSERT_CHARACTER = '@actions/parties/upsert-character'
@@ -168,32 +172,12 @@ export const INITIAL_STATE: PartyT[] = [
     characters: [
       {
         ...max,
-        weapon: {
-          ...(max.weapon as WeaponT),
-          events: {
-            onHit: [
-              {
-                ...makeTrait(),
-                name: 'heal on hit',
-                healthOffset: 5,
-              },
-            ],
-            onCrit: [
-              {
-                ...makeTrait(),
-                name: 'add strenth on crit',
-                abilitiesModifiers: {
-                  strength: 2,
-                  dexterity: 0,
-                  intelligence: 0,
-                  vigor: 0,
-                },
-              },
-            ],
-          },
-        },
+        weapon: SWORD_OF_BLOOD_AND_FIRE,
       },
-      makeCharacter('Katie C'),
+      {
+        ...makeCharacter('Katie C'),
+        weapon: SWORD_OF_THE_INFINITE,
+      },
     ],
   },
 ]

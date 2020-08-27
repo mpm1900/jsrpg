@@ -32,17 +32,21 @@ export const Gauge = (props: GaugePropsT) => {
       >
         <FlexContainer
           style={{
-            height: height - 2,
+            boxSizing: 'border-box',
+            height: height,
             maxWidth: `${percentage}%`,
             minWidth: `${percentage}%`,
-            border: `1px solid ${Color(color).lighten(0.5)}`,
+            border:
+              percentage > 0
+                ? `1px solid ${Color(color).lighten(0.5)}`
+                : 'none',
             boxShadow: 'inset 1px 1px 0px rgba(0,0,0,0.5)',
             textShadow: '1px 1px 1px black',
             backgroundColor: color,
             color: 'white',
             alignItems: 'center',
             justifyContent: 'center',
-            transition: 'all 0.3s',
+            transition: 'all 0.5s',
           }}
         >
           {children}

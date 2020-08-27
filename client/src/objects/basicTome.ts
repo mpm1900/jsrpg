@@ -20,6 +20,7 @@ export const BASIC_TOME: EquippableT = {
     {
       id: 'basic-tome--bonus',
       name: 'Bonus',
+      duration: -1,
       healthOffset: 0,
       abilitiesModifiers: {
         strength: 0,

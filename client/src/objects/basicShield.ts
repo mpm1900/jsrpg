@@ -20,6 +20,7 @@ export const BASIC_SHIELD: EquippableT = {
     {
       id: 'basic-shield--bonus',
       name: 'Bonus',
+      duration: -1,
       healthOffset: 0,
       abilitiesModifiers: {
         strength: 1,

@@ -24,7 +24,7 @@ export const AttackLog = () => {
         $direction='column'
         $full
         style={{
-          color: 'white',
+          color: 'rgba(200,200,200, 1)',
           background: '#111',
           width: 380,
           overflowX: 'auto',

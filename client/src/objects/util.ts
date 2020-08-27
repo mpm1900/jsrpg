@@ -31,6 +31,7 @@ export const BASE_EQUIPPABLE = (type: ItemTypeT): EquippableT => {
       {
         id: `${id}-0`,
         name: 'Bonus',
+        duration: -1,
         healthOffset: 0,
         abilitiesModifiers: {
           strength: 0,
@@ -63,6 +64,7 @@ export const makeTrait = (name: string = ''): CharacterTraitT => {
   return {
     id: v4(),
     name,
+    duration: -1,
     healthOffset: 0,
     abilitiesModifiers: {
       strength: 0,

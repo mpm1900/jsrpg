@@ -45,7 +45,7 @@ export const CharacterDetails = (props: CharacterDetailsPropsT) => {
       style={{
         minWidth: 430,
         opacity: character.dead ? 0.5 : 1,
-        transition: 'all 0.3s',
+        transition: 'all 1s',
       }}
     >
       <FlexContainer $direction='column'>
