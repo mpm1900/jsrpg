@@ -1,10 +1,16 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 import { FlexContainer } from '../../elements/flex'
 import { useCombatLogContext } from '../../contexts/CombatLogContext'
 
 export const AttackLog = () => {
   // const { attackResults, clear } = useAttackContext()
   const { lines, clear } = useCombatLogContext()
+  const scrollRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
+  }, [lines])
   return (
     <FlexContainer
       $direction='column'
@@ -27,6 +33,7 @@ export const AttackLog = () => {
         {lines.map((l, i) => (
           <pre key={i}>{l}</pre>
         ))}
+        <div ref={scrollRef} />
       </FlexContainer>
     </FlexContainer>
   )

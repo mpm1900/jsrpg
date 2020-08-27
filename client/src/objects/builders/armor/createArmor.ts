@@ -77,6 +77,7 @@ export const createArmor = (
       {
         id: `${base.id}--bonus`,
         name: 'Armor Trait',
+        healthOffset: 0,
         abilitiesModifiers: {
           strength: statRolls.strength || 0,
           dexterity: statRolls.dexterity || 0,

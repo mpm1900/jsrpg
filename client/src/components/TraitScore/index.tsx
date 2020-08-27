@@ -28,6 +28,12 @@ export const TraitScore = (props: TraitScorePropsT) => {
 
   return (
     <div style={{ fontFamily: 'monospace' }}>
+      {trait.healthOffset !== 0 && (
+        <span>
+          {getSign(trait.healthOffset)}
+          {Math.abs(trait.healthOffset)} HP
+        </span>
+      )}
       {abilityKeys.map((key, i) => (
         <span key={key}>
           {i > 0 ? ', ' : ''}

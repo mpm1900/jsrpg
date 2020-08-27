@@ -17,6 +17,7 @@ import { BASIC_SHIELD } from '../../objects/basicShield'
 import { BASIC_TOME } from '../../objects/basicTome'
 import makeItem from '../../objects/builders/makeItem'
 import { makeCharacter } from '../../objects/makeCharacter'
+import { WeaponT } from '../../types/Weapon'
 
 export const UPSERT_PARTY = '@actions/parties/upsert-party'
 export const UPSERT_CHARACTER = '@actions/parties/upsert-character'
@@ -151,6 +152,7 @@ export const core: StateCoreT<PartyT[]> = {
   },
 }
 
+const max = makeCharacter('Max M')
 export const PC_PARTY_ID = v4()
 export const INITIAL_STATE: PartyT[] = [
   {
@@ -162,7 +164,38 @@ export const INITIAL_STATE: PartyT[] = [
         .fill(null)
         .map(() => makeItem()),
     ],
-    characters: [makeCharacter('Max M'), makeCharacter('Katie C')],
+    characters: [
+      {
+        ...max,
+        weapon: {
+          ...(max.weapon as WeaponT),
+          events: {
+            onHit: [
+              {
+                id: v4(),
+                name: 'heal on hit',
+                healthOffset: 5,
+                abilitiesModifiers: {
+                  strength: 0,
+                  dexterity: 0,
+                  intelligence: 0,
+                  vigor: 0,
+                },
+                statsModifiers: {
+                  health: 0,
+                  focus: 0,
+                  will: 0,
+                  perception: 0,
+                  agility: 0,
+                  lift: 0,
+                },
+              },
+            ],
+          },
+        },
+      },
+      makeCharacter('Katie C'),
+    ],
   },
 ]
 export default makeReducer(core, INITIAL_STATE)

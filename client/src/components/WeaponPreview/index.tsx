@@ -3,12 +3,16 @@ import Color from 'color'
 import { useCharacterContext } from '../../contexts/CharacterContext'
 import { CheckPreview } from '../CheckPreview'
 import { TraitScore } from '../TraitScore'
-import { WeaponT } from '../../types/Weapon'
+import { WeaponT, WeaponEventsTypeMap } from '../../types/Weapon'
 import { DamageRollScores, DamageRollScore } from '../DamageRollScores'
 import { BoxContainer, BoxButton } from '../../elements/box'
 import { FlexContainer, FullContainer } from '../../elements/flex'
 import { WeaponIcon } from '../WeaponIcon'
-import { combineTraits, CharacterSkillCheckKeyT } from '../../types/Character'
+import {
+  combineTraits,
+  CharacterSkillCheckKeyT,
+  CharacterTraitT,
+} from '../../types/Character'
 import { CompareResultFn, ZERO_COMPARE, BASE_ARGS } from '../../util/compare'
 import { DamageTypeKeyT } from '../../types/Damage'
 import { Icon } from '../Icon'
@@ -16,6 +20,7 @@ import { IconCharacterResourceMap } from '../../icons/maps'
 import { FISTS } from '../../objects/fists'
 import { ItemRarityColorMap } from '../../types/Item'
 import { usePartyContext } from '../../contexts/PartyContext'
+import { getKeys } from '../../util/getKeys'
 
 export interface WeaponPreviewPropsT {
   weapon?: WeaponT
@@ -111,6 +116,24 @@ export const WeaponPreview = (props: WeaponPreviewPropsT) => {
       </FlexContainer>
       <div style={{ marginBottom: 10 }}>
         <TraitScore trait={trait} compareResult={traitCompare} />
+      </div>
+      <div style={{ marginBottom: 10 }}>
+        {getKeys(weapon.events).map((key) => (
+          <FlexContainer key={key} style={{ alignItems: 'center' }}>
+            <strong
+              style={{
+                fontFamily: 'monospace',
+                marginRight: 10,
+                color: 'rgba(255,255,255,0.5)',
+              }}
+            >
+              {WeaponEventsTypeMap[key]}:
+            </strong>
+            <TraitScore
+              trait={combineTraits(weapon.events[key] as CharacterTraitT[])}
+            />
+          </FlexContainer>
+        ))}
       </div>
       <DamageRollScores weapon={weapon}>
         {(values) =>

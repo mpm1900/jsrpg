@@ -29,4 +29,5 @@ export const FISTS: WeaponT = {
     value: -1,
   },
   traits: [],
+  events: {},
 }

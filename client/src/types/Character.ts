@@ -7,12 +7,13 @@ import {
   considateRollChecks,
 } from './Roll'
 import { WeaponT } from './Weapon'
-import { ItemT, EquippableT } from './Item'
+import { EquippableT } from './Item'
 import { FISTS } from '../objects/fists'
 import { DamageTypeRollsT, getDamageTypeKeys, DamageTypeKeyT } from './Damage'
 import { ArmorT } from './Armor'
 import { reduce } from '../util/reduce'
 import { v4 } from 'uuid'
+import { noneg } from '../util/noneg'
 
 export type CharacterAbilityKeyT =
   | 'strength'
@@ -45,6 +46,7 @@ export type CharacterSkillCheckKeyT = CharacterAbilityKeyT | CharacterStatKeyT
 export interface CharacterTraitT {
   id: string
   name: string
+  healthOffset: number
   abilitiesModifiers: CharacterAbilitiesT
   statsModifiers: CharacterStatsT
 }
@@ -167,18 +169,34 @@ export const processCharacter = (
         ...character,
         weapon: undefined,
       }
+
   const abilities = getAbilities(character)
   const stats = getStats(character)
   const traits = getTraits(character)
   const damageResistances = getDamageResistances(character)
+  const healthOffset = noneg(
+    traits.reduce((p, c) => p - c.healthOffset, character.healthOffset),
+  )
   return {
     ...character,
+    healthOffset,
     weapon: character.weapon || FISTS,
     abilities,
     stats,
     traits,
     damageResistances,
     processed: true,
+    dead: healthOffset >= stats.health,
+  }
+}
+
+// TODO: Maybe add the rest, but healthOffset is the wonky one
+export const commitTrait = (character: CharacterT) => (
+  trait: CharacterTraitT,
+): CharacterT => {
+  return {
+    ...character,
+    healthOffset: noneg(character.healthOffset - trait.healthOffset),
   }
 }
 
@@ -441,6 +459,7 @@ export const combineTraits = (traits: CharacterTraitT[]): CharacterTraitT => {
       return {
         id,
         name,
+        healthOffset: result.healthOffset + current.healthOffset,
         abilitiesModifiers: {
           strength: ar.strength + ac.strength,
           dexterity: ar.dexterity + ac.dexterity,
@@ -460,6 +479,7 @@ export const combineTraits = (traits: CharacterTraitT[]): CharacterTraitT => {
     {
       id: '',
       name: '',
+      healthOffset: 0,
       abilitiesModifiers: {
         strength: 0,
         dexterity: 0,

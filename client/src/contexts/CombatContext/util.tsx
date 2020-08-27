@@ -5,6 +5,8 @@ import {
   ProcessedCharacterT,
   CharacterT,
   processCharacter,
+  combineTraits,
+  commitTrait,
 } from '../../types/Character'
 import { RollCheckerT } from '../RollContext'
 import { RollCheckT, RollResultT } from '../../types/Roll'
@@ -12,6 +14,7 @@ import { rollDamage, getDamageTypeKeys } from '../../types/Damage'
 import { noneg } from '../../util/noneg'
 import { v4 } from 'uuid'
 import { PC_PARTY_ID } from '../../state/parties'
+import { checkEvent, WeaponT } from '../../types/Weapon'
 
 export interface AttackResultT {
   label?: string
@@ -56,6 +59,7 @@ export const getCombatRecordBuilder = (
     .sort((a, b) => b.stats.agility - a.stats.agility)
     .forEach((character, index) => {
       const partyA = rawParties.find((p) => p.id === character.partyId)
+      // this line is volitile
       const partyB = rawParties.find((p) => p.id !== character.partyId)
       if (!partyA || !partyB) return
       const bCharacters = processParty(partyB).characters.filter((c) => !c.dead)
@@ -161,18 +165,41 @@ export const resolveRound = (
       const characters = getCharacters()
       const source = characters.find((c) => c.id === attackResult.sourceId)
       const target = characters.find((c) => c.id === attackResult.targetId)
+      const rawSource = rawCharacters.find(
+        (c) => c.id === attackResult.sourceId,
+      )
       const rawTarget = rawCharacters.find(
         (c) => c.id === attackResult.targetId,
       )
-      if (!source || !rawTarget || !target) return
+      if (!rawSource || !source || !rawTarget || !target) return
       if (!source.dead && !target.dead) {
         logResult(attackResult, source, target, addLine)
         const healthOffset = rawTarget.healthOffset + attackResult.totalDamage
         localUpdate({
           ...rawTarget,
-          dead: healthOffset >= target.stats.health,
           healthOffset,
         })
+        if (attackResult.hitSuccess) {
+          const addedTraits = checkEvent(rawSource)('onHit')
+          if (addedTraits) {
+            const combinedTrait = combineTraits(addedTraits)
+            if (combinedTrait.healthOffset > 0) {
+              addLine(
+                <span>
+                  {getNameSpan(source)} gained {combinedTrait.healthOffset} HP
+                  from {(source.weapon as WeaponT).name}. (on hit)
+                </span>,
+              )
+            }
+            localUpdate({
+              ...commitTrait(rawSource)(combinedTrait),
+              traits: [
+                ...rawSource.traits,
+                { ...combinedTrait, healthOffset: 0 },
+              ],
+            })
+          }
+        }
       }
     })
   rawCharacters.forEach((c) => updateCharacter(c, c.partyId))

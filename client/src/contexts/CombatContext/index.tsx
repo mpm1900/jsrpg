@@ -86,6 +86,7 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
       ...rawUserParty,
       characters: rawUserParty.characters.map((c) => ({
         ...c,
+        traits: [],
         partyId: PC_PARTY_ID,
         dead: false,
         healthOffset: 0,
