@@ -12,11 +12,13 @@ import { CharacterStateContextProvider } from '../../contexts/CharacterContext'
 import { RollStateContextProvider } from '../../contexts/RollContext'
 import { useParams, useHistory } from 'react-router'
 import { usePartyContext } from '../../contexts/PartyContext'
+import { useUIContext } from '../../contexts/UIContext'
 
 export const Character = () => {
   const { id } = useParams()
   const history = useHistory()
   const { rawUserParty, setActiveCharacterId } = usePartyContext()
+  const { setLogKey, setSidebarKey } = useUIContext()
   const character = useMemo(() => {
     return rawUserParty.characters.find((c) => c.id === id)
   }, [id, rawUserParty])
@@ -29,7 +31,11 @@ export const Character = () => {
   }, [id])
 
   useEffect(() => {
-    return () => setActiveCharacterId(null)
+    setLogKey('items')
+    return () => {
+      setLogKey(undefined)
+      setActiveCharacterId(null)
+    }
   }, [])
 
   if (!character) return null

@@ -6,49 +6,61 @@ import { CharacterStateContextProvider } from './contexts/CharacterContext'
 import { Character } from './domain'
 
 import { FlexContainer } from './elements/flex'
-import { ApplicationLog } from './components/ApplicationLog'
+import { AppLog } from './components/ApplicationLog'
 import { makeRoute } from './routes'
 import { PartyContextProvider } from './contexts/PartyContext'
-import { AppSidebar } from './components/AppSidebar'
+import { AppSidebar, MAIN_OPTIONS } from './components/AppSidebar'
 import { Combat } from './domain/Combat'
 import { CombatContextProvider } from './contexts/CombatContext'
 import { AppHeader } from './components/AppHeader'
 import { CombatLogContextProvider } from './contexts/CombatLogContext'
 import { ModalContextProvider } from './contexts/ModalContext'
+import { UIContextProvider } from './contexts/UIContext'
 
 export const App = () => {
   return (
-    <div style={{ height: '100%', width: '100%', display: 'flex' }}>
-      <ModalContextProvider>
-        <PartyContextProvider>
-          <CharacterStateContextProvider>
-            <CombatLogContextProvider>
-              <FlexContainer $full $direction='column'>
-                <AppHeader />
-                <FlexContainer $full style={{ height: 'calc(100% - 70px)' }}>
-                  <AppSidebar />
-                  <FlexContainer $full style={{ overflow: 'auto' }}>
-                    <Switch>
-                      {makeRoute('/battle', () => (
-                        <CombatContextProvider>
-                          <Combat />
-                        </CombatContextProvider>
-                      ))}
-                      {makeRoute('/characters/:id', () => (
-                        <Character />
-                      ))}
-                      {makeRoute('/', () => (
-                        <Character />
-                      ))}
-                    </Switch>
+    <div
+      style={{
+        height: '100%',
+        width: '100%',
+        display: 'flex',
+      }}
+    >
+      <UIContextProvider>
+        <ModalContextProvider>
+          <PartyContextProvider>
+            <CharacterStateContextProvider>
+              <CombatLogContextProvider>
+                <FlexContainer $full $direction='column'>
+                  <AppHeader />
+                  <FlexContainer
+                    $full
+                    style={{ height: 'calc(100% - 70px)', overflow: 'auto' }}
+                  >
+                    <AppSidebar />
+                    <FlexContainer $full style={{ overflow: 'auto' }}>
+                      <Switch>
+                        {makeRoute('/battle', () => (
+                          <CombatContextProvider>
+                            <Combat />
+                          </CombatContextProvider>
+                        ))}
+                        {makeRoute('/characters/:id', () => (
+                          <Character />
+                        ))}
+                        {makeRoute('/', () => (
+                          <Character />
+                        ))}
+                      </Switch>
+                    </FlexContainer>
+                    <AppLog />
                   </FlexContainer>
-                  <ApplicationLog />
                 </FlexContainer>
-              </FlexContainer>
-            </CombatLogContextProvider>
-          </CharacterStateContextProvider>
-        </PartyContextProvider>
-      </ModalContextProvider>
+              </CombatLogContextProvider>
+            </CharacterStateContextProvider>
+          </PartyContextProvider>
+        </ModalContextProvider>
+      </UIContextProvider>
     </div>
   )
 }

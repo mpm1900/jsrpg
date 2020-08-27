@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useCombatContext } from '../../contexts/CombatContext'
 import { FlexContainer } from '../../elements/flex'
 import { CombatParty } from '../../components/CombatParty'
+import { useUIContext } from '../../contexts/UIContext'
 
 export const Combat = () => {
   const {
@@ -13,6 +14,14 @@ export const Combat = () => {
     stop,
     reset,
   } = useCombatContext()
+  const { setLogKey } = useUIContext()
+
+  useEffect(() => {
+    setLogKey('attack-log')
+    return () => {
+      setLogKey(undefined)
+    }
+  }, [])
   return (
     <FlexContainer id='Combat' $full style={{ padding: 10 }}>
       <CombatParty party={rawUserParty} />

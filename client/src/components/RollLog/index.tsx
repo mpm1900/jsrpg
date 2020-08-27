@@ -23,7 +23,7 @@ export const RollLog = (props: RollLogPropsT) => {
     }
   }
   return (
-    <FlexContainer $direction='column' $full>
+    <FlexContainer $direction='column' $full style={{ width: 400 }}>
       {history.length > 0 ? (
         <FlexContainer
           $full

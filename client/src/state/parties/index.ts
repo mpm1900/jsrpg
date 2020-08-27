@@ -158,7 +158,7 @@ export const INITIAL_STATE: PartyT[] = [
     items: [
       BASIC_SHIELD,
       BASIC_TOME,
-      ...Array(204)
+      ...Array(198)
         .fill(null)
         .map(() => makeItem()),
     ],

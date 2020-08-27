@@ -1,20 +1,16 @@
-import React, { useState, useMemo } from 'react'
+import React from 'react'
 import { usePartyContext } from '../../contexts/PartyContext'
 import { ProcessedCharacterT } from '../../types/Character'
-import { BoxContainer, BoxButton } from '../../elements/box'
+import { BoxButton } from '../../elements/box'
 
 import CharactersIcon from '../../icons/svg/lorc/two-shadows.svg'
-import { Icon } from '../Icon'
 import { FlexContainer } from '../../elements/flex'
 import { Link, useHistory } from 'react-router-dom'
 import { makeCharacter } from '../../objects/makeCharacter'
+import { Sidebar, SidebarOptionT } from '../Sidebar'
+import { useUIContext } from '../../contexts/UIContext'
 
-interface AppSideOptionT {
-  key: string
-  icon: string
-  Component: React.FC
-}
-const options: [AppSideOptionT] = [
+export const MAIN_OPTIONS: SidebarOptionT[] = [
   {
     key: 'characters',
     icon: CharactersIcon,
@@ -22,70 +18,16 @@ const options: [AppSideOptionT] = [
   },
 ]
 
-export const AppSidebar = () => {
-  const [activeKey, _setActiveKey] = useState<string | null>('characters')
-  const setActiveKey = (key: string) =>
-    _setActiveKey(key === activeKey ? null : key)
-  const activeOption = useMemo(() => options.find((o) => o.key === activeKey), [
-    activeKey,
-  ])
+export interface AppSidebarPropsT {}
+export const AppSidebar = (props: AppSidebarPropsT) => {
+  const { sidebarKey, setSidebarKey } = useUIContext()
   return (
-    <BoxContainer
-      substyle={{
-        display: 'flex',
-        padding: 0,
-      }}
-    >
-      <FlexContainer
-        $direction='column'
-        style={{
-          width: 60,
-        }}
-      >
-        {options.map((option, i) => (
-          <div
-            key={option.key}
-            style={{
-              height: 60,
-              width: 60,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-              backgroundColor:
-                activeKey === option.key ? '#111' : 'transparent',
-              borderTop: i === 0 ? 'none' : '1px solid #555',
-              borderBottom: '1px solid black',
-              borderRight: activeKey === option.key ? 'none' : '1px solid #555',
-            }}
-            onClick={(e) => {
-              e.preventDefault()
-              e.stopPropagation()
-              setActiveKey(option.key)
-            }}
-          >
-            <Icon src={option.icon} size={24} />
-          </div>
-        ))}
-        <FlexContainer
-          $full
-          style={{
-            borderTop: '1px solid #555',
-            borderRight: activeKey !== null ? '1px solid #555' : 'none',
-          }}
-        />
-      </FlexContainer>
-      {activeOption && (
-        <div
-          style={{
-            padding: 8,
-            backgroundColor: '#111',
-          }}
-        >
-          <activeOption.Component />
-        </div>
-      )}
-    </BoxContainer>
+    <Sidebar
+      options={MAIN_OPTIONS}
+      direction='right'
+      activeKey={sidebarKey}
+      setActiveKey={setSidebarKey}
+    />
   )
 }
 
