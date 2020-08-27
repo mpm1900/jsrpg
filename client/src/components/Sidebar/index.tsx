@@ -12,7 +12,7 @@ export interface SidebarOptionT {
 
 export interface SidebarPropsT {
   activeKey: string | undefined
-  setActiveKey: (key: string) => void
+  setActiveKey: (key?: string) => void
   options: SidebarOptionT[]
   direction?: 'right' | 'left'
 }
@@ -66,7 +66,7 @@ export const Sidebar = (props: SidebarPropsT) => {
             onClick={(e) => {
               e.preventDefault()
               e.stopPropagation()
-              setActiveKey(option.key)
+              setActiveKey(activeKey === option.key ? undefined : option.key)
             }}
           >
             <Icon src={option.icon} size={24} />

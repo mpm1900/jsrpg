@@ -21,14 +21,8 @@ export interface UIContextProviderPropsT {
 }
 export const UIContextProvider = (props: UIContextProviderPropsT) => {
   const { children } = props
-  const [logKey, _setLogKey] = useState<string | undefined>()
-  const [sidebarKey, _setSidebarKey] = useState<string | undefined>()
-  const setLogKey = (key?: string) => {
-    _setLogKey(key === logKey ? undefined : key)
-  }
-  const setSidebarKey = (key?: string) => {
-    _setSidebarKey(key === sidebarKey ? undefined : key)
-  }
+  const [logKey, setLogKey] = useState<string | undefined>()
+  const [sidebarKey, setSidebarKey] = useState<string | undefined>()
 
   return (
     <UIContext.Provider
