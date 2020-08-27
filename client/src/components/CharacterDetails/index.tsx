@@ -41,7 +41,13 @@ export const CharacterDetails = (props: CharacterDetailsPropsT) => {
     setName(character.name)
   }, [character.name])
   return (
-    <BoxContainer style={{ minWidth: 430 }}>
+    <BoxContainer
+      style={{
+        minWidth: 430,
+        opacity: character.dead ? 0.5 : 1,
+        transition: 'all 0.3s',
+      }}
+    >
       <FlexContainer $direction='column'>
         <FlexContainer style={{ marginBottom: 10 }}>
           <FlexContainer $full>

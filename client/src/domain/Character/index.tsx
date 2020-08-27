@@ -79,7 +79,7 @@ export const Character = () => {
               </div>
             </FlexContainer>
           </FlexContainer>
-          <FlexContainer style={{ marginRight: 10 }}>
+          <FlexContainer>
             <div>
               <WeaponPreview
                 weapon={character.weapon}

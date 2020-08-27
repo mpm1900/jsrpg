@@ -35,7 +35,11 @@ export const App = () => {
                   <AppHeader />
                   <FlexContainer
                     $full
-                    style={{ height: 'calc(100% - 70px)', overflow: 'auto' }}
+                    style={{
+                      height: 'calc(100% - 70px)',
+                      width: '100vw',
+                      overflow: 'auto',
+                    }}
                   >
                     <AppSidebar />
                     <FlexContainer $full style={{ overflow: 'auto' }}>

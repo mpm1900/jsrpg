@@ -14,7 +14,13 @@ import { rollDamage, getDamageTypeKeys } from '../../types/Damage'
 import { noneg } from '../../util/noneg'
 import { v4 } from 'uuid'
 import { PC_PARTY_ID } from '../../state/parties'
-import { checkEvent, WeaponT } from '../../types/Weapon'
+import {
+  checkEvent,
+  WeaponT,
+  WeaponEventTypeT,
+  WeaponEventsTypeMap,
+} from '../../types/Weapon'
+import { getKeys } from '../../util/getKeys'
 
 export interface AttackResultT {
   label?: string
@@ -179,30 +185,52 @@ export const resolveRound = (
           ...rawTarget,
           healthOffset,
         })
+
         if (attackResult.hitSuccess) {
-          const addedTraits = checkEvent(rawSource)('onHit')
-          if (addedTraits) {
-            const combinedTrait = combineTraits(addedTraits)
-            if (combinedTrait.healthOffset > 0) {
-              addLine(
-                <span>
-                  {getNameSpan(source)} gained {combinedTrait.healthOffset} HP
-                  from {(source.weapon as WeaponT).name}. (on hit)
-                </span>,
-              )
-            }
-            localUpdate({
-              ...commitTrait(rawSource)(combinedTrait),
-              traits: [
-                ...rawSource.traits,
-                { ...combinedTrait, healthOffset: 0 },
-              ],
-            })
-          }
+          processEvent('onHit', source, rawSource, addLine, localUpdate)
+        }
+        if (attackResult.criticalSuccess) {
+          processEvent('onCrit', source, rawSource, addLine, localUpdate)
         }
       }
     })
   rawCharacters.forEach((c) => updateCharacter(c, c.partyId))
+}
+
+export const processEvent = (
+  event: WeaponEventTypeT,
+  source: ProcessedCharacterT,
+  rawSource: CharacterT,
+  addLine: (line: React.ReactNode) => void,
+  localUpdate: (character: CharacterT) => void,
+) => {
+  const addedTraits = checkEvent(rawSource)(event)
+  if (addedTraits) {
+    const combinedTrait = combineTraits(addedTraits)
+    if (combinedTrait.healthOffset > 0) {
+      addLine(
+        <span>
+          {getNameSpan(source)} gained {combinedTrait.healthOffset} HP from{' '}
+          {(source.weapon as WeaponT).name}. ({WeaponEventsTypeMap[event]})
+        </span>,
+      )
+    }
+    getKeys(combinedTrait.abilitiesModifiers).forEach((key) => {
+      const value = combinedTrait.abilitiesModifiers[key]
+      if (value !== 0) {
+        addLine(
+          <span>
+            {getNameSpan(source)} gained {value} {key} from{' '}
+            {(source.weapon as WeaponT).name}. ({WeaponEventsTypeMap[event]})
+          </span>,
+        )
+      }
+    })
+    localUpdate({
+      ...commitTrait(rawSource)(combinedTrait),
+      traits: [...rawSource.traits, { ...combinedTrait, healthOffset: 0 }],
+    })
+  }
 }
 
 export const logResult = (
