@@ -3,6 +3,7 @@ import { useCombatContext } from '../../contexts/CombatContext'
 import { FlexContainer } from '../../elements/flex'
 import { CombatParty } from '../../components/CombatParty'
 import { useUIContext } from '../../contexts/UIContext'
+import { useEvent } from '../../hooks/useEvent'
 
 export const Combat = () => {
   const {
@@ -23,17 +24,22 @@ export const Combat = () => {
       setLogKey(undefined)
     }
   }, [])
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      console.log('next', e)
+      next()
+    }
+    window.addEventListener('keydown', handler)
+    return () => {
+      window.removeEventListener('keydown', handler)
+    }
+  }, [next])
   return (
     <FlexContainer id='Combat' $full style={{ padding: 10 }}>
       <CombatParty party={rawUserParty} />
       <FlexContainer $full $direction='column'>
         <div>
-          {!done &&
-            (!running ? (
-              <button onClick={() => start()}>Start</button>
-            ) : (
-              <button onClick={() => stop()}>Stop</button>
-            ))}
           {done && <button onClick={() => reset()}>Reset</button>}
           {!done && <button onClick={() => next()}>Next</button>}
         </div>
