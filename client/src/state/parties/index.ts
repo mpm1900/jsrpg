@@ -174,7 +174,7 @@ export const INITIAL_STATE: PartyT[] = [
     characters: [
       {
         ...max,
-        weapon: SWORD_OF_BLOOD_AND_FIRE,
+        weapon: SWORD_OF_THE_INFINITE,
         skills: [
           ...max.skills,
           {
@@ -204,7 +204,7 @@ export const INITIAL_STATE: PartyT[] = [
                 },
               },
             ],
-            focusCost: 10,
+            focusCost: 1,
           },
         ],
       },
@@ -222,7 +222,7 @@ export const INITIAL_STATE: PartyT[] = [
             focusCost: 3,
           },
         ],
-        weapon: SWORD_OF_THE_INFINITE,
+        weapon: SWORD_OF_BLOOD_AND_FIRE,
       },
     ],
   },

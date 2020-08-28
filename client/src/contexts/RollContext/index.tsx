@@ -22,6 +22,7 @@ export type RollCheckerT<T, R> = (
   roll: T,
   log?: boolean,
   allowNegatives?: boolean,
+  label?: string,
 ) => R
 export interface RollContextT {
   history: Roll2ResultT[]
@@ -51,7 +52,7 @@ export interface RollContextProviderPropsT {
   children: any
   rolls: (Roll2ResultT | Check2ResultT)[]
   character?: ProcessedCharacterT
-  addRoll: (roll: Roll2ResultT | Check2ResultT) => void
+  addRoll: (roll: Roll2ResultT | Check2ResultT, label?: string) => void
 }
 export const RollContextProvider = (props: RollContextProviderPropsT) => {
   const { children, rolls, addRoll } = props
@@ -61,7 +62,7 @@ export const RollContextProvider = (props: RollContextProviderPropsT) => {
     <RollContext.Provider
       value={{
         history: rolls,
-        execRoll: (roll, log = true, allowNegatives) => {
+        execRoll: (roll, log = true, allowNegatives, label) => {
           const result: Roll2ResultT = (roll as CharacterRollT).keys
             ? resolveCharacterRoll(
                 roll as CharacterRollT,
@@ -69,10 +70,10 @@ export const RollContextProvider = (props: RollContextProviderPropsT) => {
                 allowNegatives,
               )
             : resolveRoll(roll, allowNegatives)
-          if (log) addRoll(result)
+          if (log) addRoll(result, label)
           return result
         },
-        execCheck: (check, log = true, allowNegatives) => {
+        execCheck: (check, log = true, allowNegatives, label) => {
           const result: Check2ResultT = (check as CharacterCheckT).keys
             ? resolveCharacterCheck(
                 check as CharacterCheckT,
@@ -80,15 +81,20 @@ export const RollContextProvider = (props: RollContextProviderPropsT) => {
                 allowNegatives,
               )
             : resolveCheck(check, allowNegatives)
-          if (log) addRoll(result)
+          if (log) addRoll(result, label)
           return result
         },
         rollCharacter: (
           character,
         ): RollCheckerT<CharacterRollT, Roll2ResultT> => {
-          return (roll: CharacterRollT, log = true, allowNegatives = false) => {
+          return (
+            roll: CharacterRollT,
+            log = true,
+            allowNegatives = false,
+            label,
+          ) => {
             const result = resolveCharacterRoll(roll, character, allowNegatives)
-            if (log) addRoll(result)
+            if (log) addRoll(result, label)
             return result
           }
         },
@@ -97,13 +103,14 @@ export const RollContextProvider = (props: RollContextProviderPropsT) => {
             check: CharacterCheckT,
             log = true,
             allowNegatives = false,
+            label,
           ) => {
             const result = resolveCharacterCheck(
               check,
               character,
               allowNegatives,
             )
-            if (log) addRoll(result)
+            if (log) addRoll(result, label)
             return result
           }
         },
@@ -127,8 +134,8 @@ export const RollStateContextProvider = (
   const { children, character } = props
   const rolls = useRolls()
   const dispatch = useDispatch()
-  const addRoll = (roll: Roll2ResultT) => {
-    dispatch(actionCreators.addRoll(roll))
+  const addRoll = (roll: Roll2ResultT, label?: string) => {
+    dispatch(actionCreators.addRoll({ ...roll, label }))
   }
   return (
     <RollContextProvider rolls={rolls} addRoll={addRoll} character={character}>

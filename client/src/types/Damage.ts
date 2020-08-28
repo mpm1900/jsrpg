@@ -1,5 +1,6 @@
 import { getKeys } from '../util/getKeys'
 import { CharacterRollT, Roll2ResultT } from './Roll2'
+import { RollCheckerT } from '../contexts/RollContext'
 
 export type DamageElementTypeT = 'fire' | 'blood' | 'light' | 'dark'
 export type DamageTypeKeyT = DamageElementTypeT | 'slashing' | 'piercing'
@@ -28,8 +29,12 @@ export const getDamageTypeKeys = (
 ): DamageTypeKeyT[] => getKeys<DamageTypeKeyT>(obj)
 
 export const rollDamage = (
-  resolveRoll: (roll: CharacterRollT, allowNegative?: boolean) => Roll2ResultT,
-) => (rolls: DamageTypeRollsT, crit: boolean = false): DamageRollsResultT => {
+  resolveRoll: RollCheckerT<CharacterRollT, Roll2ResultT>,
+) => (
+  rolls: DamageTypeRollsT,
+  crit: boolean = false,
+  label?: string,
+): DamageRollsResultT => {
   let total = 0
   const keys: DamageTypeKeyT[] = getKeys(rolls).filter((key) => rolls[key])
   let rollResults: DamageTypeResultsT = {
@@ -42,7 +47,7 @@ export const rollDamage = (
   }
   keys.forEach((key) => {
     const roll = rolls[key] as CharacterRollT
-    let result = resolveRoll(roll, false)
+    let result = resolveRoll(roll, true, false, label)
     if (crit) {
       result = {
         ...result,

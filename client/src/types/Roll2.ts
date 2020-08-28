@@ -55,6 +55,7 @@ export interface Check2T {
 }
 export interface Roll2ResultT {
   id: string
+  label?: string
   total: number
   output: string
   criticalSuccess: boolean
@@ -263,7 +264,10 @@ export const getRollText = (roll: CharacterRollT) => {
     const plus = i === 0 && !roll.string ? '' : '+'
     return `${p}${plus}${CharacterKeyMap3[c]}`
   }, '')
-  return `${roll.string}${keyString}${
-    hasMod ? `${getSign(roll.modifier)}${Math.abs(roll.modifier)}` : ''
-  }`
+  const modString = hasMod
+    ? `${roll.string || keyString ? getSign(roll.modifier) : ''}${Math.abs(
+        roll.modifier,
+      )}`
+    : ''
+  return `${roll.string}${keyString}${modString}`
 }

@@ -199,9 +199,11 @@ export const execSkill = (
     const criticalSuccess = skillCheckResult.criticalSuccess
     attackResult.hitSuccess = true
     attackResult.criticalSuccess = criticalSuccess
-    const damageRollsResult = rollDamage(rollCharacter(source))(
+    const rr = rollCharacter(source)
+    const damageRollsResult = rollDamage(rr)(
       damageRolls,
       criticalSuccess,
+      `${source.name} damage`,
     )
     attackResult.rawDamage = damageRollsResult.total
     const dodgeRoll = checkCharacter(target)(DODGE_CHECK)
@@ -275,19 +277,27 @@ export const resolveRound = (
           BASIC_ATTACK
         const healthOffset = rawTarget.healthOffset + attackResult.totalDamage
         const focusOffset = rawSource.focusOffset + skill.focusCost
+        const getTraitUpdates = (c: CharacterT): CharacterT => {
+          if (attackResult.hitSuccess) {
+            return {
+              ...commitTrait(c)(combineTraits(skill.traits)),
+              inspected: skill.inspected || c.inspected,
+              traits: [
+                ...c.traits,
+                ...skill.traits.map((t) => ({
+                  ...t,
+                  healthOffset: 0,
+                  focusOffset: 0,
+                })),
+              ],
+            }
+          }
+          return c
+        }
         localUpdate(target.id, (c) => ({
           ...c,
-          ...commitTrait(c)(combineTraits(skill.traits)),
+          ...getTraitUpdates(c),
           healthOffset,
-          inspected: skill.inspected || c.inspected,
-          traits: [
-            ...c.traits,
-            ...skill.traits.map((t) => ({
-              ...t,
-              healthOffset: 0,
-              focusOffset: 0,
-            })),
-          ],
         }))
         localUpdate(source.id, (c) => ({
           ...rawSource,
@@ -295,10 +305,10 @@ export const resolveRound = (
         }))
 
         if (skill.combineWeaponDamage && attackResult.hitSuccess) {
-          processEvent('onHit', source, rawSource, addLine, localUpdate)
+          processEvent('onHit', source, rawSource, skill, addLine, localUpdate)
         }
         if (skill.combineWeaponDamage && attackResult.criticalSuccess) {
-          processEvent('onCrit', source, rawSource, addLine, localUpdate)
+          processEvent('onCrit', source, rawSource, skill, addLine, localUpdate)
         }
       }
     })
@@ -320,13 +330,14 @@ export const processEvent = (
   event: EventTypeT,
   source: ProcessedCharacterT,
   rawSource: CharacterT,
+  skill: SkillT,
   addLine: (line: React.ReactNode) => void,
   localUpdate: (
     id: string,
     updater: (character: CharacterT) => CharacterT,
   ) => void,
 ) => {
-  const addedTraits = checkEvent(rawSource)(event)
+  const addedTraits = checkEvent(rawSource, skill)(event)
   if (addedTraits) {
     const combinedTrait = combineTraits(addedTraits)
     if (combinedTrait.healthOffset > 0) {

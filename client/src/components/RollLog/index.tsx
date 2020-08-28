@@ -31,7 +31,12 @@ export const RollLog = (props: RollLogPropsT) => {
           style={{ overflow: 'auto', padding: 10 }}
         >
           {history.map((roll) => (
-            <RollResult key={roll.id} roll={roll} />
+            <React.Fragment key={roll.id}>
+              {roll.label && (
+                <span style={{ fontFamily: 'monospace' }}>{roll.label}</span>
+              )}
+              <RollResult key={roll.id} roll={roll} />
+            </React.Fragment>
           ))}
         </FlexContainer>
       ) : (

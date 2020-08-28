@@ -45,10 +45,10 @@ export const SWORD_OF_THE_INFINITE: WeaponT = {
   name: 'Sword of the Infinite',
   damageRolls: {
     // getRollValue('2d6')
-    fire: makeCharacterRoll([], '1d6'),
-    blood: makeCharacterRoll([], '1d6'),
-    light: makeCharacterRoll([], '1d6'),
-    dark: makeCharacterRoll([], '1d6'),
+    fire: makeCharacterRoll([], '3d6', -3),
+    blood: makeCharacterRoll([], '', 6),
+    light: makeCharacterRoll(['intelligence'], '', -7),
+    dark: makeCharacterRoll(['intelligence'], '1d6', -10),
   },
   events: {
     onHit: [
