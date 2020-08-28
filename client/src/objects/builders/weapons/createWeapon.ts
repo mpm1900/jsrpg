@@ -2,8 +2,7 @@ import { BASE_EQUIPPABLE, makeRequirementCheck, makeTrait } from '../../util'
 import { WeaponT, WeaponTypeT } from '../../../types/Weapon'
 import { DamageTypeRollsT } from '../../../types/Damage'
 import { ItemRarityT } from '../../../types/Item'
-import { ItemModifierValuesT, getRollValue } from '../makeItem'
-import { RollCheckT } from '../../../types/Roll'
+import { ItemModifierValuesT } from '../makeItem'
 import { Rarity3d6Map } from '../util'
 import { getRandom } from '../../../util/getRandom'
 import {
@@ -13,12 +12,17 @@ import {
   WeaponNameKeys,
   WeaponDamages,
 } from './stats'
+import {
+  CharacterCheckT,
+  makeCharacterCheck,
+  quickRoll,
+} from '../../../types/Roll2'
 
 export const buildWeapon = (
   type: WeaponTypeT,
   rarity?: ItemRarityT,
 ): WeaponT => {
-  rarity = rarity || Rarity3d6Map[getRollValue('3d6')]
+  rarity = rarity || Rarity3d6Map[quickRoll('3d6')]
   if (rarity === 'set') rarity = 'mythic'
   const requirementCheck = makeRequirementCheck(
     [getRandom(WeaponRequirementKeys[type])],
@@ -30,7 +34,7 @@ export const buildWeapon = (
     WeaponCosts[type],
     requirementCheck,
     -2,
-    getWeaponStatRolls(type, rarity, requirementCheck.roll as number),
+    getWeaponStatRolls(type, rarity, requirementCheck.value),
     WeaponDamages()[rarity][type],
     rarity,
   )
@@ -40,7 +44,7 @@ export const createWeapon = (
   weaponType: WeaponTypeT,
   name: string,
   cost: number,
-  requirementCheck: RollCheckT,
+  requirementCheck: CharacterCheckT,
   dexterityModifier: number,
   statRolls: ItemModifierValuesT,
   damageRolls: DamageTypeRollsT,
@@ -56,10 +60,12 @@ export const createWeapon = (
     cost,
     rarity,
     requirementCheck,
-    accuracyCheck: {
-      keys: ['dexterity'],
-      value: dexterityModifier,
-    },
+    accuracyCheck: makeCharacterCheck(
+      ['dexterity'],
+      undefined,
+      0,
+      dexterityModifier,
+    ),
     damageRolls,
     traits: [
       {

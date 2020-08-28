@@ -1,11 +1,3 @@
-import {
-  rollCheck,
-  RollCheckT,
-  basicRoll,
-  getProbability,
-  RollResultT,
-  considateRollChecks,
-} from './Roll'
 import { WeaponT, WeaponEventsT } from './Weapon'
 import { EquippableT } from './Item'
 import { FISTS } from '../objects/fists'
@@ -15,6 +7,13 @@ import { reduce } from '../util/reduce'
 import { v4 } from 'uuid'
 import { noneg } from '../util/noneg'
 import { makeTrait } from '../objects/util'
+import {
+  CharacterCheckT,
+  combineChecks,
+  combineCharacterRolls,
+  CharacterRollT,
+  resolveCharacterCheck,
+} from './Roll2'
 
 export type CharacterAbilityKeyT =
   | 'strength'
@@ -57,7 +56,7 @@ export interface CharacterTraitT {
 export interface CharacterSkillT {
   id: string
   name: string
-  check?: RollCheckT
+  check?: CharacterCheckT
   damageRolls: DamageTypeRollsT
   traits: CharacterTraitT[]
   events: WeaponEventsT
@@ -159,10 +158,10 @@ export const getDamageResistances = (
     (result, key) => {
       return {
         ...result,
-        [key]: considateRollChecks([
-          result[key] as RollCheckT,
-          ...armor.map((a) => a.damageResistances[key] as RollCheckT),
-        ]),
+        [key]: combineCharacterRolls(
+          result[key] as CharacterRollT,
+          ...armor.map((a) => a.damageResistances[key] as CharacterRollT),
+        ),
       }
     },
     character.damageResistances,
@@ -213,7 +212,7 @@ export const commitTrait = (character: CharacterT) => (
   }
 }
 
-const getModifierValueFromKeys = (character: ProcessedCharacterT) => (
+export const getModifierValueFromKeys = (character: ProcessedCharacterT) => (
   keys: CharacterSkillCheckKeyT[],
 ) =>
   (keys as any[]).reduce((total: number = 0, key: CharacterSkillCheckKeyT) => {
@@ -223,51 +222,6 @@ const getModifierValueFromKeys = (character: ProcessedCharacterT) => (
     if (s) total += s
     return total
   }, 0)
-
-export const checkCharacter = (character: ProcessedCharacterT) => (
-  check: RollCheckT,
-): RollResultT => {
-  const { keys = [], roll, value = 0 } = check
-  const modifiers = getModifierValueFromKeys(character)(keys)
-
-  return rollCheck({
-    roll,
-    keys,
-    value,
-    modifiers,
-  })
-}
-
-export const getCharacterCheckProbability = (
-  character: ProcessedCharacterT,
-) => (check: RollCheckT): number => {
-  const { keys = [], roll, value = 0 } = check
-  const modifiers = getModifierValueFromKeys(character)(keys)
-
-  return getProbability({
-    roll,
-    keys,
-    value,
-    modifiers,
-  })
-}
-
-export const basicRollCharacter = (character: ProcessedCharacterT) => (
-  check: RollCheckT,
-  allowNegatives?: boolean,
-): any => {
-  const { keys = [], roll, value = 0 } = check
-  const modifiers = getModifierValueFromKeys(character)(keys)
-  return basicRoll(
-    {
-      roll,
-      keys,
-      value,
-      modifiers,
-    },
-    allowNegatives,
-  )
-}
 
 export const setCharacterAbilityScore = (character: CharacterT) => (
   key: CharacterAbilityKeyT,
@@ -329,7 +283,10 @@ export const canEquip = (character: CharacterT) => (
   if (!item.equippable) return false
   const equipable = item as EquippableT
   const processedCharacter = processCharacter(character, withWeapon)
-  if (!checkCharacter(processedCharacter)(equipable.requirementCheck).result)
+  if (
+    !resolveCharacterCheck(equipable.requirementCheck, processedCharacter)
+      .result
+  )
     return false
   if (equipable.type === 'weapon' && character.weapon) {
     return false
@@ -349,17 +306,27 @@ export const equipItem = (character: CharacterT) => (
   return equipGenericItem(character)(item)
 }
 
-export const unequipItem = (character: CharacterT) => (
-  itemId: string,
-): [EquippableT | undefined, CharacterT] => {
-  if (character.weapon?.id === itemId)
-    return [character.weapon, validateCharacter(unequipWeapon(character))]
+export const unequipItem = (
+  character: CharacterT,
+  validate: boolean = true,
+) => (itemId: string): [EquippableT | undefined, CharacterT] => {
+  let equippable = undefined
+  let c = { ...character }
+  if (character.weapon?.id === itemId) {
+    equippable = { ...character.weapon }
+    c = unequipWeapon(c)
+  }
   const armor = character.armor.find((i) => i.id === itemId)
-  if (armor) return [armor, validateCharacter(unequipArmor(character)(armor))]
+  if (armor) {
+    equippable = { ...armor }
+    c = unequipArmor(character)(armor)
+  }
   const item = character.equippedItems.find((i) => i.id === itemId)
-  if (item)
-    return [item, validateCharacter(unequipGenericItem(character)(item))]
-  return [undefined, character]
+  if (item) {
+    equippable = { ...item }
+    c = unequipGenericItem(character)(item)
+  }
+  return [equippable, validate ? validateCharacter(c) : c]
 }
 
 export const equipGenericItem = (character: CharacterT) => (
@@ -493,21 +460,36 @@ export const combineTraits = (traits: CharacterTraitT[]): CharacterTraitT => {
 }
 
 export const validateCharacter = (character: CharacterT): CharacterT => {
-  const pc = processCharacter(character)
-  const checker = checkCharacter(pc)
-  let result = character
-  if (!checker(pc.weapon.requirementCheck).result) {
-    result = unequipItem(result)(pc.weapon.id)[1]
+  console.log('validate character')
+  let pc = processCharacter(character)
+  let result = { ...character }
+  const localUpdate = (c: CharacterT) => {
+    result = { ...c }
+    pc = processCharacter(c)
+  }
+  if (!resolveCharacterCheck(pc.weapon.requirementCheck, pc).result) {
+    localUpdate(unequipItem(result, false)(pc.weapon.id)[1])
   }
   pc.armor.forEach((i) => {
-    if (!checker(i.requirementCheck).result) {
-      result = unequipItem(character)(i.id)[1]
+    if (!resolveCharacterCheck(i.requirementCheck, pc).result) {
+      console.log('armor check failed')
+      localUpdate(unequipItem(character, false)(i.id)[1])
     }
   })
   pc.equippedItems.forEach((i) => {
-    if (!checker(i.requirementCheck).result) {
-      result = unequipItem(character)(i.id)[1]
+    if (!resolveCharacterCheck(i.requirementCheck, pc).result) {
+      localUpdate(unequipItem(character, false)(i.id)[1])
     }
   })
+
+  if (
+    result.weapon?.id !== character.weapon?.id ||
+    result.armor.length !== character.armor.length ||
+    result.equippedItems.length !== result.equippedItems.length
+  ) {
+    console.log('RECURR')
+    return validateCharacter(result)
+  }
+  console.log('done')
   return result
 }

@@ -1,12 +1,12 @@
-import { RollCheckT, RollResultT, considateRollChecks } from './Roll'
 import { getKeys } from '../util/getKeys'
+import { CharacterRollT, Roll2ResultT } from './Roll2'
 
 export type DamageElementTypeT = 'fire' | 'blood' | 'light' | 'dark'
 export type DamageTypeKeyT = DamageElementTypeT | 'slashing' | 'piercing'
 
-type _DamageTypeRollsT = Record<DamageTypeKeyT, RollCheckT | undefined>
+type _DamageTypeRollsT = Record<DamageTypeKeyT, CharacterRollT | undefined>
 export type DamageTypeRollsT = Partial<_DamageTypeRollsT>
-type _DamageTypeResultsT = Record<DamageTypeKeyT, RollResultT | undefined>
+type _DamageTypeResultsT = Record<DamageTypeKeyT, Roll2ResultT | undefined>
 export type DamageTypeResultsT = Partial<_DamageTypeResultsT>
 
 export interface DamageRollsResultT {
@@ -27,10 +27,9 @@ export const getDamageTypeKeys = (
   obj: DamageTypeRollsT | DamageTypeResultsT,
 ): DamageTypeKeyT[] => getKeys<DamageTypeKeyT>(obj)
 
-export const rollDamage = (execRoll: (check: RollCheckT) => RollResultT) => (
-  rolls: DamageTypeRollsT,
-  crit: boolean = false,
-): DamageRollsResultT => {
+export const rollDamage = (
+  resolveRoll: (roll: CharacterRollT, allowNegative?: boolean) => Roll2ResultT,
+) => (rolls: DamageTypeRollsT, crit: boolean = false): DamageRollsResultT => {
   let total = 0
   const keys: DamageTypeKeyT[] = getKeys(rolls).filter((key) => rolls[key])
   let rollResults: DamageTypeResultsT = {
@@ -42,12 +41,12 @@ export const rollDamage = (execRoll: (check: RollCheckT) => RollResultT) => (
     dark: undefined,
   }
   keys.forEach((key) => {
-    const roll = rolls[key]
-    let result = execRoll(roll as RollCheckT)
+    const roll = rolls[key] as CharacterRollT
+    let result = resolveRoll(roll, false)
     if (crit) {
       result = {
         ...result,
-        total: result.__roll.maxTotal || result.total,
+        total: result.maxTotal || result.total,
       }
     }
     total += result.total
@@ -57,15 +56,4 @@ export const rollDamage = (execRoll: (check: RollCheckT) => RollResultT) => (
     total,
     rollResults,
   }
-}
-
-export const consolidateDamageRolls = (
-  damageTypeRolls: DamageTypeRollsT,
-): RollCheckT => {
-  const keys: DamageTypeKeyT[] = getKeys<DamageTypeKeyT>(damageTypeRolls)
-  const rolls = keys
-    .filter((key) => damageTypeRolls[key])
-    .map((key) => damageTypeRolls[key])
-
-  return considateRollChecks(rolls as RollCheckT[])
 }

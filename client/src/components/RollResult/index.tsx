@@ -1,37 +1,22 @@
 import React from 'react'
 import { CharacterKeyMap3 } from '../../types/Character'
-import { RollResultT, rollProbs } from '../../types/Roll'
 import { getSign } from '../../util/getSign'
 import { getValueString } from '../../util/getValueString'
+import { Roll2T, Check2T, Roll2ResultT, Check2ResultT } from '../../types/Roll2'
+import { Span } from '../../contexts/CombatContext/log'
 
 export const RollResult = (props: any) => {
-  const roll: RollResultT = props.roll
-  const { __check } = roll
-  const goal = roll.goal || 0
-  const keys = __check.keys?.map((key) => CharacterKeyMap3[key])
-  const modifier =
-    roll.goal === null ? __check.value : goal - (__check.modifiers || 0)
-  const percentage =
-    typeof roll.chance !== 'undefined' ? roll.chance : rollProbs[goal] || 100
+  const roll: Roll2ResultT | Check2ResultT = props.roll
+  const check = roll as Check2ResultT
+  const isCheck = check.goal !== undefined
+  const result = isCheck ? check.result : undefined
   return (
-    <div>
-      <span style={{ fontFamily: 'monospace' }}>
-        <RollStatus result={roll.result} />
-        <RollDescription
-          keys={keys}
-          modifier={modifier}
-          goal={roll.goal}
-          percentage={percentage}
-          rollStr={__check.roll}
-        />{' '}
-        {roll.output} = {roll.total}
-      </span>
-      {roll.criticalSuccess && (
-        <>
-          <br />
-          <span>Critical Hit!</span>
-        </>
-      )}
+    <div style={{ fontFamily: 'monospace' }}>
+      {isCheck && result && Span('lightgreen', '[PASSED] ')}
+      {isCheck && !result && Span('lightcoral', '[FAILED] ')}
+      {!isCheck && Span('turquoise', '[STATIC] ')}
+      {isCheck && <span>({check.goal}) </span>}
+      <span>{roll.output}</span>
     </div>
   )
 }

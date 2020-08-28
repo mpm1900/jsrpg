@@ -1,10 +1,9 @@
 import { BASE_EQUIPPABLE, makeRequirementCheck } from '../../util'
 import { DamageTypeRollsT } from '../../../types/Damage'
 import { ItemRarityT } from '../../../types/Item'
-import { ItemModifierValuesT, getRollValue } from '../makeItem'
+import { ItemModifierValuesT } from '../makeItem'
 import { ArmorT, ArmorTypeT } from '../../../types/Armor'
 import { CharacterResourceKeyT } from '../../../types/Character'
-import { RollCheckT } from '../../../types/Roll'
 import { getRandom } from '../../../util/getRandom'
 import {
   ArmorRequirementKeys,
@@ -18,9 +17,10 @@ import { UNIQUE_ARMORS } from './uniques'
 import { MYTHIC_ARMORS } from './mythics'
 import { Rarity3d6Map } from '../util'
 import { SET_ARMORS } from './sets'
+import { CharacterCheckT, quickRoll } from '../../../types/Roll2'
 
 export const buildArmor = (type: ArmorTypeT, rarity?: ItemRarityT): ArmorT => {
-  rarity = rarity || Rarity3d6Map[getRollValue('3d6')]
+  rarity = rarity || Rarity3d6Map[quickRoll('3d6')]
   const requirementCheck = makeRequirementCheck(
     [getRandom(ArmorRequirementKeys[type])],
     10, //getRollValue('3d6'),
@@ -43,7 +43,7 @@ export const buildArmor = (type: ArmorTypeT, rarity?: ItemRarityT): ArmorT => {
     ArmorCostsT[type],
     ArmorResourcesT[type],
     requirementCheck,
-    getArmorStatRolls(type, rarity, requirementCheck.roll as number),
+    getArmorStatRolls(type, rarity, requirementCheck.value),
     ArmorResistances()[rarity][type],
     rarity,
   )
@@ -54,7 +54,7 @@ export const createArmor = (
   name: string,
   cost: number,
   resource: CharacterResourceKeyT,
-  requirementCheck: RollCheckT,
+  requirementCheck: CharacterCheckT,
   statRolls: ItemModifierValuesT,
   damageRolls: DamageTypeRollsT,
   rarity: ItemRarityT,

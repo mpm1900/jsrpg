@@ -12,12 +12,6 @@ import {
 } from '../../types/Character'
 import { RollCheckerT } from '../RollContext'
 import {
-  RollCheckT,
-  RollResultT,
-  considateStaticRolls,
-  makeStaticRoll,
-} from '../../types/Roll'
-import {
   rollDamage,
   getDamageTypeKeys,
   DamageTypeRollsT,
@@ -29,6 +23,15 @@ import { checkEvent, WeaponT, WeaponEventTypeT } from '../../types/Weapon'
 import { getKeys } from '../../util/getKeys'
 import { BASIC_ATTACK } from '../../objects/makeSkill'
 import { NameSpan, logResult } from './log'
+import {
+  combineCharacterRolls,
+  ZERO_ROLL,
+  CharacterRollT,
+  CharacterCheckT,
+  makeCharacterCheck,
+  Check2ResultT,
+  Roll2ResultT,
+} from '../../types/Roll2'
 
 export interface AttackResultT {
   id: string
@@ -66,8 +69,12 @@ export type CombatRoundT = Record<string, AttackResultT>
 export const getCombatRecordBuilder = (
   characterSkills: { [characterId: string]: string | undefined },
   characterTargets: { [characterId: string]: string | undefined },
-  checkCharacter: (c: ProcessedCharacterT) => RollCheckerT,
-  basicRollCharacter: (c: ProcessedCharacterT) => RollCheckerT,
+  checkCharacter: (
+    c: ProcessedCharacterT,
+  ) => RollCheckerT<CharacterCheckT, Check2ResultT>,
+  rollCharacter: (
+    c: ProcessedCharacterT,
+  ) => RollCheckerT<CharacterRollT, Roll2ResultT>,
 ) => (
   userParty: ProcessedPartyT,
   enemyParty: ProcessedPartyT,
@@ -94,7 +101,7 @@ export const getCombatRecordBuilder = (
             ...execSkill(
               characterSkills,
               checkCharacter,
-              basicRollCharacter,
+              rollCharacter,
             )(target, source),
             index,
           },
@@ -104,58 +111,43 @@ export const getCombatRecordBuilder = (
   return result
 }
 
-export const DODGE_CHECK: RollCheckT = {
-  keys: ['dexterity'],
-  value: -8,
-}
+export const DODGE_CHECK: CharacterCheckT = makeCharacterCheck(
+  ['dexterity'],
+  undefined,
+  +8,
+)
 
-const formatRoll = (roll: RollCheckT): RollCheckT => ({
-  ...roll,
-  roll: roll.roll || '1d1-1',
-})
-const defaultDamageRoll = makeStaticRoll(0)
-const cr = (roll?: RollCheckT) => roll || defaultDamageRoll
+const cr = (roll?: CharacterRollT): CharacterRollT =>
+  roll || { ...ZERO_ROLL, keys: [] }
 export const getSkillDamageRolls = (
   skill: CharacterSkillT,
   weapon: WeaponT,
 ): DamageTypeRollsT => {
   if (skill.combineWeaponDamage) {
     return {
-      slashing: formatRoll(
-        considateStaticRolls([
-          cr(skill.damageRolls.slashing),
-          cr(weapon.damageRolls.slashing),
-        ]),
+      slashing: combineCharacterRolls(
+        cr(skill.damageRolls.slashing),
+        cr(weapon.damageRolls.slashing),
       ),
-      piercing: formatRoll(
-        considateStaticRolls([
-          cr(skill.damageRolls.piercing),
-          cr(weapon.damageRolls.piercing),
-        ]),
+      piercing: combineCharacterRolls(
+        cr(skill.damageRolls.piercing),
+        cr(weapon.damageRolls.piercing),
       ),
-      fire: formatRoll(
-        considateStaticRolls([
-          cr(skill.damageRolls.fire),
-          cr(weapon.damageRolls.fire),
-        ]),
+      fire: combineCharacterRolls(
+        cr(skill.damageRolls.fire),
+        cr(weapon.damageRolls.fire),
       ),
-      blood: formatRoll(
-        considateStaticRolls([
-          cr(skill.damageRolls.blood),
-          cr(weapon.damageRolls.blood),
-        ]),
+      blood: combineCharacterRolls(
+        cr(skill.damageRolls.blood),
+        cr(weapon.damageRolls.blood),
       ),
-      light: formatRoll(
-        considateStaticRolls([
-          cr(skill.damageRolls.light),
-          cr(weapon.damageRolls.light),
-        ]),
+      light: combineCharacterRolls(
+        cr(skill.damageRolls.light),
+        cr(weapon.damageRolls.light),
       ),
-      dark: formatRoll(
-        considateStaticRolls([
-          cr(skill.damageRolls.dark),
-          cr(weapon.damageRolls.dark),
-        ]),
+      dark: combineCharacterRolls(
+        cr(skill.damageRolls.dark),
+        cr(weapon.damageRolls.dark),
       ),
     }
   } else {
@@ -166,18 +158,22 @@ export const getSkillDamageRolls = (
 export const getSkillCheck = (
   skill: CharacterSkillT,
   weapon: WeaponT,
-): RollCheckT => {
+): CharacterCheckT => {
   if (skill.combineWeaponDamage) {
     return weapon.accuracyCheck
   } else {
-    return skill.check || { keys: [], value: 18 }
+    return skill.check || makeCharacterCheck([], undefined, 0, 18)
   }
 }
 
 export const execSkill = (
   characterSkills: { [characterId: string]: string | undefined },
-  checkCharacter: (c: ProcessedCharacterT) => RollCheckerT,
-  basicRollCharacter: (c: ProcessedCharacterT) => RollCheckerT,
+  checkCharacter: (
+    c: ProcessedCharacterT,
+  ) => RollCheckerT<CharacterCheckT, Check2ResultT>,
+  rollCharacter: (
+    c: ProcessedCharacterT,
+  ) => RollCheckerT<CharacterRollT, Roll2ResultT>,
 ) => (
   target: ProcessedCharacterT,
   source: ProcessedCharacterT,
@@ -202,25 +198,25 @@ export const execSkill = (
     const criticalSuccess = skillCheckResult.criticalSuccess
     attackResult.hitSuccess = true
     attackResult.criticalSuccess = criticalSuccess
-    const damageRollsResult = rollDamage(basicRollCharacter(source))(
+    const damageRollsResult = rollDamage(rollCharacter(source))(
       damageRolls,
       criticalSuccess,
     )
+    console.log(source.name, damageRollsResult)
     attackResult.rawDamage = damageRollsResult.total
     const dodgeRoll = checkCharacter(target)(DODGE_CHECK)
+    console.log(dodgeRoll)
     attackResult.dodgeSuccess = dodgeRoll.result || false
     if (!dodgeRoll.result) {
       const { damageResistances } = target
+      console.log(damageResistances)
       const damageKeys = getDamageTypeKeys(
         damageRollsResult.rollResults,
       ).filter((k) => damageRollsResult.rollResults[k])
       damageKeys.forEach((key) => {
-        const damageResult = damageRollsResult.rollResults[key] as RollResultT
-        const resistanceCheck = damageResistances[key] as RollCheckT
-        const resistanceRoll = basicRollCharacter(source)(
-          formatRoll(resistanceCheck),
-          true,
-        )
+        const damageResult = damageRollsResult.rollResults[key] as Roll2ResultT
+        const resistanceCheck = damageResistances[key] as CharacterRollT
+        const resistanceRoll = rollCharacter(source)(resistanceCheck, true)
         const blockedDamage = criticalSuccess ? 0 : resistanceRoll.total
         const damageTotal = damageResult.total - blockedDamage
         attackResult.blockedDamage += damageResult.total > 0 ? blockedDamage : 0
@@ -278,7 +274,6 @@ export const resolveRound = (
         const skill =
           source.skills.find((s) => s.id === attackResult.skillId) ||
           BASIC_ATTACK
-        console.log(source.name, skill.name, skill.focusCost)
         const healthOffset = rawTarget.healthOffset + attackResult.totalDamage
         const focusOffset = rawSource.focusOffset + skill.focusCost
         localUpdate(target.id, (c) => ({

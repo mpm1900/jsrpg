@@ -40,7 +40,6 @@ export const ItemPreviewSmall = (props: ItemPreviewSmallPropsT) => {
               <ItemPreview
                 item={item as EquippableT}
                 showEquipButton={false}
-                showRequirementCheck={false}
                 showCollapseButton={false}
               />
             </div>

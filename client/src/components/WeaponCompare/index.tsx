@@ -1,7 +1,6 @@
 import React from 'react'
 import { WeaponT } from '../../types/Weapon'
 import { useCharacterContext } from '../../contexts/CharacterContext'
-import { RollCheckT } from '../../types/Roll'
 import { ONE_COMPARE } from '../../util/compare'
 import { DamageTypeKeyT } from '../../types/Damage'
 import {
@@ -15,6 +14,7 @@ import {
 } from '../../contexts/CompareContext'
 import { WeaponPreview } from '../WeaponPreview'
 import { FISTS } from '../../objects/fists'
+import { CharacterRollT } from '../../types/Roll2'
 
 export interface EquipedWeaponComparePropsT {
   weapon: WeaponT
@@ -42,8 +42,8 @@ export const WeaponCompareItem = (props: WeaponCompareItemPropsT) => {
   )
   const accuracyCompare = compareChecks(a.accuracyCheck, b.accuracyCheck)
   const damageCompare = (key: DamageTypeKeyT) => {
-    const weaponRoll = a.damageRolls[key] as RollCheckT
-    const testRoll = b.damageRolls[key] as RollCheckT
+    const weaponRoll = a.damageRolls[key] as CharacterRollT
+    const testRoll = b.damageRolls[key] as CharacterRollT
     if (!testRoll) return ONE_COMPARE
     return compareRolls(weaponRoll, testRoll)
   }

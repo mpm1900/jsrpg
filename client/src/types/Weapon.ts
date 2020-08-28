@@ -1,7 +1,7 @@
 import { EquippableT } from './Item'
-import { RollCheckT, basicRoll } from './Roll'
 import { DamageTypeRollsT } from './Damage'
 import { CharacterT, ProcessedCharacterT, CharacterTraitT } from './Character'
+import { CharacterCheckT } from './Roll2'
 
 export type WeaponTypeT =
   // default
@@ -35,7 +35,7 @@ export type WeaponIconKeyT =
 export interface WeaponT extends EquippableT {
   type: 'weapon'
   weaponType: WeaponTypeT
-  accuracyCheck: RollCheckT
+  accuracyCheck: CharacterCheckT
   damageRolls: DamageTypeRollsT
   events: WeaponEventsT
 }

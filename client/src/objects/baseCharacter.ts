@@ -1,9 +1,6 @@
 import { CharacterT } from '../types/Character'
-import { makeStaticRoll } from '../types/Roll'
-import { buildArmor } from './builders/armor/createArmor'
-import { getRandom } from '../util/getRandom'
-import { buildWeapon } from './builders/weapons/createWeapon'
 import { v4 } from 'uuid'
+import { makeCharacterRoll } from '../types/Roll2'
 /*
 import { Config, adjectives, names } from 'unique-names-generator'
 
@@ -34,12 +31,12 @@ export const BASE_CHARACTER: CharacterT = {
     vigor: 0,
   },
   damageResistances: {
-    slashing: makeStaticRoll(0),
-    piercing: makeStaticRoll(0),
-    fire: makeStaticRoll(0),
-    blood: makeStaticRoll(0),
-    light: makeStaticRoll(0),
-    dark: makeStaticRoll(0),
+    slashing: makeCharacterRoll([]),
+    piercing: makeCharacterRoll([]),
+    fire: makeCharacterRoll([]),
+    blood: makeCharacterRoll([]),
+    light: makeCharacterRoll([]),
+    dark: makeCharacterRoll([]),
   },
 
   traits: [],
