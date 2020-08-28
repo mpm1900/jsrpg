@@ -7,6 +7,7 @@ import { CombatCharacterSkills } from '../CombatCharacterSkills'
 import { useCombatContext } from '../../contexts/CombatContext'
 import { PC_PARTY_ID } from '../../state/parties'
 import { CombatCharacterTargets } from '../CombatCharacterTargets'
+import { processCharacter } from '../../types/Character'
 
 export interface CombatPartyPropsT {
   party: PartyT
@@ -29,7 +30,18 @@ export const CombatParty = (props: CombatPartyPropsT) => {
           character={character}
           onChange={(c) => upsertCharacter(c, party.id)}
         >
-          <CharacterDetails showInspect={true} showWeaponInspect={true} />
+          <CharacterDetails
+            showInspect={
+              character.inspected ||
+              character.partyId === PC_PARTY_ID ||
+              processCharacter(character).dead
+            }
+            showWeaponInspect={
+              character.inspected ||
+              character.partyId === PC_PARTY_ID ||
+              processCharacter(character).dead
+            }
+          />
           {party.id === PC_PARTY_ID && (
             <>
               <CombatCharacterSkills
@@ -43,6 +55,7 @@ export const CombatParty = (props: CombatPartyPropsT) => {
                   setCharacterTarget(character.id, targetId)
                 }
               />
+              <div style={{ height: 10 }} />
             </>
           )}
         </CharacterContextProvider>

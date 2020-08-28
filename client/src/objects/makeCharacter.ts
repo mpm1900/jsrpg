@@ -4,7 +4,7 @@ import { buildArmor } from './builders/armor/createArmor'
 import { getRandom } from '../util/getRandom'
 import { buildWeapon } from './builders/weapons/createWeapon'
 import { v4 } from 'uuid'
-import { makeSkill, BASIC_ATTACK } from './makeSkill'
+import { makeSkill, BASIC_ATTACK, INSPECT } from './makeSkill'
 /*
 import { Config, adjectives, names } from 'unique-names-generator'
 
@@ -44,7 +44,7 @@ export const makeCharacter = (name?: string): CharacterT => ({
   },
 
   traits: [],
-  skills: [BASIC_ATTACK],
+  skills: [BASIC_ATTACK, INSPECT],
 
   equippedItems: [],
   armor: [
@@ -83,4 +83,5 @@ export const makeCharacter = (name?: string): CharacterT => ({
   healthOffset: 0,
   focusOffset: 0,
   dead: false,
+  inspected: false,
 })

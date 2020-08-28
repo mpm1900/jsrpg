@@ -62,6 +62,7 @@ export interface CharacterSkillT {
   combineWeaponDamage: boolean
   checkDodgeForTraits: boolean
   focusCost: number
+  inspected?: true
 }
 
 export interface CharacterT {
@@ -82,6 +83,7 @@ export interface CharacterT {
   focusOffset: number
   partyId?: string
   dead: boolean
+  inspected: boolean
 }
 export interface ProcessedCharacterT extends CharacterT {
   stats: CharacterStatsT

@@ -284,6 +284,7 @@ export const resolveRound = (
         localUpdate(target.id, (c) => ({
           ...c,
           healthOffset,
+          inspected: skill.inspected || c.inspected,
         }))
         localUpdate(source.id, (c) => ({
           ...rawSource,

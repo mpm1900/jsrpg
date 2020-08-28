@@ -89,5 +89,6 @@ export const makeNpc = (
     healthOffset: 0,
     focusOffset: 0,
     dead: false,
+    inspected: false,
   }
 }

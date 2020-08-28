@@ -51,4 +51,5 @@ export const BASE_CHARACTER: CharacterT = {
   healthOffset: 0,
   focusOffset: 0,
   dead: false,
+  inspected: false,
 }

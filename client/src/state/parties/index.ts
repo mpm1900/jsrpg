@@ -160,6 +160,7 @@ export const core: StateCoreT<PartyT[]> = {
 }
 
 const max = makeCharacter('Max M')
+const katie = makeCharacter('Katie C')
 export const PC_PARTY_ID = v4()
 export const INITIAL_STATE: PartyT[] = [
   {
@@ -192,7 +193,8 @@ export const INITIAL_STATE: PartyT[] = [
         ],
       },
       {
-        ...makeCharacter('Katie C'),
+        ...katie,
+        skills: [...katie.skills],
         weapon: SWORD_OF_THE_INFINITE,
       },
     ],
