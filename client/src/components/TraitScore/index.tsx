@@ -28,10 +28,22 @@ export const TraitScore = (props: TraitScorePropsT) => {
 
   return (
     <div style={{ fontFamily: 'monospace' }}>
+      {trait.focusOffset !== 0 && (
+        <span>
+          {getSign(trait.focusOffset)}
+          {Math.abs(trait.focusOffset)} FP
+          {trait.healthOffset !== 0 ||
+          abilityKeys.length > 0 ||
+          statKeys.length > 0
+            ? ', '
+            : ''}
+        </span>
+      )}
       {trait.healthOffset !== 0 && (
         <span>
           {getSign(trait.healthOffset)}
           {Math.abs(trait.healthOffset)} HP
+          {abilityKeys.length > 0 || statKeys.length > 0 ? ', ' : ''}
         </span>
       )}
       {abilityKeys.map((key, i) => (

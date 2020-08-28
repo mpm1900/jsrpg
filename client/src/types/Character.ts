@@ -14,6 +14,7 @@ import { ArmorT } from './Armor'
 import { reduce } from '../util/reduce'
 import { v4 } from 'uuid'
 import { noneg } from '../util/noneg'
+import { makeTrait } from '../objects/util'
 
 export type CharacterAbilityKeyT =
   | 'strength'
@@ -47,6 +48,7 @@ export interface CharacterTraitT {
   id: string
   name: string
   healthOffset: number
+  focusOffset: number
   abilitiesModifiers: CharacterAbilitiesT
   statsModifiers: CharacterStatsT
   duration: number
@@ -207,6 +209,7 @@ export const commitTrait = (character: CharacterT) => (
   return {
     ...character,
     healthOffset: noneg(character.healthOffset - trait.healthOffset),
+    focusOffset: noneg(character.focusOffset - trait.focusOffset),
   }
 }
 
@@ -460,54 +463,33 @@ export const getTraitValue = (
 export const combineTraits = (traits: CharacterTraitT[]): CharacterTraitT => {
   const id = v4()
   const name = 'combine' + id
-  return traits.reduce(
-    (result, current) => {
-      const ar = result.abilitiesModifiers
-      const ac = current.abilitiesModifiers
-      const sr = result.statsModifiers
-      const sc = current.statsModifiers
-      return {
-        id,
-        name,
-        duration: current.duration,
-        healthOffset: result.healthOffset + current.healthOffset,
-        abilitiesModifiers: {
-          strength: ar.strength + ac.strength,
-          dexterity: ar.dexterity + ac.dexterity,
-          intelligence: ar.intelligence + ac.intelligence,
-          vigor: ar.vigor + ac.vigor,
-        },
-        statsModifiers: {
-          health: sr.health + sc.health,
-          focus: sr.focus + sc.focus,
-          will: sr.will + sc.will,
-          perception: sr.perception + sc.perception,
-          lift: sr.lift + sc.lift,
-          agility: sr.agility + sc.agility,
-        },
-      }
-    },
-    {
-      id: '',
-      name: '',
-      duration: -1,
-      healthOffset: 0,
+  return traits.reduce((result, current) => {
+    const ar = result.abilitiesModifiers
+    const ac = current.abilitiesModifiers
+    const sr = result.statsModifiers
+    const sc = current.statsModifiers
+    return {
+      id,
+      name,
+      duration: current.duration,
+      healthOffset: result.healthOffset + current.healthOffset,
+      focusOffset: result.focusOffset + current.focusOffset,
       abilitiesModifiers: {
-        strength: 0,
-        dexterity: 0,
-        intelligence: 0,
-        vigor: 0,
+        strength: ar.strength + ac.strength,
+        dexterity: ar.dexterity + ac.dexterity,
+        intelligence: ar.intelligence + ac.intelligence,
+        vigor: ar.vigor + ac.vigor,
       },
       statsModifiers: {
-        health: 0,
-        focus: 0,
-        will: 0,
-        perception: 0,
-        lift: 0,
-        agility: 0,
+        health: sr.health + sc.health,
+        focus: sr.focus + sc.focus,
+        will: sr.will + sc.will,
+        perception: sr.perception + sc.perception,
+        lift: sr.lift + sc.lift,
+        agility: sr.agility + sc.agility,
       },
-    },
-  )
+    }
+  }, makeTrait())
 }
 
 export const validateCharacter = (character: CharacterT): CharacterT => {

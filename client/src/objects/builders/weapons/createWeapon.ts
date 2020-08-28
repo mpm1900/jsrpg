@@ -1,4 +1,4 @@
-import { BASE_EQUIPPABLE, makeRequirementCheck } from '../../util'
+import { BASE_EQUIPPABLE, makeRequirementCheck, makeTrait } from '../../util'
 import { WeaponT, WeaponTypeT } from '../../../types/Weapon'
 import { DamageTypeRollsT } from '../../../types/Damage'
 import { ItemRarityT } from '../../../types/Item'
@@ -63,10 +63,9 @@ export const createWeapon = (
     damageRolls,
     traits: [
       {
+        ...makeTrait(),
         id: `${base.id}--bonus`,
         name: 'Weapon Trait',
-        duration: -1,
-        healthOffset: 0,
         abilitiesModifiers: {
           strength: statRolls.strength || 0,
           dexterity: statRolls.dexterity || 0,

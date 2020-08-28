@@ -1,6 +1,6 @@
 import { makeStaticRoll } from '../types/Roll'
 import { EquippableT } from '../types/Item'
-import { BASE_EQUIPPABLE } from './util'
+import { BASE_EQUIPPABLE, makeTrait } from './util'
 
 export const BASIC_SHIELD: EquippableT = {
   ...BASE_EQUIPPABLE('shield'),
@@ -18,10 +18,8 @@ export const BASIC_SHIELD: EquippableT = {
   },
   traits: [
     {
+      ...makeTrait(),
       id: 'basic-shield--bonus',
-      name: 'Bonus',
-      duration: -1,
-      healthOffset: 0,
       abilitiesModifiers: {
         strength: 1,
         dexterity: 0,

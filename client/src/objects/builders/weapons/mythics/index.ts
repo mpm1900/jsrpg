@@ -19,6 +19,11 @@ export const SWORD_OF_BLOOD_AND_FIRE: WeaponT = {
         name: 'heal on hit',
         healthOffset: 5,
       },
+      {
+        ...makeTrait(),
+        name: 'restore fp on hit',
+        focusOffset: 5,
+      },
     ],
     onCrit: [
       {

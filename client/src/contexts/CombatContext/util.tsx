@@ -334,6 +334,14 @@ export const processEvent = (
         </span>,
       )
     }
+    if (combinedTrait.focusOffset > 0) {
+      addLine(
+        <span>
+          {NameSpan(source)} gained {combinedTrait.focusOffset} FP from{' '}
+          {(source.weapon as WeaponT).name}.
+        </span>,
+      )
+    }
     getKeys(combinedTrait.abilitiesModifiers).forEach((key) => {
       const value = combinedTrait.abilitiesModifiers[key]
       if (value !== 0) {

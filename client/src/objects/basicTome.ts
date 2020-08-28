@@ -1,6 +1,6 @@
 import { makeStaticRoll } from '../types/Roll'
 import { EquippableT } from '../types/Item'
-import { BASE_EQUIPPABLE } from './util'
+import { BASE_EQUIPPABLE, makeTrait } from './util'
 
 export const BASIC_TOME: EquippableT = {
   ...BASE_EQUIPPABLE('tome'),
@@ -18,23 +18,13 @@ export const BASIC_TOME: EquippableT = {
   },
   traits: [
     {
+      ...makeTrait(),
       id: 'basic-tome--bonus',
-      name: 'Bonus',
-      duration: -1,
-      healthOffset: 0,
       abilitiesModifiers: {
         strength: 0,
         dexterity: 0,
         intelligence: 4,
         vigor: 0,
-      },
-      statsModifiers: {
-        health: 0,
-        focus: 0,
-        will: 0,
-        perception: 0,
-        lift: 0,
-        agility: 0,
       },
     },
   ],

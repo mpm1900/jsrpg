@@ -79,6 +79,7 @@ export const createArmor = (
         name: 'Armor Trait',
         duration: -1,
         healthOffset: 0,
+        focusOffset: 0,
         abilitiesModifiers: {
           strength: statRolls.strength || 0,
           dexterity: statRolls.dexterity || 0,

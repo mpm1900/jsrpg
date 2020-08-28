@@ -33,6 +33,7 @@ export const BASE_EQUIPPABLE = (type: ItemTypeT): EquippableT => {
         name: 'Bonus',
         duration: -1,
         healthOffset: 0,
+        focusOffset: 0,
         abilitiesModifiers: {
           strength: 0,
           dexterity: 0,
@@ -66,6 +67,7 @@ export const makeTrait = (name: string = ''): CharacterTraitT => {
     name,
     duration: -1,
     healthOffset: 0,
+    focusOffset: 0,
     abilitiesModifiers: {
       strength: 0,
       dexterity: 0,
