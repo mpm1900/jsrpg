@@ -13,6 +13,8 @@ import { RollStateContextProvider } from '../../contexts/RollContext'
 import { useParams, useHistory } from 'react-router'
 import { usePartyContext } from '../../contexts/PartyContext'
 import { useUIContext } from '../../contexts/UIContext'
+import { SkillPreviewAlt } from '../../components/SkillPreviewAlt'
+import { BASIC_ATTACK, INSPECT } from '../../objects/makeSkill'
 
 export const Character = () => {
   const { id } = useParams()
@@ -83,17 +85,26 @@ export const Character = () => {
             <div>
               <WeaponPreview
                 weapon={character.weapon}
-                showEquipButton={true}
-                showRequirement={true}
+                showEquipButton={false}
+                showRequirement={false}
               />
               {character.equippedItems.map((item) => (
                 <ItemPreview
                   key={item.id}
                   item={item}
                   showRequirementCheck={false}
-                  showCollapseButton={true}
+                  showCollapseButton={false}
                 />
               ))}
+              <div style={{ marginTop: 10 }}>
+                {character.skills
+                  .filter(
+                    (s) => s.id !== BASIC_ATTACK.id && s.id !== INSPECT.id,
+                  )
+                  .map((skill) => (
+                    <SkillPreviewAlt key={skill.id} skill={skill} />
+                  ))}
+              </div>
             </div>
             <ArmorScoreList />
           </FlexContainer>

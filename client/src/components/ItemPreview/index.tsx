@@ -9,7 +9,7 @@ import {
 import { FlexContainer } from '../../elements/flex'
 import { TraitScore } from '../TraitScore'
 import { CheckPreview } from '../CheckPreview'
-import { unequipItem, CharacterSkillCheckKeyT } from '../../types/Character'
+import { CharacterSkillCheckKeyT } from '../../types/Character'
 import { BoxContainer, BoxButton } from '../../elements/box'
 import { IconDamageTypeMap, IconCharacterResourceMap } from '../../icons/maps'
 import { Icon } from '../Icon'
@@ -57,7 +57,7 @@ export const ItemPreview = (props: ItemPreviewPropsT) => {
       style={{ width: 380 }}
       substyle={{ borderColor: borderColor }}
     >
-      <FlexContainer style={{ marginBottom: collapsed ? 0 : 10 }}>
+      <FlexContainer>
         {isArmor ? (
           <ArmorIcon
             item={item as ArmorT}
@@ -167,13 +167,7 @@ export const ItemPreview = (props: ItemPreviewPropsT) => {
                 {getDamageTypeKeys(item.damageResistances)
                   .filter((k) => item.damageResistances[k])
                   .map((key) => (
-                    <FlexContainer
-                      // $full
-                      key={key}
-                      style={{
-                        marginBottom: 8,
-                      }}
-                    >
+                    <FlexContainer key={key}>
                       <Icon
                         src={IconDamageTypeMap[key]}
                         size={14}

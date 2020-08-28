@@ -29,7 +29,7 @@ export const SkillPreview = (props: SkillPreviewPropsT) => {
   return (
     <BoxContainer style={{ width: 380 }} substyle={{ backgroundColor: '#222' }}>
       <FlexContainer style={{ marginBottom: 10 }}>
-        <h3 style={{ margin: '0 0 0 10px', flex: 1 }}>{skill.name}</h3>
+        <h3 style={{ margin: '0 10px 0 0', flex: 1 }}>{skill.name}</h3>
       </FlexContainer>
 
       <FlexContainer style={{ marginBottom: 10 }}>
