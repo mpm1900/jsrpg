@@ -4,6 +4,7 @@ import { CharacterT, ProcessedCharacterT } from '../../types/Character'
 import { v4 } from 'uuid'
 import { useParties, PC_PARTY_ID, usePartiesActions } from '../../state/parties'
 import { actionCreators } from '../../state/rolls'
+import { EquippableT } from '../../types/Item'
 
 export interface PartyContextT {
   parties: ProcessedPartyT[]
@@ -13,6 +14,7 @@ export interface PartyContextT {
   activeCharacterId: string | null
 
   upsertParty: (party: PartyT) => void
+  upsertItem: (item: EquippableT) => void
   upsertCharacter: (character: CharacterT, partyId?: string) => void
   deleteCharacter: (characterId: string, partyId?: string) => void
   findCharacter: (
@@ -34,6 +36,7 @@ const defaultContextValue: PartyContextT = {
   rawUserParty: { id: v4(), characters: [], items: [] },
   activeCharacterId: null,
   upsertParty: (party) => {},
+  upsertItem: (item) => {},
   upsertCharacter: (character, partyId) => {},
   deleteCharacter: (characterId, partyId) => {},
   findCharacter: (characterId, partyId) => undefined,
@@ -67,6 +70,9 @@ export const PartyContextProvider = (props: PartyContextProviderPropsT) => {
       throw new Error('No Processed Parties Allowed')
     }
     actions.upsertParty(party)
+  }
+  const upsertItem = (item: EquippableT, partyId: string = PC_PARTY_ID) => {
+    actions.upsertItem(partyId, item)
   }
   const upsertCharacter = (
     character: CharacterT,
@@ -122,6 +128,7 @@ export const PartyContextProvider = (props: PartyContextProviderPropsT) => {
         rawUserParty,
         activeCharacterId,
         upsertParty,
+        upsertItem,
         upsertCharacter,
         deleteCharacter,
         equipItem,

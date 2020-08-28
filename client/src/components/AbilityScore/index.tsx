@@ -10,6 +10,7 @@ import { useRollContext } from '../../contexts/RollContext'
 import { BoxContainer, BoxButton } from '../../elements/box'
 import { FlexContainer } from '../../elements/flex'
 import { makeCharacterCheck } from '../../types/Roll2'
+import { usePartyContext } from '../../contexts/PartyContext'
 
 export interface AbilityScorePropsT {
   id: CharacterAbilityKeyT
@@ -18,6 +19,7 @@ export interface AbilityScorePropsT {
 export const AbilityScore = (props: AbilityScorePropsT) => {
   const { id, edit = true } = props
   const { character, rawCharacter, onChange } = useCharacterContext()
+  const { upsertItem } = usePartyContext()
   const { execCheck } = useRollContext()
   const keyName = CharacterKeyMap3[id]
   const rawValue = rawCharacter.abilities[id]
@@ -37,22 +39,26 @@ export const AbilityScore = (props: AbilityScorePropsT) => {
         execCheck(makeCharacterCheck([id]))
       }}
       onIncrement={() => {
-        onChange(
-          setCharacterAbilityScore(rawCharacter)(
-            id,
-            rawValue + 1,
-            points - cost,
-          ),
+        const [char, items] = setCharacterAbilityScore(rawCharacter)(
+          id,
+          rawValue + 1,
+          points - cost,
         )
+        onChange(char)
+        items.forEach((item) => {
+          upsertItem(item)
+        })
       }}
       onDecrement={() => {
-        onChange(
-          setCharacterAbilityScore(rawCharacter)(
-            id,
-            rawValue - 1,
-            points + cost,
-          ),
+        const [char, items] = setCharacterAbilityScore(rawCharacter)(
+          id,
+          rawValue - 1,
+          points + cost,
         )
+        onChange(char)
+        items.forEach((item) => {
+          upsertItem(item)
+        })
       }}
     />
   )

@@ -213,7 +213,7 @@ export const setCharacterAbilityScore = (character: CharacterT) => (
   key: CharacterAbilityKeyT,
   value: number,
   characterPoints: number = character.resources.characterPoints,
-): CharacterT =>
+): [CharacterT, EquippableT[]] =>
   validateCharacter({
     ...character,
     power:
@@ -295,24 +295,29 @@ export const equipItem = (character: CharacterT) => (
 export const unequipItem = (
   character: CharacterT,
   validate: boolean = true,
-) => (itemId: string): [EquippableT | undefined, CharacterT] => {
-  let equippable = undefined
+) => (itemId: string): [EquippableT[], CharacterT] => {
+  let equippables: EquippableT[] = []
   let c = { ...character }
   if (character.weapon?.id === itemId) {
-    equippable = { ...character.weapon }
+    equippables = [{ ...character.weapon }]
     c = unequipWeapon(c)
   }
   const armor = character.armor.find((i) => i.id === itemId)
   if (armor) {
-    equippable = { ...armor }
+    equippables = [{ ...armor }]
     c = unequipArmor(character)(armor)
   }
   const item = character.equippedItems.find((i) => i.id === itemId)
   if (item) {
-    equippable = { ...item }
+    equippables = [{ ...item }]
     c = unequipGenericItem(character)(item)
   }
-  return [equippable, validate ? validateCharacter(c) : c]
+  if (validate) {
+    let vr = validateCharacter(c)
+    c = vr[0]
+    equippables = [...equippables, ...vr[1]]
+  }
+  return [equippables, c]
 }
 
 export const equipGenericItem = (character: CharacterT) => (
@@ -445,26 +450,37 @@ export const combineTraits = (traits: CharacterTraitT[]): CharacterTraitT => {
   }, makeTrait())
 }
 
-export const validateCharacter = (character: CharacterT): CharacterT => {
-  console.log('validate character')
+export const validateCharacter = (
+  character: CharacterT,
+): [CharacterT, EquippableT[]] => {
   let pc = processCharacter(character)
   let result = { ...character }
+  let removedItems: EquippableT[] = []
   const localUpdate = (c: CharacterT) => {
     result = { ...c }
     pc = processCharacter(c)
   }
   if (!resolveCharacterCheck(pc.weapon.requirementCheck, pc).result) {
-    localUpdate(unequipItem(result, false)(pc.weapon.id)[1])
+    const unequipResult = unequipItem(result, false)(pc.weapon.id)
+    localUpdate(unequipResult[1])
+    if (unequipResult[0]) removedItems = [...removedItems, ...unequipResult[0]]
   }
   pc.armor.forEach((i) => {
     if (!resolveCharacterCheck(i.requirementCheck, pc).result) {
-      console.log('armor check failed')
-      localUpdate(unequipItem(character, false)(i.id)[1])
+      const unequipResult = unequipItem(result, false)(i.id)
+      localUpdate(unequipResult[1])
+      if (unequipResult[0])
+        removedItems = [...removedItems, ...unequipResult[0]]
     }
   })
   pc.equippedItems.forEach((i) => {
     if (!resolveCharacterCheck(i.requirementCheck, pc).result) {
-      localUpdate(unequipItem(character, false)(i.id)[1])
+      if (!resolveCharacterCheck(i.requirementCheck, pc).result) {
+        const unequipResult = unequipItem(result, false)(i.id)
+        localUpdate(unequipResult[1])
+        if (unequipResult[0])
+          removedItems = [...removedItems, ...unequipResult[0]]
+      }
     }
   })
 
@@ -473,9 +489,9 @@ export const validateCharacter = (character: CharacterT): CharacterT => {
     result.armor.length !== character.armor.length ||
     result.equippedItems.length !== result.equippedItems.length
   ) {
-    console.log('RECURR')
-    return validateCharacter(result)
+    const [ret, items] = validateCharacter(result)
+    removedItems = [...removedItems, ...items]
+    localUpdate(ret)
   }
-  console.log('done')
-  return result
+  return [result, removedItems]
 }

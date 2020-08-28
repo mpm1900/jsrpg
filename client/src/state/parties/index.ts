@@ -119,10 +119,11 @@ export const actions = {
     if (!party) return
     const _character = party.characters.find((c) => c.id === characterId)
     if (!_character) return
-    const [item, character] = unequipItem(_character)(itemId)
+    const [items, character] = unequipItem(_character)(itemId)
     dispatch(actionCreators.upsertCharacter(partyId, character))
-    if (!item) return
-    dispatch(actionCreators.upsertItem(partyId, item))
+    items.forEach((item) => {
+      dispatch(actionCreators.upsertItem(partyId, item))
+    })
   },
 }
 
@@ -167,7 +168,7 @@ export const INITIAL_STATE: PartyT[] = [
     items: [
       BASIC_SHIELD,
       BASIC_TOME,
-      ...Array(198)
+      ...Array(40)
         .fill(null)
         .map(() => makeItem()),
     ],
