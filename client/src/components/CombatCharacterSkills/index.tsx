@@ -56,15 +56,18 @@ export const CombatCharacterSkill = (props: CombatCharacterSkillPropsT) => {
       arrow={false}
       content={<SkillPreview skillId={skill.id} skill={skill} />}
     >
-      <BoxButton
+      <div
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
-        disabled={disabled}
-        onClick={() => onClick(skill.id)}
-        substyle={style}
       >
-        {skill.name}
-      </BoxButton>
+        <BoxButton
+          disabled={disabled}
+          onClick={() => onClick(skill.id)}
+          substyle={style}
+        >
+          {skill.name}
+        </BoxButton>
+      </div>
     </Tooltip>
   )
 }
