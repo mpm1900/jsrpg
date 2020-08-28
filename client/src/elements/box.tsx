@@ -77,8 +77,14 @@ export const BoxButton = (props: BoxContainerPropsT) => {
         background: '#111',
         ...(props.substyle || {}),
       }}
-      onMouseEnter={() => setHovering(true)}
-      onMouseLeave={() => setHovering(false)}
+      onMouseEnter={(e) => {
+        setHovering(true)
+        if (props.onMouseEnter) props.onMouseEnter(e)
+      }}
+      onMouseLeave={(e) => {
+        setHovering(false)
+        if (props.onMouseLeave) props.onMouseLeave(e)
+      }}
     />
   )
 }

@@ -1,6 +1,10 @@
 import React from 'react'
 import { WeaponT } from '../../types/Weapon'
-import { DamageTypeKeyT, DamageTypeKeyColors } from '../../types/Damage'
+import {
+  DamageTypeKeyT,
+  DamageTypeKeyColors,
+  DamageTypeRollsT,
+} from '../../types/Damage'
 import { FlexContainer } from '../../elements/flex'
 import { Icon } from '../Icon'
 import { IconDamageTypeMap } from '../../icons/maps'
@@ -16,17 +20,20 @@ import {
 } from '../../types/Roll2'
 import { useCharacterContext } from '../../contexts/CharacterContext'
 
+export interface HasDamageRollsT {
+  damageRolls: DamageTypeRollsT
+}
 export interface DamageRollScoresPropsT {
-  weapon: WeaponT
+  parent: HasDamageRollsT
   children: (
     values: DamageRollScorePropsT[],
     combinedRoll: CharacterRollT,
   ) => any
 }
 export const DamageRollScores = (props: DamageRollScoresPropsT) => {
-  const { weapon, children } = props
+  const { parent, children } = props
   const { character } = useCharacterContext()
-  const { damageRolls } = weapon
+  const { damageRolls } = parent
   const keys: DamageTypeKeyT[] = getKeys(damageRolls).filter(
     (key) => damageRolls[key],
   )

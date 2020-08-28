@@ -1,4 +1,4 @@
-import { WeaponT, WeaponEventsT } from './Weapon'
+import { WeaponT } from './Weapon'
 import { EquippableT } from './Item'
 import { FISTS } from '../objects/fists'
 import { DamageTypeRollsT, getDamageTypeKeys, DamageTypeKeyT } from './Damage'
@@ -8,12 +8,11 @@ import { v4 } from 'uuid'
 import { noneg } from '../util/noneg'
 import { makeTrait } from '../objects/util'
 import {
-  CharacterCheckT,
-  combineChecks,
   combineCharacterRolls,
   CharacterRollT,
   resolveCharacterCheck,
 } from './Roll2'
+import { SkillT } from './Skill'
 
 export type CharacterAbilityKeyT =
   | 'strength'
@@ -53,19 +52,6 @@ export interface CharacterTraitT {
   duration: number
 }
 
-export interface CharacterSkillT {
-  id: string
-  name: string
-  check?: CharacterCheckT
-  damageRolls: DamageTypeRollsT
-  traits: CharacterTraitT[]
-  events: WeaponEventsT
-  combineWeaponDamage: boolean
-  checkDodgeForTraits: boolean
-  focusCost: number
-  inspected?: true
-}
-
 export interface CharacterT {
   name: string
   id: string
@@ -74,7 +60,7 @@ export interface CharacterT {
   abilities: CharacterAbilitiesT
   damageResistances: DamageTypeRollsT
   traits: CharacterTraitT[]
-  skills: CharacterSkillT[]
+  skills: SkillT[]
 
   equippedItems: EquippableT[]
   armor: ArmorT[]

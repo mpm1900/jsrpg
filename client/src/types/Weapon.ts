@@ -2,6 +2,7 @@ import { EquippableT } from './Item'
 import { DamageTypeRollsT } from './Damage'
 import { CharacterT, ProcessedCharacterT, CharacterTraitT } from './Character'
 import { CharacterCheckT } from './Roll2'
+import { EventsT } from './Events'
 
 export type WeaponTypeT =
   // default
@@ -37,25 +38,5 @@ export interface WeaponT extends EquippableT {
   weaponType: WeaponTypeT
   accuracyCheck: CharacterCheckT
   damageRolls: DamageTypeRollsT
-  events: WeaponEventsT
-}
-
-export type WeaponEventTypeT = 'onHit' | 'onCrit'
-export type WeaponEventsT = Partial<Record<WeaponEventTypeT, CharacterTraitT[]>>
-export const WeaponEventsTypeMap: Record<WeaponEventTypeT, string> = {
-  onHit: 'on hit',
-  onCrit: 'on crit',
-}
-
-export const checkEvent = (character: CharacterT) => (
-  event: WeaponEventTypeT,
-): CharacterTraitT[] | undefined => {
-  if ((character as ProcessedCharacterT).processed) {
-    throw new Error('No Processed Characters [checkEvent]')
-  }
-  const { weapon } = character
-  if (!weapon) return undefined
-  const traits = weapon.events[event]
-  if (!traits) return undefined
-  return traits
+  events: EventsT
 }

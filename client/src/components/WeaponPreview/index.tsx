@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Color from 'color'
 import { useCharacterContext } from '../../contexts/CharacterContext'
 import { CheckPreview } from '../CheckPreview'
 import { TraitScore } from '../TraitScore'
-import { WeaponT, WeaponEventsTypeMap } from '../../types/Weapon'
+import { WeaponT } from '../../types/Weapon'
 import { DamageRollScores, DamageRollScore } from '../DamageRollScores'
 import { BoxContainer, BoxButton } from '../../elements/box'
 import { FlexContainer, FullContainer } from '../../elements/flex'
@@ -26,6 +26,7 @@ import {
   getRollRange,
   reduceCharacterRoll,
 } from '../../types/Roll2'
+import { EventsTypeMap } from '../../types/Events'
 
 export interface WeaponPreviewPropsT {
   weapon?: WeaponT
@@ -132,7 +133,7 @@ export const WeaponPreview = (props: WeaponPreviewPropsT) => {
                 color: 'rgba(255,255,255,0.5)',
               }}
             >
-              {WeaponEventsTypeMap[key]}:
+              {EventsTypeMap[key]}:
             </strong>
             <TraitScore
               trait={combineTraits(weapon.events[key] as CharacterTraitT[])}
@@ -140,7 +141,7 @@ export const WeaponPreview = (props: WeaponPreviewPropsT) => {
           </FlexContainer>
         ))}
       </div>
-      <DamageRollScores weapon={weapon}>
+      <DamageRollScores parent={weapon}>
         {(values, combinedRoll) => (
           <>
             <span

@@ -7,7 +7,6 @@ import {
   processCharacter,
   combineTraits,
   commitTrait,
-  CharacterSkillT,
   CharacterTraitT,
 } from '../../types/Character'
 import { RollCheckerT } from '../RollContext'
@@ -19,7 +18,7 @@ import {
 import { noneg } from '../../util/noneg'
 import { v4 } from 'uuid'
 import { PC_PARTY_ID } from '../../state/parties'
-import { checkEvent, WeaponT, WeaponEventTypeT } from '../../types/Weapon'
+import { WeaponT } from '../../types/Weapon'
 import { getKeys } from '../../util/getKeys'
 import { BASIC_ATTACK } from '../../objects/makeSkill'
 import { NameSpan, logResult } from './log'
@@ -32,6 +31,8 @@ import {
   Check2ResultT,
   Roll2ResultT,
 } from '../../types/Roll2'
+import { SkillT } from '../../types/Skill'
+import { EventTypeT, checkEvent } from '../../types/Events'
 
 export interface AttackResultT {
   id: string
@@ -120,7 +121,7 @@ export const DODGE_CHECK: CharacterCheckT = makeCharacterCheck(
 const cr = (roll?: CharacterRollT): CharacterRollT =>
   roll || { ...ZERO_ROLL, keys: [] }
 export const getSkillDamageRolls = (
-  skill: CharacterSkillT,
+  skill: SkillT,
   weapon: WeaponT,
 ): DamageTypeRollsT => {
   if (skill.combineWeaponDamage) {
@@ -156,7 +157,7 @@ export const getSkillDamageRolls = (
 }
 
 export const getSkillCheck = (
-  skill: CharacterSkillT,
+  skill: SkillT,
   weapon: WeaponT,
 ): CharacterCheckT => {
   if (skill.combineWeaponDamage) {
@@ -202,10 +203,8 @@ export const execSkill = (
       damageRolls,
       criticalSuccess,
     )
-    console.log(source.name, damageRollsResult)
     attackResult.rawDamage = damageRollsResult.total
     const dodgeRoll = checkCharacter(target)(DODGE_CHECK)
-    console.log(dodgeRoll)
     attackResult.dodgeSuccess = dodgeRoll.result || false
     if (!dodgeRoll.result) {
       const { damageResistances } = target
@@ -309,7 +308,7 @@ export const resolveRound = (
 }
 
 export const processEvent = (
-  event: WeaponEventTypeT,
+  event: EventTypeT,
   source: ProcessedCharacterT,
   rawSource: CharacterT,
   addLine: (line: React.ReactNode) => void,
