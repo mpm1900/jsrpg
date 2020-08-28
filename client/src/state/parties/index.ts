@@ -190,6 +190,7 @@ export const INITIAL_STATE: PartyT[] = [
             ...makeSkill('Crippling Blow'),
             requirementCheck: makeRequirementCheck(['strength'], 10),
             combineWeaponDamage: true,
+            checkDodgeForTraits: true,
             damageRolls: {},
             traits: [
               {
