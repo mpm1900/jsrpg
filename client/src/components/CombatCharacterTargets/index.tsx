@@ -4,6 +4,7 @@ import { BoxContainer, BoxButton } from '../../elements/box'
 import Dice6 from '../../icons/svg/delapouite/dice-six-faces-six.svg'
 import { Icon } from '../Icon'
 import { FlexContainer } from '../../elements/flex'
+import { useCharacterContext } from '../../contexts/CharacterContext'
 
 export interface CombatCharacterTargetsPropsT {
   activeTargetId?: string
@@ -12,6 +13,7 @@ export interface CombatCharacterTargetsPropsT {
 export const CombatCharacterTargets = (props: CombatCharacterTargetsPropsT) => {
   const { activeTargetId, onClick } = props
   const { enemyParty } = useCombatContext()
+  const cc = useCharacterContext()
   const active = (targetId?: string) => activeTargetId === targetId
   const characters = enemyParty ? enemyParty.characters : []
   return (
@@ -20,7 +22,7 @@ export const CombatCharacterTargets = (props: CombatCharacterTargetsPropsT) => {
         <BoxButton
           key={character.id}
           onClick={() => onClick(character.id)}
-          disabled={character.dead}
+          disabled={cc.character.dead || character.dead}
           substyle={{
             ...(active(character.id) ? { borderColor: 'white' } : {}),
           }}
@@ -30,6 +32,7 @@ export const CombatCharacterTargets = (props: CombatCharacterTargetsPropsT) => {
       ))}
       <FlexContainer $full />
       <BoxButton
+        disabled={cc.character.dead}
         onClick={() => onClick(undefined)}
         substyle={{
           ...(active(undefined) ? { borderColor: 'white' } : {}),

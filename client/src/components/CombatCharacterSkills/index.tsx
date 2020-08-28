@@ -19,6 +19,7 @@ export const CombatCharacterSkills = (props: CombatCharacterSkillsPropsT) => {
         <BoxButton
           key={skill.id}
           disabled={
+            character.dead ||
             character.stats.focus - character.focusOffset < skill.focusCost
           }
           onClick={() => onClick(skill.id)}
