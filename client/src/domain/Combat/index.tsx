@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
 import { useCombatContext } from '../../contexts/CombatContext'
-import { FlexContainer } from '../../elements/flex'
+import { FlexContainer, FullContainer } from '../../elements/flex'
 import { CombatParty } from '../../components/CombatParty'
 import { useUIContext } from '../../contexts/UIContext'
 import { useEvent } from '../../hooks/useEvent'
+import { BoxContainer } from '../../elements/box'
 
 export const Combat = () => {
   const {
@@ -36,15 +37,21 @@ export const Combat = () => {
     }
   }, [next])
   return (
-    <FlexContainer id='Combat' $full style={{ padding: 10 }}>
-      <CombatParty party={rawUserParty} />
-      <FlexContainer $full $direction='column'>
-        <div>
-          {done && <button onClick={() => reset()}>Reset</button>}
-          {!done && <button onClick={() => next()}>Next</button>}
-        </div>
+    <FlexContainer $full $direction='column'>
+      <BoxContainer>
+        <FlexContainer>
+          <FullContainer />
+          <div>
+            {done && <button onClick={() => reset()}>Reset</button>}
+            {!done && <button onClick={() => next()}>Next</button>}
+          </div>
+        </FlexContainer>
+      </BoxContainer>
+      <FlexContainer id='Combat' $full style={{ padding: 10 }}>
+        <CombatParty party={rawUserParty} />
+        <FlexContainer $full $direction='column'></FlexContainer>
+        <CombatParty party={rawEnemyParty} />
       </FlexContainer>
-      <CombatParty party={rawEnemyParty} />
     </FlexContainer>
   )
 }

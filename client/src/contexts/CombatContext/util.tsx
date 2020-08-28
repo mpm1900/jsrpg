@@ -277,8 +277,17 @@ export const resolveRound = (
         const focusOffset = rawSource.focusOffset + skill.focusCost
         localUpdate(target.id, (c) => ({
           ...c,
+          ...commitTrait(c)(combineTraits(skill.traits)),
           healthOffset,
           inspected: skill.inspected || c.inspected,
+          traits: [
+            ...c.traits,
+            ...skill.traits.map((t) => ({
+              ...t,
+              healthOffset: 0,
+              focusOffset: 0,
+            })),
+          ],
         }))
         localUpdate(source.id, (c) => ({
           ...rawSource,

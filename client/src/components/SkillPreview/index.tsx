@@ -44,15 +44,36 @@ export const SkillPreview = (props: SkillPreviewPropsT) => {
             check={skill.requirementCheck}
           />
         </FullContainer>
-        <FullContainer>
-          {skill.check && (
+        {skill.check && (
+          <FullContainer>
             <CheckPreview
               name='Skill Check'
               showCheckButton={false}
               check={skill.check}
             />
-          )}
-        </FullContainer>
+          </FullContainer>
+        )}
+        {skill.combineWeaponDamage && (
+          <FullContainer>
+            <CheckPreview
+              name='Accuracy'
+              showCheckButton={false}
+              check={character.weapon.accuracyCheck}
+            />
+          </FullContainer>
+        )}
+      </FlexContainer>
+      <FlexContainer style={{ marginBottom: 10 }}>
+        <strong
+          style={{
+            fontFamily: 'monospace',
+            marginRight: 10,
+            color: 'rgba(255,255,255,0.5)',
+          }}
+        >
+          target:
+        </strong>
+        <TraitScore trait={combineTraits(skill.traits)} />
       </FlexContainer>
       <div style={{ marginBottom: 10 }}>
         {getKeys(skill.events).map((key) => (
@@ -72,7 +93,9 @@ export const SkillPreview = (props: SkillPreviewPropsT) => {
           </FlexContainer>
         ))}
       </div>
-      <DamageRollScores parent={skill}>
+      <DamageRollScores
+        parent={skill.combineWeaponDamage ? character.weapon : skill}
+      >
         {(values, combinedRoll) => (
           <>
             <span

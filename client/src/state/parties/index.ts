@@ -23,6 +23,7 @@ import {
 } from '../../objects/builders/weapons/mythics'
 import { makeSkill } from '../../objects/makeSkill'
 import { makeCharacterRoll, makeCharacterCheck } from '../../types/Roll2'
+import { makeTrait, makeRequirementCheck } from '../../objects/util'
 
 export const UPSERT_PARTY = '@actions/parties/upsert-party'
 export const UPSERT_CHARACTER = '@actions/parties/upsert-character'
@@ -183,6 +184,25 @@ export const INITIAL_STATE: PartyT[] = [
             damageRolls: {
               fire: makeCharacterRoll([], '4d10'),
             },
+            focusCost: 10,
+          },
+          {
+            ...makeSkill('Crippling Blow'),
+            requirementCheck: makeRequirementCheck(['strength'], 10),
+            combineWeaponDamage: true,
+            damageRolls: {},
+            traits: [
+              {
+                ...makeTrait(),
+                duration: 2,
+                abilitiesModifiers: {
+                  strength: 0,
+                  dexterity: 0,
+                  intelligence: 0,
+                  vigor: -5,
+                },
+              },
+            ],
             focusCost: 10,
           },
         ],

@@ -259,8 +259,11 @@ export const getRollRange = (roll: Roll2T): string => {
 export const getRollText = (roll: CharacterRollT) => {
   const hasKeys = roll.keys.length > 0
   const hasMod = roll.modifier !== 0
-  return `${roll.string}${roll.keys.reduce(
-    (p, c) => `${p}+${CharacterKeyMap3[c]}`,
-    '',
-  )}${hasMod ? `${getSign(roll.modifier)}${Math.abs(roll.modifier)}` : ''}`
+  const keyString = roll.keys.reduce((p, c, i) => {
+    const plus = i === 0 && !roll.string ? '' : '+'
+    return `${p}${plus}${CharacterKeyMap3[c]}`
+  }, '')
+  return `${roll.string}${keyString}${
+    hasMod ? `${getSign(roll.modifier)}${Math.abs(roll.modifier)}` : ''
+  }`
 }
