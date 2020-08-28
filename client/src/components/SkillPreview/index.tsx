@@ -93,6 +93,28 @@ export const SkillPreview = (props: SkillPreviewPropsT) => {
           </FlexContainer>
         ))}
       </div>
+      {skill.combineWeaponDamage && (
+        <div style={{ marginBottom: 10 }}>
+          {getKeys(character.weapon.events).map((key) => (
+            <FlexContainer key={key} style={{ alignItems: 'center' }}>
+              <strong
+                style={{
+                  fontFamily: 'monospace',
+                  marginRight: 10,
+                  color: 'rgba(255,255,255,0.5)',
+                }}
+              >
+                {EventsTypeMap[key]}:
+              </strong>
+              <TraitScore
+                trait={combineTraits(
+                  character.weapon.events[key] as CharacterTraitT[],
+                )}
+              />
+            </FlexContainer>
+          ))}
+        </div>
+      )}
       <DamageRollScores
         parent={skill.combineWeaponDamage ? character.weapon : skill}
       >
