@@ -83,7 +83,9 @@ export const LogAddedTraits = (
         addLine(
           <span>
             {NameSpan(target)} {gv(trait.abilitiesModifiers[key])}{' '}
-            {trait.abilitiesModifiers[key]} {key}.
+            {trait.abilitiesModifiers[key]} {key}.{' '}
+            {trait.duration > 0 &&
+              `(${trait.duration - 1} round${trait.duration !== 2 ? 's' : ''})`}
           </span>,
         )
       }
