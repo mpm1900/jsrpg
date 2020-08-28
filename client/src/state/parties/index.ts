@@ -15,16 +15,14 @@ import { ItemT, EquippableT } from '../../types/Item'
 import { upsertIn, updateIn } from '../../util/updateIn'
 import { BASIC_SHIELD } from '../../objects/basicShield'
 import { BASIC_TOME } from '../../objects/basicTome'
-import makeItem, { makeRoll } from '../../objects/builders/makeItem'
+import makeItem from '../../objects/builders/makeItem'
 import { makeCharacter } from '../../objects/makeCharacter'
-import { WeaponT } from '../../types/Weapon'
-import { makeTrait } from '../../objects/util'
 import {
   SWORD_OF_BLOOD_AND_FIRE,
   SWORD_OF_THE_INFINITE,
 } from '../../objects/builders/weapons/mythics'
 import { makeSkill } from '../../objects/makeSkill'
-import { makeStaticRoll } from '../../types/Roll'
+import { makeCharacterRoll, makeCharacterCheck } from '../../types/Roll2'
 
 export const UPSERT_PARTY = '@actions/parties/upsert-party'
 export const UPSERT_CHARACTER = '@actions/parties/upsert-character'
@@ -180,13 +178,10 @@ export const INITIAL_STATE: PartyT[] = [
           ...max.skills,
           {
             ...makeSkill('Fireball'),
-            check: {
-              keys: ['intelligence'],
-              value: 0,
-            },
+            check: makeCharacterCheck(['intelligence']),
             combineWeaponDamage: false,
             damageRolls: {
-              fire: makeRoll('4d10'),
+              fire: makeCharacterRoll([], '4d10'),
             },
             focusCost: 10,
           },
@@ -194,7 +189,18 @@ export const INITIAL_STATE: PartyT[] = [
       },
       {
         ...katie,
-        skills: [...katie.skills],
+        skills: [
+          ...katie.skills,
+          {
+            ...makeSkill('Thunderbolt'),
+            check: makeCharacterCheck(['intelligence']),
+            combineWeaponDamage: false,
+            damageRolls: {
+              light: makeCharacterRoll(['intelligence']),
+            },
+            focusCost: 3,
+          },
+        ],
         weapon: SWORD_OF_THE_INFINITE,
       },
     ],

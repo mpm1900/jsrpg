@@ -5,10 +5,15 @@ import {
 import { ItemRarityT } from '../../../types/Item'
 import { ArmorTypeT } from '../../../types/Armor'
 import { getRandom } from '../../../util/getRandom'
-import { ItemModifierValuesT, getRollValue, makeRoll } from '../makeItem'
+import { ItemModifierValuesT } from '../makeItem'
 import { DamageTypeRollsT, DamageElementTypeT } from '../../../types/Damage'
 import { shuffleArray, getItemStatRolls } from '../util'
 import { WeaponTypeT } from '../../../types/Weapon'
+import {
+  quickRoll,
+  CharacterRollT,
+  makeCharacterRoll,
+} from '../../../types/Roll2'
 
 export const WeaponRequirementKeys: Record<
   WeaponTypeT,
@@ -211,6 +216,20 @@ export const WeaponRarityStatCounts: Record<ItemRarityT, number> = {
   set: 6,
 }
 
+export const makeDamageRoll = (
+  rollString: string,
+  modString: string,
+  keys: CharacterSkillCheckKeyT[] = [],
+  modCoef: number = -1,
+  mod: number = 0,
+): CharacterRollT => {
+  return makeCharacterRoll(
+    keys,
+    rollString,
+    quickRoll(modString) * modCoef + mod,
+  )
+}
+
 export type WeaponDamagesT = Record<WeaponTypeT, DamageTypeRollsT>
 export const WeaponDamages = (): Record<ItemRarityT, WeaponDamagesT> => {
   const element: DamageElementTypeT = getRandom<DamageElementTypeT>([
@@ -222,350 +241,332 @@ export const WeaponDamages = (): Record<ItemRarityT, WeaponDamagesT> => {
   return {
     common: {
       fists: {
-        slashing: makeRoll('1d6', getRollValue('3d4') * -1, ['strength']),
+        slashing: makeDamageRoll('1d6', '3d4', ['strength']),
       },
       axe: {
-        slashing: makeRoll('1d6', getRollValue('3d4') * -1, ['strength']),
+        slashing: makeDamageRoll('1d6', '3d4', ['strength']),
       },
       greataxe: {
-        slashing: makeRoll('2d6', getRollValue('1d6') * -1, ['strength']),
+        slashing: makeDamageRoll('2d6', '1d6', ['strength']),
       },
       flail: {
-        piercing: makeRoll('1d6', getRollValue('3d4') * -1, ['strength']),
+        piercing: makeDamageRoll('1d6', '3d4', ['strength']),
       },
       daggers: {
-        slashing: makeRoll('2d6', getRollValue('1d6') * -1, ['dexterity']),
+        slashing: makeDamageRoll('2d6', '1d6', ['dexterity']),
       },
       katana: {
-        slashing: makeRoll('1d6', getRollValue('3d4') * -1, ['dexterity']),
+        slashing: makeDamageRoll('1d6', '3d4', ['dexterity']),
       },
       rapier: {
-        piercing: makeRoll('1d6', getRollValue('3d4') * -1, ['dexterity']),
+        piercing: makeDamageRoll('1d6', '3d4', ['dexterity']),
       },
       wand: {
-        [element]: makeRoll('1d6', getRollValue('3d4') * -1, ['intelligence']),
+        [element]: makeDamageRoll('1d6', '3d4', ['intelligence']),
       },
       staff: {
-        [element]: makeRoll('2d6', getRollValue('1d6') * -1, ['intelligence']),
+        [element]: makeDamageRoll('2d6', '1d6', ['intelligence']),
       },
       elementalSword: {
-        slashing: makeRoll('1d6', getRollValue('3d6') * -1, [
+        slashing: makeDamageRoll('1d6', '3d6', [
           getRandom(['strength', 'dexterity']),
         ]),
-        [element]: makeRoll('1d4', getRollValue('3d6') * -1, ['intelligence']),
+        [element]: makeDamageRoll('1d4', '3d4', ['intelligence']),
       },
       elementalGreatsword: {
-        slashing: makeRoll('1d6', getRollValue('3d6') * -1, [
+        slashing: makeDamageRoll('1d6', '3d6', [
           getRandom(['strength', 'dexterity']),
         ]),
-        [element]: makeRoll('1d4', getRollValue('3d6') * -1, ['intelligence']),
+        [element]: makeDamageRoll('1d4', '3d4', ['intelligence']),
       },
       sword: {
-        slashing: makeRoll('1d6', getRollValue('3d6') * -1, ['strength']),
+        slashing: makeDamageRoll('1d6', '3d6', ['strength']),
       },
       greatsword: {
-        slashing: makeRoll('1d6', getRollValue('3d6') * -1, [
-          'strength',
-          'dexterity',
-        ]),
+        slashing: makeDamageRoll('1d6', '3d6', ['strength', 'dexterity']),
       },
       pistol: {
-        piercing: makeRoll('1d4', getRollValue('3d6') * -1, ['dexterity']),
-        fire: makeRoll('1d4', getRollValue('3d6') * -1, ['intelligence']),
+        piercing: makeDamageRoll('1d4', '3d6', ['dexterity']),
+        fire: makeDamageRoll('1d4', '3d6', ['intelligence']),
       },
       crossbow: {
-        piercing: makeRoll('1d4', getRollValue('2d6') * -1, ['dexterity']),
-        blood: makeRoll('1d4', getRollValue('2d6') * -1, ['intelligence']),
+        piercing: makeDamageRoll('1d4', '2d6', ['dexterity']),
+        fire: makeDamageRoll('1d4', '2d6', ['intelligence']),
       },
     },
     uncommon: {
       fists: {
-        slashing: makeRoll('1d6', getRollValue('3d4') * -1, ['strength']),
+        slashing: makeDamageRoll('1d6', '3d4', ['strength']),
       },
       axe: {
-        slashing: makeRoll('1d6', getRollValue('3d4') * -1, ['strength']),
+        slashing: makeDamageRoll('1d6', '3d4', ['strength']),
       },
       greataxe: {
-        slashing: makeRoll('2d6', getRollValue('1d6') * -1, ['strength']),
+        slashing: makeDamageRoll('2d6', '1d6', ['strength']),
       },
       flail: {
-        piercing: makeRoll('1d6', getRollValue('3d4') * -1, ['strength']),
+        piercing: makeDamageRoll('1d6', '3d4', ['strength']),
       },
       daggers: {
-        slashing: makeRoll('2d6', getRollValue('1d6') * -1, ['dexterity']),
+        slashing: makeDamageRoll('2d6', '1d6', ['dexterity']),
       },
       katana: {
-        slashing: makeRoll('1d6', getRollValue('3d4') * -1, ['dexterity']),
+        slashing: makeDamageRoll('1d6', '3d4', ['dexterity']),
       },
       rapier: {
-        piercing: makeRoll('1d6', getRollValue('3d4') * -1, ['dexterity']),
+        piercing: makeDamageRoll('1d6', '3d4', ['dexterity']),
       },
       wand: {
-        [element]: makeRoll('1d6', getRollValue('3d4') * -1, ['intelligence']),
+        [element]: makeDamageRoll('1d6', '3d4', ['intelligence']),
       },
       staff: {
-        [element]: makeRoll('2d6', getRollValue('1d6') * -1, ['intelligence']),
+        [element]: makeDamageRoll('2d6', '1d6', ['intelligence']),
       },
       elementalSword: {
-        slashing: makeRoll('1d6', getRollValue('3d6') * -1, [
+        slashing: makeDamageRoll('1d6', '3d6', [
           getRandom(['strength', 'dexterity']),
         ]),
-        [element]: makeRoll('1d4', getRollValue('3d6') * -1, ['intelligence']),
+        [element]: makeDamageRoll('1d4', '3d4', ['intelligence']),
       },
       elementalGreatsword: {
-        slashing: makeRoll('1d6', getRollValue('3d6') * -1, [
+        slashing: makeDamageRoll('1d6', '3d6', [
           getRandom(['strength', 'dexterity']),
         ]),
-        [element]: makeRoll('1d4', getRollValue('3d6') * -1, ['intelligence']),
+        [element]: makeDamageRoll('1d4', '3d4', ['intelligence']),
       },
       sword: {
-        slashing: makeRoll('1d6', getRollValue('3d6') * -1, ['strength']),
+        slashing: makeDamageRoll('1d6', '3d6', ['strength']),
       },
       greatsword: {
-        slashing: makeRoll('1d6', getRollValue('3d6') * -1, [
-          'strength',
-          'dexterity',
-        ]),
+        slashing: makeDamageRoll('1d6', '3d6', ['strength', 'dexterity']),
       },
       pistol: {
-        piercing: makeRoll('1d4', getRollValue('3d6') * -1, ['dexterity']),
-        fire: makeRoll('1d4', getRollValue('3d6') * -1, ['intelligence']),
+        piercing: makeDamageRoll('1d4', '3d6', ['dexterity']),
+        fire: makeDamageRoll('1d4', '3d6', ['intelligence']),
       },
       crossbow: {
-        piercing: makeRoll('1d4', getRollValue('2d6') * -1, ['dexterity']),
-        blood: makeRoll('1d4', getRollValue('2d6') * -1, ['intelligence']),
+        piercing: makeDamageRoll('1d4', '2d6', ['dexterity']),
+        fire: makeDamageRoll('1d4', '2d6', ['intelligence']),
       },
     },
     rare: {
       fists: {
-        slashing: makeRoll('1d6', getRollValue('3d4') * -1, ['strength']),
+        slashing: makeDamageRoll('1d6', '3d4', ['strength']),
       },
       axe: {
-        slashing: makeRoll('1d6', getRollValue('3d4') * -1, ['strength']),
+        slashing: makeDamageRoll('1d6', '3d4', ['strength']),
       },
       greataxe: {
-        slashing: makeRoll('2d6', getRollValue('1d6') * -1, ['strength']),
+        slashing: makeDamageRoll('2d6', '1d6', ['strength']),
       },
       flail: {
-        piercing: makeRoll('1d6', getRollValue('3d4') * -1, ['strength']),
+        piercing: makeDamageRoll('1d6', '3d4', ['strength']),
       },
       daggers: {
-        slashing: makeRoll('2d6', getRollValue('1d6') * -1, ['dexterity']),
+        slashing: makeDamageRoll('2d6', '1d6', ['dexterity']),
       },
       katana: {
-        slashing: makeRoll('1d6', getRollValue('3d4') * -1, ['dexterity']),
+        slashing: makeDamageRoll('1d6', '3d4', ['dexterity']),
       },
       rapier: {
-        piercing: makeRoll('1d6', getRollValue('3d4') * -1, ['dexterity']),
+        piercing: makeDamageRoll('1d6', '3d4', ['dexterity']),
       },
       wand: {
-        [element]: makeRoll('1d6', getRollValue('3d4') * -1, ['intelligence']),
+        [element]: makeDamageRoll('1d6', '3d4', ['intelligence']),
       },
       staff: {
-        [element]: makeRoll('2d6', getRollValue('1d6') * -1, ['intelligence']),
+        [element]: makeDamageRoll('2d6', '1d6', ['intelligence']),
       },
       elementalSword: {
-        slashing: makeRoll('1d6', getRollValue('3d6') * -1, [
+        slashing: makeDamageRoll('1d6', '3d6', [
           getRandom(['strength', 'dexterity']),
         ]),
-        [element]: makeRoll('1d4', getRollValue('3d6') * -1, ['intelligence']),
+        [element]: makeDamageRoll('1d4', '3d4', ['intelligence']),
       },
       elementalGreatsword: {
-        slashing: makeRoll('1d6', getRollValue('3d6') * -1, [
+        slashing: makeDamageRoll('1d6', '3d6', [
           getRandom(['strength', 'dexterity']),
         ]),
-        [element]: makeRoll('1d4', getRollValue('3d6') * -1, ['intelligence']),
+        [element]: makeDamageRoll('1d4', '3d4', ['intelligence']),
       },
       sword: {
-        slashing: makeRoll('1d6', getRollValue('3d6') * -1, ['strength']),
+        slashing: makeDamageRoll('1d6', '3d6', ['strength']),
       },
       greatsword: {
-        slashing: makeRoll('1d6', getRollValue('3d6') * -1, [
-          'strength',
-          'dexterity',
-        ]),
+        slashing: makeDamageRoll('1d6', '3d6', ['strength', 'dexterity']),
       },
       pistol: {
-        piercing: makeRoll('1d4', getRollValue('3d6') * -1, ['dexterity']),
-        fire: makeRoll('1d4', getRollValue('3d6') * -1, ['intelligence']),
+        piercing: makeDamageRoll('1d4', '3d6', ['dexterity']),
+        fire: makeDamageRoll('1d4', '3d6', ['intelligence']),
       },
       crossbow: {
-        piercing: makeRoll('1d4', getRollValue('2d6') * -1, ['dexterity']),
-        blood: makeRoll('1d4', getRollValue('2d6') * -1, ['intelligence']),
+        piercing: makeDamageRoll('1d4', '2d6', ['dexterity']),
+        fire: makeDamageRoll('1d4', '2d6', ['intelligence']),
       },
     },
     legendary: {
       fists: {
-        slashing: makeRoll('1d6', getRollValue('3d4') * -1, ['strength']),
+        slashing: makeDamageRoll('1d6', '3d4', ['strength']),
       },
       axe: {
-        slashing: makeRoll('1d6', getRollValue('3d4') * -1, ['strength']),
+        slashing: makeDamageRoll('1d6', '3d4', ['strength']),
       },
       greataxe: {
-        slashing: makeRoll('2d6', getRollValue('1d6') * -1, ['strength']),
+        slashing: makeDamageRoll('2d6', '1d6', ['strength']),
       },
       flail: {
-        piercing: makeRoll('1d6', getRollValue('3d4') * -1, ['strength']),
+        piercing: makeDamageRoll('1d6', '3d4', ['strength']),
       },
       daggers: {
-        slashing: makeRoll('2d6', getRollValue('1d6') * -1, ['dexterity']),
+        slashing: makeDamageRoll('2d6', '1d6', ['dexterity']),
       },
       katana: {
-        slashing: makeRoll('1d6', getRollValue('3d4') * -1, ['dexterity']),
+        slashing: makeDamageRoll('1d6', '3d4', ['dexterity']),
       },
       rapier: {
-        piercing: makeRoll('1d6', getRollValue('3d4') * -1, ['dexterity']),
+        piercing: makeDamageRoll('1d6', '3d4', ['dexterity']),
       },
       wand: {
-        [element]: makeRoll('1d6', getRollValue('3d4') * -1, ['intelligence']),
+        [element]: makeDamageRoll('1d6', '3d4', ['intelligence']),
       },
       staff: {
-        [element]: makeRoll('2d6', getRollValue('1d6') * -1, ['intelligence']),
+        [element]: makeDamageRoll('2d6', '1d6', ['intelligence']),
       },
       elementalSword: {
-        slashing: makeRoll('1d6', getRollValue('3d6') * -1, [
+        slashing: makeDamageRoll('1d6', '3d6', [
           getRandom(['strength', 'dexterity']),
         ]),
-        [element]: makeRoll('1d4', getRollValue('3d6') * -1, ['intelligence']),
+        [element]: makeDamageRoll('1d4', '3d4', ['intelligence']),
       },
       elementalGreatsword: {
-        slashing: makeRoll('1d6', getRollValue('3d6') * -1, [
+        slashing: makeDamageRoll('1d6', '3d6', [
           getRandom(['strength', 'dexterity']),
         ]),
-        [element]: makeRoll('1d4', getRollValue('3d6') * -1, ['intelligence']),
+        [element]: makeDamageRoll('1d4', '3d4', ['intelligence']),
       },
       sword: {
-        slashing: makeRoll('1d6', getRollValue('3d6') * -1, ['strength']),
+        slashing: makeDamageRoll('1d6', '3d6', ['strength']),
       },
       greatsword: {
-        slashing: makeRoll('1d6', getRollValue('3d6') * -1, [
-          'strength',
-          'dexterity',
-        ]),
+        slashing: makeDamageRoll('1d6', '3d6', ['strength', 'dexterity']),
       },
       pistol: {
-        piercing: makeRoll('1d4', getRollValue('3d6') * -1, ['dexterity']),
-        fire: makeRoll('1d4', getRollValue('3d6') * -1, ['intelligence']),
+        piercing: makeDamageRoll('1d4', '3d6', ['dexterity']),
+        fire: makeDamageRoll('1d4', '3d6', ['intelligence']),
       },
       crossbow: {
-        piercing: makeRoll('1d4', getRollValue('2d6') * -1, ['dexterity']),
-        blood: makeRoll('1d4', getRollValue('2d6') * -1, ['intelligence']),
+        piercing: makeDamageRoll('1d4', '2d6', ['dexterity']),
+        fire: makeDamageRoll('1d4', '2d6', ['intelligence']),
       },
     },
     unique: {
       fists: {
-        slashing: makeRoll('1d6', getRollValue('3d4') * -1, ['strength']),
+        slashing: makeDamageRoll('1d6', '3d4', ['strength']),
       },
       axe: {
-        slashing: makeRoll('1d6', getRollValue('3d4') * -1, ['strength']),
+        slashing: makeDamageRoll('1d6', '3d4', ['strength']),
       },
       greataxe: {
-        slashing: makeRoll('2d6', getRollValue('1d6') * -1, ['strength']),
+        slashing: makeDamageRoll('2d6', '1d6', ['strength']),
       },
       flail: {
-        piercing: makeRoll('1d6', getRollValue('3d4') * -1, ['strength']),
+        piercing: makeDamageRoll('1d6', '3d4', ['strength']),
       },
       daggers: {
-        slashing: makeRoll('2d6', getRollValue('1d6') * -1, ['dexterity']),
+        slashing: makeDamageRoll('2d6', '1d6', ['dexterity']),
       },
       katana: {
-        slashing: makeRoll('1d6', getRollValue('3d4') * -1, ['dexterity']),
+        slashing: makeDamageRoll('1d6', '3d4', ['dexterity']),
       },
       rapier: {
-        piercing: makeRoll('1d6', getRollValue('3d4') * -1, ['dexterity']),
+        piercing: makeDamageRoll('1d6', '3d4', ['dexterity']),
       },
       wand: {
-        [element]: makeRoll('1d6', getRollValue('3d4') * -1, ['intelligence']),
+        [element]: makeDamageRoll('1d6', '3d4', ['intelligence']),
       },
       staff: {
-        [element]: makeRoll('2d6', getRollValue('1d6') * -1, ['intelligence']),
+        [element]: makeDamageRoll('2d6', '1d6', ['intelligence']),
       },
       elementalSword: {
-        slashing: makeRoll('1d6', getRollValue('3d6') * -1, [
+        slashing: makeDamageRoll('1d6', '3d6', [
           getRandom(['strength', 'dexterity']),
         ]),
-        [element]: makeRoll('1d4', getRollValue('3d6') * -1, ['intelligence']),
+        [element]: makeDamageRoll('1d4', '3d4', ['intelligence']),
       },
       elementalGreatsword: {
-        slashing: makeRoll('1d6', getRollValue('3d6') * -1, [
+        slashing: makeDamageRoll('1d6', '3d6', [
           getRandom(['strength', 'dexterity']),
         ]),
-        [element]: makeRoll('1d4', getRollValue('3d6') * -1, ['intelligence']),
+        [element]: makeDamageRoll('1d4', '3d4', ['intelligence']),
       },
       sword: {
-        slashing: makeRoll('1d6', getRollValue('3d6') * -1, ['strength']),
+        slashing: makeDamageRoll('1d6', '3d6', ['strength']),
       },
       greatsword: {
-        slashing: makeRoll('1d6', getRollValue('3d6') * -1, [
-          'strength',
-          'dexterity',
-        ]),
+        slashing: makeDamageRoll('1d6', '3d6', ['strength', 'dexterity']),
       },
       pistol: {
-        piercing: makeRoll('1d4', getRollValue('3d6') * -1, ['dexterity']),
-        fire: makeRoll('1d4', getRollValue('3d6') * -1, ['intelligence']),
+        piercing: makeDamageRoll('1d4', '3d6', ['dexterity']),
+        fire: makeDamageRoll('1d4', '3d6', ['intelligence']),
       },
       crossbow: {
-        piercing: makeRoll('1d4', getRollValue('2d6') * -1, ['dexterity']),
-        blood: makeRoll('1d4', getRollValue('2d6') * -1, ['intelligence']),
+        piercing: makeDamageRoll('1d4', '2d6', ['dexterity']),
+        fire: makeDamageRoll('1d4', '2d6', ['intelligence']),
       },
     },
     mythic: {
       fists: {
-        slashing: makeRoll('1d6', getRollValue('3d4') * -1, ['strength']),
+        slashing: makeDamageRoll('1d6', '3d4', ['strength']),
       },
       axe: {
-        slashing: makeRoll('1d6', getRollValue('3d4') * -1, ['strength']),
+        slashing: makeDamageRoll('1d6', '3d4', ['strength']),
       },
       greataxe: {
-        slashing: makeRoll('2d6', getRollValue('1d6') * -1, ['strength']),
+        slashing: makeDamageRoll('2d6', '1d6', ['strength']),
       },
       flail: {
-        piercing: makeRoll('1d6', getRollValue('3d4') * -1, ['strength']),
+        piercing: makeDamageRoll('1d6', '3d4', ['strength']),
       },
       daggers: {
-        slashing: makeRoll('2d6', getRollValue('1d6') * -1, ['dexterity']),
+        slashing: makeDamageRoll('2d6', '1d6', ['dexterity']),
       },
       katana: {
-        slashing: makeRoll('1d6', getRollValue('3d4') * -1, ['dexterity']),
+        slashing: makeDamageRoll('1d6', '3d4', ['dexterity']),
       },
       rapier: {
-        piercing: makeRoll('1d6', getRollValue('3d4') * -1, ['dexterity']),
+        piercing: makeDamageRoll('1d6', '3d4', ['dexterity']),
       },
       wand: {
-        [element]: makeRoll('1d6', getRollValue('3d4') * -1, ['intelligence']),
+        [element]: makeDamageRoll('1d6', '3d4', ['intelligence']),
       },
       staff: {
-        [element]: makeRoll('2d6', getRollValue('1d6') * -1, ['intelligence']),
+        [element]: makeDamageRoll('2d6', '1d6', ['intelligence']),
       },
       elementalSword: {
-        slashing: makeRoll('1d6', getRollValue('3d6') * -1, [
+        slashing: makeDamageRoll('1d6', '3d6', [
           getRandom(['strength', 'dexterity']),
         ]),
-        [element]: makeRoll('1d4', getRollValue('3d6') * -1, ['intelligence']),
+        [element]: makeDamageRoll('1d4', '3d4', ['intelligence']),
       },
       elementalGreatsword: {
-        slashing: makeRoll('1d6', getRollValue('3d6') * -1, [
+        slashing: makeDamageRoll('1d6', '3d6', [
           getRandom(['strength', 'dexterity']),
         ]),
-        [element]: makeRoll('1d4', getRollValue('3d6') * -1, ['intelligence']),
+        [element]: makeDamageRoll('1d4', '3d4', ['intelligence']),
       },
       sword: {
-        slashing: makeRoll('1d6', getRollValue('3d6') * -1, ['strength']),
+        slashing: makeDamageRoll('1d6', '3d6', ['strength']),
       },
       greatsword: {
-        slashing: makeRoll('1d6', getRollValue('3d6') * -1, [
-          'strength',
-          'dexterity',
-        ]),
+        slashing: makeDamageRoll('1d6', '3d6', ['strength', 'dexterity']),
       },
       pistol: {
-        piercing: makeRoll('1d4', getRollValue('3d6') * -1, ['dexterity']),
-        fire: makeRoll('1d4', getRollValue('3d6') * -1, ['intelligence']),
+        piercing: makeDamageRoll('1d4', '3d6', ['dexterity']),
+        fire: makeDamageRoll('1d4', '3d6', ['intelligence']),
       },
       crossbow: {
-        piercing: makeRoll('1d4', getRollValue('2d6') * -1, ['dexterity']),
-        blood: makeRoll('1d4', getRollValue('2d6') * -1, ['intelligence']),
+        piercing: makeDamageRoll('1d4', '2d6', ['dexterity']),
+        fire: makeDamageRoll('1d4', '2d6', ['intelligence']),
       },
     },
     set: {

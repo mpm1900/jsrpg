@@ -1,10 +1,9 @@
-import { CharacterT } from '../types/Character'
-import { RollResultT } from '../types/Roll'
 import { PartyT } from '../types/Party'
+import { Check2ResultT } from '../types/Roll2'
 
 export interface StateT {
   parties: PartyT[]
-  rolls: RollResultT[]
+  rolls: Check2ResultT[]
 }
 
 export interface StateActionT<T = any> {

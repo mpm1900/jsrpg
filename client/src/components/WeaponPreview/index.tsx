@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Color from 'color'
 import { useCharacterContext } from '../../contexts/CharacterContext'
 import { CheckPreview } from '../CheckPreview'
@@ -21,6 +21,11 @@ import { FISTS } from '../../objects/fists'
 import { ItemRarityColorMap } from '../../types/Item'
 import { usePartyContext } from '../../contexts/PartyContext'
 import { getKeys } from '../../util/getKeys'
+import {
+  getRollText,
+  getRollRange,
+  reduceCharacterRoll,
+} from '../../types/Roll2'
 
 export interface WeaponPreviewPropsT {
   weapon?: WeaponT
@@ -136,17 +141,28 @@ export const WeaponPreview = (props: WeaponPreviewPropsT) => {
         ))}
       </div>
       <DamageRollScores weapon={weapon}>
-        {(values) =>
-          values.map((value) => (
-            <DamageRollScore
-              key={value.id}
-              id={value.id}
-              damageRangeText={value.damageRangeText}
-              damageRollText={value.damageRollText}
-              compareResult={damageCompare(value.id)}
-            />
-          ))
-        }
+        {(values, combinedRoll) => (
+          <>
+            <span
+              style={{
+                fontFamily: 'monospace',
+                color: 'rgba(255,255,255,0.25)',
+              }}
+            >
+              ({getRollRange(reduceCharacterRoll(combinedRoll, character))}){' '}
+              {getRollText(combinedRoll)}
+            </span>
+            {values.map((value) => (
+              <DamageRollScore
+                key={value.id}
+                id={value.id}
+                damageRangeText={value.damageRangeText}
+                damageRollText={value.damageRollText}
+                compareResult={damageCompare(value.id)}
+              />
+            ))}
+          </>
+        )}
       </DamageRollScores>
     </BoxContainer>
   )

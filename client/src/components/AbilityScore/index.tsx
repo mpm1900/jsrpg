@@ -9,6 +9,7 @@ import {
 import { useRollContext } from '../../contexts/RollContext'
 import { BoxContainer, BoxButton } from '../../elements/box'
 import { FlexContainer } from '../../elements/flex'
+import { makeCharacterCheck } from '../../types/Roll2'
 
 export interface AbilityScorePropsT {
   id: CharacterAbilityKeyT
@@ -33,9 +34,7 @@ export const AbilityScore = (props: AbilityScorePropsT) => {
       cost={cost}
       edit={edit}
       onClick={() => {
-        execCheck({
-          keys: [id],
-        })
+        execCheck(makeCharacterCheck([id]))
       }}
       onIncrement={() => {
         onChange(

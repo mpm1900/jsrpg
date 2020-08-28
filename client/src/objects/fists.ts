@@ -1,6 +1,7 @@
 import { WeaponT } from '../types/Weapon'
 import { v4 } from 'uuid'
-import { BASE_EQUIPPABLE } from './util'
+import { BASE_EQUIPPABLE, makeRequirementCheck } from './util'
+import { makeCharacterCheck, makeCharacterRoll } from '../types/Roll2'
 
 export const FISTS: WeaponT = {
   ...BASE_EQUIPPABLE('weapon'),
@@ -11,23 +12,11 @@ export const FISTS: WeaponT = {
   name: 'Unarmed',
   cost: 0,
   resource: 'weaponHands',
-  requirementCheck: {
-    roll: 1,
-    keys: ['strength'],
-    value: 0,
-  },
+  requirementCheck: makeRequirementCheck(['strength'], 1),
   damageRolls: {
-    slashing: undefined,
-    piercing: {
-      roll: '1d6',
-      keys: [],
-      value: -3,
-    },
+    piercing: makeCharacterRoll([], '1d6', -3),
   },
-  accuracyCheck: {
-    keys: ['dexterity'],
-    value: -1,
-  },
+  accuracyCheck: makeCharacterCheck(['dexterity']),
   traits: [],
   events: {},
 }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Switch } from 'react-router-dom'
 
 import { CharacterStateContextProvider } from './contexts/CharacterContext'

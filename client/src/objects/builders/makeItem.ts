@@ -6,7 +6,6 @@ import { ArmorT, ArmorTypeT } from '../../types/Armor'
 import { BASIC_SHIELD } from '../basicShield'
 import { FISTS } from '../fists'
 import { BASIC_TOME } from '../basicTome'
-import { basicRoll, RollCheckT } from '../../types/Roll'
 import { CharacterSkillCheckKeyT } from '../../types/Character'
 
 import { buildArmor } from './armor/createArmor'
@@ -63,22 +62,6 @@ export const getRarity = (index: number): ItemRarityT => {
   if (index >= rarityArray.length) return 'mythic'
   return rarityArray[index]
 }
-
-export const makeRoll = (
-  roll: string,
-  value: number = 0,
-  keys: CharacterSkillCheckKeyT[] = [],
-): RollCheckT => ({
-  roll,
-  value,
-  keys,
-})
-export const getRollValue = (
-  roll: string,
-  value: number = 0,
-  keys: CharacterSkillCheckKeyT[] = [],
-  allowNegative: boolean = false,
-): number => basicRoll(makeRoll(roll, value, keys), allowNegative).total
 
 const itemCore: ItemMakerMapT = {
   weapon: () =>

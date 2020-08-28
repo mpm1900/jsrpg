@@ -2,27 +2,40 @@ import React from 'react'
 import { WeaponT } from '../../types/Weapon'
 import { DamageTypeKeyT, DamageTypeKeyColors } from '../../types/Damage'
 import { FlexContainer } from '../../elements/flex'
-import { getRollText, RollCheckT, getRollRange } from '../../types/Roll'
 import { Icon } from '../Icon'
 import { IconDamageTypeMap } from '../../icons/maps'
 import { BoxContainer } from '../../elements/box'
-import { useRollContext } from '../../contexts/RollContext'
 import { getKeys } from '../../util/getKeys'
 import { CompareResultFn, ZERO_COMPARE, BASE_ARGS } from '../../util/compare'
+import {
+  CharacterRollT,
+  getRollText,
+  getRollRange,
+  reduceCharacterRoll,
+  combineCharacterRolls,
+} from '../../types/Roll2'
+import { useCharacterContext } from '../../contexts/CharacterContext'
 
 export interface DamageRollScoresPropsT {
   weapon: WeaponT
-  children: (values: DamageRollScorePropsT[]) => any
+  children: (
+    values: DamageRollScorePropsT[],
+    combinedRoll: CharacterRollT,
+  ) => any
 }
 export const DamageRollScores = (props: DamageRollScoresPropsT) => {
   const { weapon, children } = props
+  const { character } = useCharacterContext()
   const { damageRolls } = weapon
-  const { execRoll } = useRollContext()
   const keys: DamageTypeKeyT[] = getKeys(damageRolls).filter(
     (key) => damageRolls[key],
   )
-  const getDamageRange = (roll: RollCheckT) => {
-    return getRollRange(roll, false, execRoll)
+  const rolls = keys
+    .map((key) => damageRolls[key])
+    .filter((roll) => roll) as CharacterRollT[]
+
+  const getDamageRange = (roll: CharacterRollT) => {
+    return getRollRange(reduceCharacterRoll(roll, character))
   }
 
   return (
@@ -34,9 +47,10 @@ export const DamageRollScores = (props: DamageRollScoresPropsT) => {
         keys.map((key) => ({
           id: key,
           key,
-          damageRangeText: getDamageRange(damageRolls[key] as RollCheckT),
-          damageRollText: getRollText(damageRolls[key] as RollCheckT),
+          damageRangeText: getDamageRange(damageRolls[key] as CharacterRollT),
+          damageRollText: getRollText(damageRolls[key] as CharacterRollT),
         })),
+        combineCharacterRolls(...rolls),
       )}
     </BoxContainer>
   )

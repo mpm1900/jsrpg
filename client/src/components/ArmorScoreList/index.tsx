@@ -35,7 +35,7 @@ export const ArmorScoreList = (props: ArmorScoreListPropsT) => {
           <ItemPreview
             key={item.id}
             item={item}
-            showRequirementCheck={false}
+            showRequirementCheck={true}
             showCollapseButton={false}
           />
         ))}

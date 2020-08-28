@@ -3,6 +3,7 @@ import { useCharacterContext } from '../../contexts/CharacterContext'
 import { CharacterStatKeyT } from '../../types/Character'
 import { useRollContext } from '../../contexts/RollContext'
 import { BoxContainer } from '../../elements/box'
+import { makeCharacterCheck } from '../../types/Roll2'
 
 export interface StatScorePropsT {
   id: CharacterStatKeyT
@@ -24,7 +25,7 @@ export const StatScore = (props: StatScorePropsT) => {
       <a
         href='#'
         style={{ display: 'inline-block', flex: 1, marginRight: 10 }}
-        onClick={() => execCheck({ keys: [id] })}
+        onClick={() => execCheck(makeCharacterCheck([id]))}
       >
         {displayName}
       </a>

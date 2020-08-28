@@ -1,50 +1,57 @@
 import React, { useContext } from 'react'
-import { RollResultT, RollCheckT, basicRoll } from '../../types/Roll'
-import {
-  checkCharacter,
-  basicRollCharacter,
-  ProcessedCharacterT,
-  getCharacterCheckProbability,
-  CharacterT,
-} from '../../types/Character'
+import { ProcessedCharacterT, CharacterT } from '../../types/Character'
 import { useCharacterContext } from '../CharacterContext'
 import { useRolls, actionCreators } from '../../state/rolls'
 import { useDispatch } from 'react-redux'
+import {
+  Roll2T,
+  Check2T,
+  Roll2ResultT,
+  resolveCharacterRoll,
+  CharacterRollT,
+  CharacterCheckT,
+  resolveCharacterCheck,
+  resolveRoll,
+  resolveCheck,
+  getCheckProbability,
+  reduceCharacterCheck,
+  Check2ResultT,
+} from '../../types/Roll2'
 
-export type RollCheckerT = (
-  roll: RollCheckT,
+export type RollCheckerT<T, R> = (
+  roll: T,
   log?: boolean,
   allowNegatives?: boolean,
-) => RollResultT
+) => R
 export interface RollContextT {
-  history: RollResultT[]
-  execRoll: (
-    roll: RollCheckT,
-    log?: boolean,
-    allowNegatives?: boolean,
-  ) => RollResultT
-  execCheck: RollCheckerT
-  execStaticRoll: RollCheckerT
-  basicRollCharacter: (c: ProcessedCharacterT) => RollCheckerT
-  checkCharacter: (c: ProcessedCharacterT) => RollCheckerT
-  getProbability: (roll: RollCheckT) => number
+  history: Roll2ResultT[]
+  execRoll: RollCheckerT<Roll2T | CharacterRollT, Roll2ResultT>
+  execCheck: RollCheckerT<Check2T | CharacterCheckT, Check2ResultT>
+  rollCharacter: (
+    c: ProcessedCharacterT,
+  ) => RollCheckerT<CharacterRollT, Roll2ResultT>
+  checkCharacter: (
+    c: ProcessedCharacterT,
+  ) => RollCheckerT<CharacterCheckT, Check2ResultT>
+  getProbability: (check: CharacterCheckT, log?: boolean) => number
 }
 export const RollContext = React.createContext<RollContextT>({
   history: [],
-  execRoll: (roll) => ({} as RollResultT),
-  execCheck: (roll) => ({} as RollResultT),
-  execStaticRoll: (roll) => ({} as RollResultT),
-  basicRollCharacter,
-  checkCharacter,
+  execRoll: (roll) => ({} as Roll2ResultT),
+  execCheck: (roll) => ({} as Check2ResultT),
+  rollCharacter: (c) => (roll, log, allowNegatives) =>
+    resolveCharacterRoll(roll, c),
+  checkCharacter: (c) => (roll, log, allowNegatives) =>
+    resolveCharacterCheck(roll, c),
   getProbability: (roll) => 0,
 })
 export const useRollContext = () => useContext(RollContext)
 
 export interface RollContextProviderPropsT {
   children: any
-  rolls: RollResultT[]
+  rolls: (Roll2ResultT | Check2ResultT)[]
   character?: ProcessedCharacterT
-  addRoll: (roll: RollResultT) => void
+  addRoll: (roll: Roll2ResultT | Check2ResultT) => void
 }
 export const RollContextProvider = (props: RollContextProviderPropsT) => {
   const { children, rolls, addRoll } = props
@@ -55,39 +62,53 @@ export const RollContextProvider = (props: RollContextProviderPropsT) => {
       value={{
         history: rolls,
         execRoll: (roll, log = true, allowNegatives) => {
-          const result: RollResultT = basicRollCharacter(character)(
-            roll,
-            allowNegatives,
-          )
+          const result: Roll2ResultT = (roll as CharacterRollT).keys
+            ? resolveCharacterRoll(
+                roll as CharacterRollT,
+                character,
+                allowNegatives,
+              )
+            : resolveRoll(roll, allowNegatives)
           if (log) addRoll(result)
           return result
         },
-        execCheck: (roll, log = true) => {
-          const result: RollResultT = checkCharacter(character)(roll)
+        execCheck: (check, log = true, allowNegatives) => {
+          const result: Check2ResultT = (check as CharacterCheckT).keys
+            ? resolveCharacterCheck(
+                check as CharacterCheckT,
+                character,
+                allowNegatives,
+              )
+            : resolveCheck(check, allowNegatives)
           if (log) addRoll(result)
           return result
         },
-        execStaticRoll: (roll, log = true, allowNegatives) => {
-          const result: RollResultT = basicRoll(roll, allowNegatives)
-          if (log) addRoll(result)
-          return result
-        },
-        basicRollCharacter: (character) => {
-          return (roll: RollCheckT, log = true, allowNegatives = false) => {
-            const result = basicRollCharacter(character)(roll, allowNegatives)
+        rollCharacter: (
+          character,
+        ): RollCheckerT<CharacterRollT, Roll2ResultT> => {
+          return (roll: CharacterRollT, log = true, allowNegatives = false) => {
+            const result = resolveCharacterRoll(roll, character, allowNegatives)
             if (log) addRoll(result)
             return result
           }
         },
         checkCharacter: (character) => {
-          return (roll: RollCheckT, log = true, allowNegatives = false) => {
-            const result = checkCharacter(character)(roll)
+          return (
+            check: CharacterCheckT,
+            log = true,
+            allowNegatives = false,
+          ) => {
+            const result = resolveCharacterCheck(
+              check,
+              character,
+              allowNegatives,
+            )
             if (log) addRoll(result)
             return result
           }
         },
-        getProbability: (roll) => {
-          return getCharacterCheckProbability(character)(roll)
+        getProbability: (check, log: boolean = false) => {
+          return getCheckProbability(reduceCharacterCheck(check, character))
         },
       }}
     >
@@ -106,7 +127,7 @@ export const RollStateContextProvider = (
   const { children, character } = props
   const rolls = useRolls()
   const dispatch = useDispatch()
-  const addRoll = (roll: RollResultT) => {
+  const addRoll = (roll: Roll2ResultT) => {
     dispatch(actionCreators.addRoll(roll))
   }
   return (

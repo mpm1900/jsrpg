@@ -1,6 +1,6 @@
-import { RollCheckT } from './Roll'
 import { CharacterTraitT, CharacterResourceKeyT } from './Character'
 import { DamageTypeRollsT } from './Damage'
+import { CharacterCheckT } from './Roll2'
 
 export type ItemRarityT =
   | 'common'
@@ -23,7 +23,7 @@ export interface EquippableT extends ItemT {
   rarity: ItemRarityT
   cost: number
   resource: CharacterResourceKeyT
-  requirementCheck: RollCheckT
+  requirementCheck: CharacterCheckT
   traits: CharacterTraitT[]
   damageResistances: DamageTypeRollsT
 }

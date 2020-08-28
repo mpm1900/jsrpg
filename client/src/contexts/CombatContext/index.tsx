@@ -70,7 +70,7 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
     upsertParty,
     upsertCharacter,
   } = usePartyContext()
-  const { checkCharacter, basicRollCharacter } = useRollContext()
+  const { checkCharacter, rollCharacter } = useRollContext()
   const { addLine } = useCombatLogContext()
   const [rounds, setRounds] = useState<CombatRoundT[]>([])
   const [characterSkills, setCharacterSkills] = useState<{
@@ -96,7 +96,7 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
       characterSkills,
       characterTargets,
       checkCharacter,
-      basicRollCharacter,
+      rollCharacter,
     )
     const round = builder(userParty, enemyParty, rawParties)
     setRounds((r) => [...r, round])

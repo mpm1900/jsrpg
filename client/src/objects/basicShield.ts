@@ -1,6 +1,6 @@
-import { makeStaticRoll } from '../types/Roll'
 import { EquippableT } from '../types/Item'
-import { BASE_EQUIPPABLE, makeTrait } from './util'
+import { BASE_EQUIPPABLE, makeTrait, makeRequirementCheck } from './util'
+import { makeCharacterRoll } from '../types/Roll2'
 
 export const BASIC_SHIELD: EquippableT = {
   ...BASE_EQUIPPABLE('shield'),
@@ -11,11 +11,7 @@ export const BASIC_SHIELD: EquippableT = {
   name: 'Basic Shield',
   cost: 1,
   resource: 'weaponHands',
-  requirementCheck: {
-    roll: 3,
-    keys: ['strength'],
-    value: 0,
-  },
+  requirementCheck: makeRequirementCheck(['strength'], 3),
   traits: [
     {
       ...makeTrait(),
@@ -37,11 +33,11 @@ export const BASIC_SHIELD: EquippableT = {
     },
   ],
   damageResistances: {
-    slashing: makeStaticRoll(3),
-    piercing: makeStaticRoll(2),
-    fire: makeStaticRoll(0),
-    blood: makeStaticRoll(0),
-    light: makeStaticRoll(0),
-    dark: makeStaticRoll(0),
+    slashing: makeCharacterRoll([], undefined, 3),
+    piercing: makeCharacterRoll([], undefined, 2),
+    fire: makeCharacterRoll([]),
+    blood: makeCharacterRoll([]),
+    light: makeCharacterRoll([]),
+    dark: makeCharacterRoll([]),
   },
 }

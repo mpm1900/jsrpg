@@ -7,7 +7,6 @@ import {
   DamageTypeKeyT,
 } from '../../types/Damage'
 import { FlexContainer } from '../../elements/flex'
-import { getRollText, RollCheckT } from '../../types/Roll'
 import { TraitScore } from '../TraitScore'
 import { CheckPreview } from '../CheckPreview'
 import { unequipItem, CharacterSkillCheckKeyT } from '../../types/Character'
@@ -20,6 +19,7 @@ import { EquippableT, ItemRarityColorMap } from '../../types/Item'
 import { ItemIcon } from '../ItemIcon'
 import { CompareResultFn, ZERO_COMPARE, BASE_ARGS } from '../../util/compare'
 import { usePartyContext } from '../../contexts/PartyContext'
+import { CharacterRollT, getRollText } from '../../types/Roll2'
 
 export interface ItemPreviewPropsT {
   item: EquippableT
@@ -138,14 +138,15 @@ export const ItemPreview = (props: ItemPreviewPropsT) => {
       </FlexContainer>
       {!collapsed && (
         <>
-          {item.requirementCheck.roll !== 1 && showRequirementCheck && (
-            <CheckPreview
-              name='Requirement'
-              check={item.requirementCheck}
-              showCheckButton={false}
-              compareResult={requirementCompare}
-            />
-          )}
+          {item.requirementCheck.roll.modifier !== 1 &&
+            showRequirementCheck && (
+              <CheckPreview
+                name='Requirement'
+                check={item.requirementCheck}
+                showCheckButton={false}
+                compareResult={requirementCompare}
+              />
+            )}
           <FlexContainer $direction='column' style={{ marginTop: 10 }}>
             {item.traits.map((trait) => (
               <TraitScore
@@ -189,7 +190,7 @@ export const ItemPreview = (props: ItemPreviewPropsT) => {
                         }}
                       >
                         {getRollText(
-                          item.damageResistances[key] as RollCheckT,
+                          item.damageResistances[key] as CharacterRollT,
                         ) || 0}
                       </div>
                     </FlexContainer>

@@ -52,13 +52,13 @@ export const logResult = (
     } else {
       addLine(<span>{Span('#cda5f3', attackResult.skillName)} missed.</span>)
     }
-    if (attackResult.dodgeSuccess) {
-      addLine(
-        <span>
-          {NameSpan(target)} dodged {NameSpan(source)}'s attack
-        </span>,
-      )
-    }
+  }
+  if (attackResult.dodgeSuccess) {
+    addLine(
+      <span>
+        {NameSpan(target)} dodged {NameSpan(source)}'s attack
+      </span>,
+    )
   }
   if (target.stats.health <= target.healthOffset + attackResult.totalDamage) {
     addLine(Span('lightcoral', `${target.name} died`))

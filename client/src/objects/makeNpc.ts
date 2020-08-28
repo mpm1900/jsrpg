@@ -1,6 +1,5 @@
 import { NpcT } from '../types/Npc'
 import { v4 } from 'uuid'
-import { makeStaticRoll } from '../types/Roll'
 
 import {
   uniqueNamesGenerator,
@@ -16,6 +15,7 @@ import { buildWeapon } from './builders/weapons/createWeapon'
 import { getRandom } from '../util/getRandom'
 import { buildArmor } from './builders/armor/createArmor'
 import { makeSkill, BASIC_ATTACK } from './makeSkill'
+import { makeCharacterRoll } from '../types/Roll2'
 
 const randomNameConfig: Config = {
   dictionaries: [adjectives, animals],
@@ -51,12 +51,12 @@ export const makeNpc = (
       ...abilities,
     },
     damageResistances: {
-      slashing: makeStaticRoll(0),
-      piercing: makeStaticRoll(0),
-      fire: makeStaticRoll(0),
-      blood: makeStaticRoll(0),
-      light: makeStaticRoll(0),
-      dark: makeStaticRoll(0),
+      slashing: makeCharacterRoll([]),
+      piercing: makeCharacterRoll([]),
+      fire: makeCharacterRoll([]),
+      blood: makeCharacterRoll([]),
+      light: makeCharacterRoll([]),
+      dark: makeCharacterRoll([]),
       ...damageResistances,
     },
 

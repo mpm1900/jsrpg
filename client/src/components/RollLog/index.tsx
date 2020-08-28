@@ -7,13 +7,13 @@ import Dice6 from '../../icons/svg/delapouite/dice-six-faces-six.svg'
 
 export interface RollLogPropsT {}
 export const RollLog = (props: RollLogPropsT) => {
-  const { history, execStaticRoll } = useRollContext()
+  const { history, execRoll } = useRollContext()
   const [text, setText] = useState('')
   const [submitLog, setSubmitLog] = useState<string[]>([])
   const [index, setIndex] = useState(0)
   const submit = () => {
     try {
-      execStaticRoll({ roll: text, keys: [], value: 0 }, true, true)
+      execRoll({ string: text, keys: [], modifier: 0 }, true, true)
       setSubmitLog([...submitLog, text])
       setIndex(submitLog.length)
     } catch (e) {
@@ -31,7 +31,7 @@ export const RollLog = (props: RollLogPropsT) => {
           style={{ overflow: 'auto', padding: 10 }}
         >
           {history.map((roll) => (
-            <RollResult key={roll._id} roll={roll} />
+            <RollResult key={roll.id} roll={roll} />
           ))}
         </FlexContainer>
       ) : (
