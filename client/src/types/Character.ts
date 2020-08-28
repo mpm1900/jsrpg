@@ -55,11 +55,12 @@ export interface CharacterTraitT {
 export interface CharacterSkillT {
   id: string
   name: string
-  checks: RollCheckT[]
+  check?: RollCheckT
   damageRolls: DamageTypeRollsT
   traits: CharacterTraitT[]
   events: WeaponEventsT
   combineWeaponDamage: boolean
+  checkDodgeForTraits: boolean
   focusCost: number
 }
 
@@ -78,6 +79,7 @@ export interface CharacterT {
   weapon?: WeaponT
 
   healthOffset: number
+  focusOffset: number
   partyId?: string
   dead: boolean
 }

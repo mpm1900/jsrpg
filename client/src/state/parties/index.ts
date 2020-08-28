@@ -15,7 +15,7 @@ import { ItemT, EquippableT } from '../../types/Item'
 import { upsertIn, updateIn } from '../../util/updateIn'
 import { BASIC_SHIELD } from '../../objects/basicShield'
 import { BASIC_TOME } from '../../objects/basicTome'
-import makeItem from '../../objects/builders/makeItem'
+import makeItem, { makeRoll } from '../../objects/builders/makeItem'
 import { makeCharacter } from '../../objects/makeCharacter'
 import { WeaponT } from '../../types/Weapon'
 import { makeTrait } from '../../objects/util'
@@ -23,6 +23,8 @@ import {
   SWORD_OF_BLOOD_AND_FIRE,
   SWORD_OF_THE_INFINITE,
 } from '../../objects/builders/weapons/mythics'
+import { makeSkill } from '../../objects/makeSkill'
+import { makeStaticRoll } from '../../types/Roll'
 
 export const UPSERT_PARTY = '@actions/parties/upsert-party'
 export const UPSERT_CHARACTER = '@actions/parties/upsert-character'
@@ -173,6 +175,21 @@ export const INITIAL_STATE: PartyT[] = [
       {
         ...max,
         weapon: SWORD_OF_BLOOD_AND_FIRE,
+        skills: [
+          ...max.skills,
+          {
+            ...makeSkill('Fireball'),
+            check: {
+              keys: ['intelligence'],
+              value: 0,
+            },
+            combineWeaponDamage: false,
+            damageRolls: {
+              fire: makeRoll('4d10'),
+            },
+            focusCost: 10,
+          },
+        ],
       },
       {
         ...makeCharacter('Katie C'),

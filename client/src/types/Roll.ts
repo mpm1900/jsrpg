@@ -139,6 +139,29 @@ export const considateRollChecks = (checks: RollCheckT[]): RollCheckT => {
   )
 }
 
+export const considateStaticRolls = (checks: RollCheckT[]): RollCheckT => {
+  return checks.reduce(
+    (result, check) => {
+      return {
+        ...result,
+        roll: result.roll
+          ? result.roll +
+            (check && check.roll ? `+${check.roll as string}` : '')
+          : check.roll,
+        value: (result.value || 0) + ((check || {}).value || 0),
+        keys: [...(result.keys || []), ...((check || {}).keys || [])],
+        modifiers: (result.modifiers || 0) + ((check || {}).modifiers || 0),
+      }
+    },
+    {
+      roll: '',
+      value: 0,
+      keys: [],
+      modifiers: 0,
+    },
+  )
+}
+
 export const getGoal = (check: RollCheckT): number => {
   return (check.value || 0) + (check.modifiers || 0)
 }

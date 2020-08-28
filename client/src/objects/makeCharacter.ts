@@ -81,5 +81,6 @@ export const makeCharacter = (name?: string): CharacterT => ({
   ),
 
   healthOffset: 0,
+  focusOffset: 0,
   dead: false,
 })

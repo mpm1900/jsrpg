@@ -6,7 +6,6 @@ export const makeSkill = (name: string = 'Weapon Attack'): CharacterSkillT => {
   return {
     id: v4(),
     name,
-    checks: [],
     damageRolls: {
       slashing: makeStaticRoll(0),
       piercing: makeStaticRoll(0),
@@ -18,6 +17,7 @@ export const makeSkill = (name: string = 'Weapon Attack'): CharacterSkillT => {
     traits: [],
     events: {},
     combineWeaponDamage: true,
+    checkDodgeForTraits: true,
     focusCost: 0,
   }
 }

@@ -13,6 +13,7 @@ export const Combat = () => {
     start,
     stop,
     reset,
+    next,
   } = useCombatContext()
   const { setLogKey } = useUIContext()
 
@@ -34,6 +35,7 @@ export const Combat = () => {
               <button onClick={() => stop()}>Stop</button>
             ))}
           {done && <button onClick={() => reset()}>Reset</button>}
+          {!done && <button onClick={() => next()}>Next</button>}
         </div>
       </FlexContainer>
       <CombatParty party={rawEnemyParty} />

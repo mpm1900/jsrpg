@@ -11,6 +11,8 @@ import {
   ENEMY_PARTY_ID,
   checkParty,
   resolveRound,
+  checkCharacterActiveSkills,
+  checkCharacterActiveTargets,
 } from './util'
 import { useCombatLogContext } from '../CombatLogContext'
 import { useInterval } from '../../hooks/useInterval'
@@ -25,7 +27,11 @@ export interface CombatContextT {
   parties: ProcessedPartyT[]
   running: boolean
   done: boolean
-  setAction: (characterId: string, actionId: string) => void
+  characterSkills: { [characterId: string]: string | undefined }
+  characterTargets: { [characterId: string]: string | undefined }
+  setCharacterSkill: (characterId: string, skillId?: string) => void
+  setCharacterTarget: (characterId: string, targetId?: string) => void
+  next: () => void
   start: () => void
   stop: () => void
   reset: () => void
@@ -39,7 +45,11 @@ const defaultContextValue: CombatContextT = {
   parties: [],
   running: false,
   done: false,
-  setAction: (characterId, actionId) => {},
+  characterSkills: {},
+  characterTargets: {},
+  setCharacterSkill: (characterId, skillId) => {},
+  setCharacterTarget: (characterId, targetId) => {},
+  next: () => {},
   start: () => {},
   stop: () => {},
   reset: () => {},
@@ -63,17 +73,36 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
   const { checkCharacter, basicRollCharacter } = useRollContext()
   const { addLine } = useCombatLogContext()
   const [rounds, setRounds] = useState<CombatRoundT[]>([])
+  const [characterSkills, setCharacterSkills] = useState<{
+    [characterId: string]: string | undefined
+  }>({})
+  const [characterTargets, setCharacterTargets] = useState<{
+    [characterId: string]: string | undefined
+  }>({})
+  const setCharacterSkill = (
+    characterId: string,
+    skillId: string | undefined,
+  ) => setCharacterSkills((skills) => ({ ...skills, [characterId]: skillId }))
+  const setCharacterTarget = (characterId: string, targetId?: string) =>
+    setCharacterTargets((targets) => ({ ...targets, [characterId]: targetId }))
   const [done, setDone] = useState(false)
   const rawEnemyParty = rawParties.filter((p) => p.id === ENEMY_PARTY_ID)[0]
   const enemyParty = parties.filter((p) => p.id === ENEMY_PARTY_ID)[0]
   const { open } = useModalContext()
 
-  const { start, stop, running } = useInterval(() => {
+  const next = () => {
     if (!enemyParty || !userParty) return
-    const builder = getCombatRecordBuilder(checkCharacter, basicRollCharacter)
+    const builder = getCombatRecordBuilder(
+      characterSkills,
+      characterTargets,
+      checkCharacter,
+      basicRollCharacter,
+    )
     const round = builder(userParty, enemyParty, rawParties)
     setRounds((r) => [...r, round])
-  })
+  }
+
+  const { start, stop, running } = useInterval(next)
 
   const reset = (log: boolean = true) => {
     if (log) {
@@ -90,6 +119,7 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
         partyId: PC_PARTY_ID,
         dead: false,
         healthOffset: 0,
+        focusOffset: 0,
       })),
     })
   }
@@ -116,7 +146,6 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
   }
 
   useEffect(() => {
-    console.log('check parties')
     if (checkParty(userParty) && !done) {
       finish('YOU DIED')
     } else {
@@ -132,12 +161,18 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
 
   useEffect(() => {
     if (rounds.length > 0) {
-      resolveRound(
+      const characters = resolveRound(
         rounds,
         rawUserParty,
         rawEnemyParty,
         addLine,
         upsertCharacter,
+      )
+      checkCharacterActiveSkills(characters, characterSkills, setCharacterSkill)
+      checkCharacterActiveTargets(
+        characters,
+        characterTargets,
+        setCharacterTarget,
       )
     }
   }, [rounds])
@@ -153,10 +188,14 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
         parties,
         running,
         done,
-        setAction: (characterId, actionId) => {},
+        characterSkills,
+        characterTargets,
+        setCharacterSkill,
+        setCharacterTarget,
         start,
         stop,
         reset,
+        next,
       }}
     >
       {children}

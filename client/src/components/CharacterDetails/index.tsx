@@ -15,6 +15,7 @@ import Pencil from '../../icons/svg/delapouite/pencil.svg'
 import Save from '../../icons/svg/delapouite/save.svg'
 import Delete from '../../icons/svg/delapouite/trash-can.svg'
 import { usePartyContext } from '../../contexts/PartyContext'
+import { noneg } from '../../util/noneg'
 
 export interface CharacterDetailsPropsT {
   character?: ProcessedCharacterT
@@ -37,6 +38,7 @@ export const CharacterDetails = (props: CharacterDetailsPropsT) => {
   const [isEditing, setIsEditing] = useState(false)
   const [name, setName] = useState<string>(character.name)
   const health = character.stats.health - character.healthOffset
+  const focus = character.stats.focus - character.focusOffset
   useEffect(() => {
     setName(character.name)
   }, [character.name])
@@ -175,14 +177,14 @@ export const CharacterDetails = (props: CharacterDetailsPropsT) => {
           name='Health'
           color='#8f4e4d'
           max={character.stats.health}
-          value={health > 0 ? health : 0}
+          value={noneg(health)}
           height={10}
         ></Gauge>
         <Gauge
           name='Focus'
           color='#517e4e'
           max={character.stats.focus}
-          value={character.stats.focus}
+          value={noneg(focus)}
           height={5}
         ></Gauge>
       </FlexContainer>

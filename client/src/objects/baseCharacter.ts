@@ -49,5 +49,6 @@ export const BASE_CHARACTER: CharacterT = {
   armor: [],
 
   healthOffset: 0,
+  focusOffset: 0,
   dead: false,
 }
