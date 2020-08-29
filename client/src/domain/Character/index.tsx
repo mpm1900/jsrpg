@@ -69,8 +69,9 @@ export const Character = () => {
                 <StatScore id='focus' />
                 <StatScore id='will' />
                 <StatScore id='perception' />
-                <StatScore id='lift' />
                 <StatScore id='agility' />
+                <StatScore id='accuracy' />
+                <StatScore id='evade' />
               </div>
               <div>
                 <DamageResistanceScore id='slashing' />

@@ -47,10 +47,10 @@ export const ArmorResourcesT: Record<ArmorTypeT, CharacterResourceKeyT> = {
 
 export type ArmorStatKeyT = Record<ArmorTypeT, CharacterSkillCheckKeyT[]>
 const armorStatKeysBase: ArmorStatKeyT = {
-  helmet: ['strength', 'intelligence', 'vigor'],
-  cowl: ['dexterity', 'intelligence', 'agility'],
+  helmet: ['strength', 'intelligence', 'vigor', 'accuracy'],
+  cowl: ['dexterity', 'intelligence', 'agility', 'evade'],
   chestplate: ['strength', 'intelligence', 'vigor'],
-  robe: ['dexterity', 'intelligence', 'agility'],
+  robe: ['dexterity', 'intelligence', 'agility', 'evade'],
   gloves: [
     'strength',
     'dexterity',
@@ -59,6 +59,7 @@ const armorStatKeysBase: ArmorStatKeyT = {
     'health',
     'focus',
     'agility',
+    'accuracy',
   ],
   ring: [
     'strength',
@@ -70,6 +71,8 @@ const armorStatKeysBase: ArmorStatKeyT = {
     'will',
     'perception',
     'agility',
+    'accuracy',
+    'evade',
   ],
   boots: [
     'strength',
@@ -79,6 +82,7 @@ const armorStatKeysBase: ArmorStatKeyT = {
     'health',
     'focus',
     'agility',
+    'evade',
   ],
 }
 export const ArmorRarityStatKeys: Record<ItemRarityT, ArmorStatKeyT> = {

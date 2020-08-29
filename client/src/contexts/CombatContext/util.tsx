@@ -112,12 +112,6 @@ export const getCombatRecordBuilder = (
   return result
 }
 
-export const DODGE_CHECK: CharacterCheckT = makeCharacterCheck(
-  ['dexterity'],
-  undefined,
-  +8,
-)
-
 const cr = (roll?: CharacterRollT): CharacterRollT =>
   roll || { ...ZERO_ROLL, keys: [] }
 export const getSkillDamageRolls = (
@@ -206,7 +200,9 @@ export const execSkill = (
       `${source.name} damage`,
     )
     attackResult.rawDamage = damageRollsResult.total
-    const dodgeRoll = checkCharacter(target)(DODGE_CHECK)
+    const dodgeRoll = checkCharacter(target)(
+      makeCharacterCheck(['evade'], undefined),
+    )
     attackResult.dodgeSuccess = dodgeRoll.result || false
     if (!dodgeRoll.result) {
       const { damageResistances } = target

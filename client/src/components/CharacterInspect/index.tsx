@@ -21,8 +21,9 @@ export const CharacterInspect = () => {
         <StatScore id='focus' />
         <StatScore id='will' />
         <StatScore id='perception' />
-        <StatScore id='lift' />
         <StatScore id='agility' />
+        <StatScore id='accuracy' />
+        <StatScore id='evade' />
       </FlexContainer>
       <FlexContainer $direction='column'>
         <DamageResistanceScore id='slashing' />

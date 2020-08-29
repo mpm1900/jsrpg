@@ -26,8 +26,9 @@ export type CharacterStatKeyT =
   | 'focus'
   | 'will'
   | 'perception'
-  | 'lift'
   | 'agility'
+  | 'accuracy'
+  | 'evade'
 export type CharacterStatsT = Record<CharacterStatKeyT, number>
 
 export type CharacterResourceKeyT =
@@ -120,16 +121,19 @@ export const getStats = (character: CharacterT): CharacterStatsT => {
         focus: result.focus + cur.focus,
         will: result.will + cur.will,
         perception: result.perception + cur.perception,
-        lift: result.lift + cur.lift,
         agility: result.agility + cur.agility,
+        accuracy: result.accuracy + cur.accuracy,
+        evade: result.evade + cur.evade,
       }),
       {
         health: abilities.strength * 2 + abilities.vigor,
         focus: abilities.intelligence + abilities.vigor,
         will: abilities.intelligence,
         perception: abilities.intelligence,
-        lift: (abilities.strength * abilities.strength) / 5,
+        // lift: (abilities.strength * abilities.strength) / 5,
         agility: (abilities.vigor + abilities.dexterity) / 4,
+        accuracy: abilities.dexterity - 2,
+        evade: abilities.dexterity - 8,
       },
     )
 }
@@ -237,8 +241,10 @@ export const CharacterKeyMap3: Record<CharacterSkillCheckKeyT, string> = {
   focus: 'FOC',
   will: 'WIL',
   perception: 'PER',
-  lift: 'LFT',
+  // lift: 'LFT',
   agility: 'AGL',
+  accuracy: 'ACC',
+  evade: 'EVD',
 }
 
 export const characterAbilityScoreCosts: Record<
@@ -257,8 +263,10 @@ export const CharacterStatsCostsMap: Record<CharacterSkillCheckKeyT, number> = {
   focus: 5,
   will: 10,
   perception: 10,
-  lift: 1,
+  // lift: 1,
   agility: 10,
+  accuracy: 10,
+  evade: 10,
 }
 
 export const canEquip = (character: CharacterT) => (
@@ -443,8 +451,9 @@ export const combineTraits = (traits: CharacterTraitT[]): CharacterTraitT => {
         focus: sr.focus + sc.focus,
         will: sr.will + sc.will,
         perception: sr.perception + sc.perception,
-        lift: sr.lift + sc.lift,
         agility: sr.agility + sc.agility,
+        accuracy: sr.accuracy + sc.accuracy,
+        evade: sr.evade + sc.evade,
       },
     }
   }, makeTrait())

@@ -41,8 +41,9 @@ export const BASE_EQUIPPABLE = (type: ItemTypeT): EquippableT => {
           focus: 0,
           will: 0,
           perception: 0,
-          lift: 0,
           agility: 0,
+          accuracy: 0,
+          evade: 0,
         },
       },
     ],
@@ -75,8 +76,9 @@ export const makeTrait = (name: string = ''): CharacterTraitT => {
       focus: 0,
       will: 0,
       perception: 0,
-      lift: 0,
       agility: 0,
+      accuracy: 0,
+      evade: 0,
     },
   }
 }
