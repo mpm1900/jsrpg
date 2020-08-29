@@ -4,6 +4,7 @@ import {
   makeCharacterCheck,
   makeCharacterRoll,
   makeStandardCharacterCheck,
+  makeRoll,
 } from '../types/Roll2'
 import { makeRequirementCheck, makeTrait } from './util'
 import Healing from '../assets/img/healing1.png'
@@ -11,6 +12,7 @@ import Fireball from '../assets/img/fireball.png'
 import Thunderbolt from '../assets/img/thunderbolt.png'
 import DarkBlast from '../assets/img/dark-blast.png'
 import CripplingBlow from '../assets/img/crippling-blow.png'
+import Wrath from '../assets/img/wrath.png'
 import Inspect from '../assets/img/inspect.png'
 import WeaponAttack from '../assets/img/weapon-attack.png'
 
@@ -117,6 +119,38 @@ export const HEALING: SkillT = {
     {
       ...makeTrait(),
       healthOffset: 15,
+    },
+  ],
+}
+export const WRATH: SkillT = {
+  ...makeSkill('Wrath'),
+  imgSrc: Wrath,
+  check: makeCharacterCheck(['strength']),
+  combineWeaponDamage: false,
+  damageRolls: { piercing: makeCharacterRoll([], '1d6') },
+  focusCost: 5,
+  sourceTraits: [
+    {
+      ...makeTrait(),
+      duration: 4,
+      abilitiesModifiers: {
+        strength: 2,
+        dexterity: 0,
+        intelligence: 0,
+        vigor: 0,
+      },
+    },
+  ],
+  targetTraits: [
+    {
+      ...makeTrait(),
+      duration: 4,
+      abilitiesModifiers: {
+        strength: -2,
+        dexterity: 0,
+        intelligence: 0,
+        vigor: 0,
+      },
     },
   ],
 }

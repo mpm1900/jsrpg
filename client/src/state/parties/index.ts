@@ -28,6 +28,7 @@ import {
   THUNDERBOLT,
   DARK_BLAST,
   HEALING,
+  WRATH,
 } from '../../objects/makeSkill'
 import { makeCharacterRoll, makeCharacterCheck } from '../../types/Roll2'
 import { makeTrait, makeRequirementCheck } from '../../objects/util'
@@ -188,8 +189,9 @@ export const INITIAL_STATE: PartyT[] = [
         weapon: SWORD_OF_THE_INFINITE,
         skills: [
           ...max.skills,
-          FIREBALL,
+          WRATH,
           CRIPPLING_BLOW,
+          FIREBALL,
           THUNDERBOLT,
           DARK_BLAST,
           HEALING,
@@ -199,8 +201,9 @@ export const INITIAL_STATE: PartyT[] = [
         ...katie,
         skills: [
           ...katie.skills,
-          FIREBALL,
+          WRATH,
           CRIPPLING_BLOW,
+          FIREBALL,
           THUNDERBOLT,
           DARK_BLAST,
           HEALING,
@@ -211,8 +214,9 @@ export const INITIAL_STATE: PartyT[] = [
         ...milo,
         skills: [
           ...milo.skills,
-          FIREBALL,
+          WRATH,
           CRIPPLING_BLOW,
+          FIREBALL,
           THUNDERBOLT,
           DARK_BLAST,
           HEALING,

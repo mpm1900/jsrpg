@@ -106,10 +106,9 @@ interface SelectedDamageRangePropsT {
 const SelectedDamageRange = (props: SelectedDamageRangePropsT) => {
   const { skillId, targetId, characters } = props
   const { character } = useCharacterContext()
-  const { getProbability } = useRollContext()
   const skill = character.skills.find((s) => s.id === skillId) || BASIC_ATTACK
   const target = characters.find((c) => c.id === targetId)
-  if (!target) return null
+  if (!target && skill.target) return null
   const range = getSkillRange(skill, character, target)
   const prob = getCheckProbability(
     reduceCharacterCheck(
@@ -119,16 +118,18 @@ const SelectedDamageRange = (props: SelectedDamageRangePropsT) => {
       character,
     ),
   )
-  const dodgeProb = getCheckProbability(
-    reduceCharacterCheck(makeCharacterCheck(['evade']), target),
-  )
-  return range !== '0' ? (
+  const dodgeProb = target
+    ? getCheckProbability(
+        reduceCharacterCheck(makeCharacterCheck(['evade']), target),
+      )
+    : 0
+  return (
     <BoxContainer
       style={{ textAlign: 'center', fontWeight: 'bold', borderLeft: 'none' }}
       substyle={{ borderLeft: 'none', backgroundColor: '#111' }}
     >
-      <div style={{ marginBottom: 5 }}>({range})</div>
+      {range && <div style={{ marginBottom: 5 }}>({range})</div>}
       <div>{(prob - dodgeProb).toFixed(2)}%</div>
     </BoxContainer>
-  ) : null
+  )
 }
