@@ -210,7 +210,6 @@ export const execSkill = (
     attackResult.dodgeSuccess = dodgeRoll.result || false
     if (!dodgeRoll.result) {
       const { damageResistances } = target
-      console.log(damageResistances)
       const damageKeys = getDamageTypeKeys(
         damageRollsResult.rollResults,
       ).filter((k) => damageRollsResult.rollResults[k])
@@ -400,8 +399,7 @@ export const checkCharacterActiveSkills = (
     const activeSkill =
       character.skills.find((s) => s.id === characterSkills[character.id]) ||
       BASIC_ATTACK
-    const focus =
-      character.stats.focus - character.focusOffset - activeSkill.focusCost
+    const focus = character.stats.focus - character.focusOffset
     if (activeSkill.focusCost > focus) {
       setCharacterSkill(character.id, BASIC_ATTACK.id)
     }

@@ -124,8 +124,8 @@ export const getStats = (character: CharacterT): CharacterStatsT => {
         agility: result.agility + cur.agility,
       }),
       {
-        health: abilities.strength,
-        focus: abilities.vigor,
+        health: abilities.strength * 2 + abilities.vigor,
+        focus: abilities.intelligence + abilities.vigor,
         will: abilities.intelligence,
         perception: abilities.intelligence,
         lift: (abilities.strength * abilities.strength) / 5,
