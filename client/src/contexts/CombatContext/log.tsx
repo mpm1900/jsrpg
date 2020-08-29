@@ -43,11 +43,10 @@ export const logResult = (
           </span>,
         )
       }
-      if (attackResult.targetTraits.length > 0) {
-        LogAddedTraits(attackResult, source, target, addLine)
-      }
-      if (attackResult.sourceTraits.length > 0) {
-        console.log(source.name, attackResult.sourceTraits)
+      if (
+        attackResult.targetTraits.length > 0 ||
+        attackResult.sourceTraits.length > 0
+      ) {
         LogAddedTraits(attackResult, source, target, addLine)
       }
     }
