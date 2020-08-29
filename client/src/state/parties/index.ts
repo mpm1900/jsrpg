@@ -27,6 +27,7 @@ import {
   CRIPPLING_BLOW,
   THUNDERBOLT,
   DARK_BLAST,
+  HEALING,
 } from '../../objects/makeSkill'
 import { makeCharacterRoll, makeCharacterCheck } from '../../types/Roll2'
 import { makeTrait, makeRequirementCheck } from '../../objects/util'
@@ -191,6 +192,7 @@ export const INITIAL_STATE: PartyT[] = [
           CRIPPLING_BLOW,
           THUNDERBOLT,
           DARK_BLAST,
+          HEALING,
         ],
       },
       {
@@ -201,6 +203,7 @@ export const INITIAL_STATE: PartyT[] = [
           CRIPPLING_BLOW,
           THUNDERBOLT,
           DARK_BLAST,
+          HEALING,
         ],
         weapon: SWORD_OF_BLOOD_AND_FIRE,
       },
@@ -212,6 +215,7 @@ export const INITIAL_STATE: PartyT[] = [
           CRIPPLING_BLOW,
           THUNDERBOLT,
           DARK_BLAST,
+          HEALING,
         ],
         weapon: buildWeapon('greataxe', 'mythic'),
       },

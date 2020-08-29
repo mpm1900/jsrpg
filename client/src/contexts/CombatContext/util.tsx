@@ -38,8 +38,7 @@ export interface AttackResultT {
   id: string
   sourceId: string
   targetId: string
-  skillId: string
-  skillName: string
+  skill: SkillT
   index: number
   hitSuccess: boolean
   criticalSuccess: boolean
@@ -47,14 +46,14 @@ export interface AttackResultT {
   rawDamage: number
   blockedDamage: number
   totalDamage: number
-  traits: CharacterTraitT[]
+  targetTraits: CharacterTraitT[]
+  sourceTraits: CharacterTraitT[]
 }
 export const ZERO_RESULT: AttackResultT = {
   id: 'zero',
   sourceId: '',
   targetId: '',
-  skillId: BASIC_ATTACK.id,
-  skillName: '',
+  skill: BASIC_ATTACK,
   index: 0,
   hitSuccess: false,
   criticalSuccess: false,
@@ -62,7 +61,8 @@ export const ZERO_RESULT: AttackResultT = {
   rawDamage: 0,
   blockedDamage: 0,
   totalDamage: 0,
-  traits: [],
+  targetTraits: [],
+  sourceTraits: [],
 }
 
 export type CombatRoundT = Record<string, AttackResultT>
@@ -183,8 +183,7 @@ export const execSkill = (
     source.skills.find((skill) => skill.id === characterSkills[source.id]) ||
     BASIC_ATTACK
 
-  attackResult.skillId = skill.id
-  attackResult.skillName = skill.name
+  attackResult.skill = skill
   const { weapon } = source
   const damageRolls = getSkillDamageRolls(skill, weapon)
   const skillCheck = getSkillCheck(skill, weapon)
@@ -221,10 +220,12 @@ export const execSkill = (
     }
     if (skill.checkDodgeForTraits) {
       if (!dodgeRoll.result) {
-        attackResult.traits = skill.traits
+        attackResult.targetTraits = skill.targetTraits
+        attackResult.sourceTraits = skill.sourceTraits
       }
     } else {
-      attackResult.traits = skill.traits
+      attackResult.targetTraits = skill.targetTraits
+      attackResult.sourceTraits = skill.sourceTraits
     }
   }
 
@@ -274,19 +275,20 @@ export const resolveRound = (
       if (!rawSource || !source || !rawTarget || !target) return
       if (!source.dead && !target.dead) {
         logResult(attackResult, source, target, addLine)
-        const skill =
-          source.skills.find((s) => s.id === attackResult.skillId) ||
-          BASIC_ATTACK
+        const skill = attackResult.skill
         const healthOffset = rawTarget.healthOffset + attackResult.totalDamage
         const focusOffset = rawSource.focusOffset + skill.focusCost
-        const getTraitUpdates = (c: CharacterT): CharacterT => {
+        const getTraitUpdates = (
+          c: CharacterT,
+          traits: CharacterTraitT[],
+        ): CharacterT => {
+          console.log(c.name, traits)
           if (attackResult.hitSuccess) {
             return {
-              ...commitTrait(c)(combineTraits(skill.traits)),
-              inspected: skill.inspected || c.inspected,
+              ...commitTrait(c)(combineTraits(traits)),
               traits: [
                 ...c.traits,
-                ...skill.traits.map((t) => ({
+                ...traits.map((t) => ({
                   ...t,
                   healthOffset: 0,
                   focusOffset: 0,
@@ -298,11 +300,13 @@ export const resolveRound = (
         }
         localUpdate(target.id, (c) => ({
           ...c,
-          ...getTraitUpdates(c),
+          ...getTraitUpdates(c, skill.targetTraits),
+          inspected: skill.inspected || c.inspected,
           healthOffset,
         }))
         localUpdate(source.id, (c) => ({
-          ...rawSource,
+          ...c,
+          ...getTraitUpdates(c, skill.sourceTraits),
           focusOffset,
         }))
 

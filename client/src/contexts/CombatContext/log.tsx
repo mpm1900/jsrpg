@@ -18,16 +18,16 @@ export const logResult = (
   target: ProcessedCharacterT,
   addLine: (line: React.ReactNode) => void,
 ) => {
-  if (attackResult.skillId !== BASIC_ATTACK.id) {
+  if (attackResult.skill.id !== BASIC_ATTACK.id) {
     addLine(
       <span>
-        {NameSpan(source)} casts {Span('#cda5f3', attackResult.skillName)} on{' '}
-        {NameSpan(target)}.
+        {NameSpan(source)} casts {Span('#cda5f3', attackResult.skill.name)}
+        {attackResult.skill.target && <span> on {NameSpan(target)}.</span>}
       </span>,
     )
   }
   if (attackResult.hitSuccess) {
-    if (attackResult.skillId === BASIC_ATTACK.id) {
+    if (attackResult.skill.id === BASIC_ATTACK.id) {
       addLine(
         <span>
           {NameSpan(source)} attacks {NameSpan(target)} for{' '}
@@ -38,12 +38,15 @@ export const logResult = (
       if (attackResult.rawDamage > 0) {
         addLine(
           <span>
-            {Span('#cda5f3', attackResult.skillName)} deals{' '}
+            {Span('#cda5f3', attackResult.skill.name)} deals{' '}
             {Span('white', `${attackResult.totalDamage} damage`)}.
           </span>,
         )
       }
-      if (attackResult.traits.length > 0) {
+      if (attackResult.targetTraits.length > 0) {
+        LogAddedTraits(attackResult, source, target, addLine)
+      }
+      if (attackResult.sourceTraits.length > 0) {
         LogAddedTraits(attackResult, source, target, addLine)
       }
     }
@@ -51,10 +54,15 @@ export const logResult = (
       addLine(<span style={{ color: 'khaki' }}>Critical hit!</span>)
     }
   } else {
-    if (attackResult.skillId === BASIC_ATTACK.id) {
+    if (attackResult.skill.id === BASIC_ATTACK.id) {
       addLine(<span>{NameSpan(source)}'s attack missed.</span>)
     } else {
-      addLine(<span>{Span('#cda5f3', attackResult.skillName)} missed.</span>)
+      addLine(
+        <span>
+          {Span('#cda5f3', attackResult.skill.name)}{' '}
+          {attackResult.skill.target ? 'missed' : 'failed'}.
+        </span>,
+      )
     }
   }
   if (attackResult.dodgeSuccess) {
@@ -77,7 +85,8 @@ export const LogAddedTraits = (
   target: ProcessedCharacterT,
   addLine: (line: React.ReactNode) => void,
 ) => {
-  attackResult.traits.forEach((trait) => {
+  console.log(attackResult.sourceTraits)
+  attackResult.targetTraits.forEach((trait) => {
     if (cz(trait.focusOffset)) {
       addLine(
         <span>
@@ -104,6 +113,39 @@ export const LogAddedTraits = (
         addLine(
           <span>
             {NameSpan(target)} {gv(trait.statsModifiers[key])}{' '}
+            {trait.statsModifiers[key]} {key}.
+          </span>,
+        )
+      }
+    })
+  })
+  attackResult.sourceTraits.forEach((trait) => {
+    if (cz(trait.focusOffset)) {
+      addLine(
+        <span>
+          {NameSpan(source)} {gv(trait.focusOffset)} {trait.focusOffset} FP.{' '}
+          {trait.duration > 0 &&
+            `(${trait.duration - 1} round${trait.duration !== 2 ? 's' : ''})`}
+        </span>,
+      )
+    }
+    getKeys(trait.abilitiesModifiers).forEach((key) => {
+      if (cz(trait.abilitiesModifiers[key])) {
+        addLine(
+          <span>
+            {NameSpan(source)} {gv(trait.abilitiesModifiers[key])}{' '}
+            {trait.abilitiesModifiers[key]} {key}.{' '}
+            {trait.duration > 0 &&
+              `(${trait.duration - 1} round${trait.duration !== 2 ? 's' : ''})`}
+          </span>,
+        )
+      }
+    })
+    getKeys(trait.statsModifiers).forEach((key) => {
+      if (cz(trait.statsModifiers[key])) {
+        addLine(
+          <span>
+            {NameSpan(source)} {gv(trait.statsModifiers[key])}{' '}
             {trait.statsModifiers[key]} {key}.
           </span>,
         )

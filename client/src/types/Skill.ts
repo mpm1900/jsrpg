@@ -8,7 +8,6 @@ import { DamageTypeRollsT, rollDamage, getDamageTypeKeys } from './Damage'
 import { CharacterTraitT, ProcessedCharacterT } from './Character'
 import { EventsT } from './Events'
 import { getSkillDamageRolls } from '../contexts/CombatContext/util'
-import { RollCheckerT } from '../contexts/RollContext'
 import { noneg } from '../util/noneg'
 
 export interface SkillT {
@@ -18,12 +17,14 @@ export interface SkillT {
   check?: CharacterCheckT
   requirementCheck: CharacterCheckT
   damageRolls: DamageTypeRollsT
-  traits: CharacterTraitT[]
+  targetTraits: CharacterTraitT[]
+  sourceTraits: CharacterTraitT[]
   events: EventsT
   combineWeaponDamage: boolean
   checkDodgeForTraits: boolean
   focusCost: number
   inspected?: true
+  target: boolean
 }
 
 export const getSkillRange = (

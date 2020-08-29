@@ -73,7 +73,7 @@ export const SkillPreview = (props: SkillPreviewPropsT) => {
           </FullContainer>
         )}
       </FlexContainer>
-      {skill.traits.length > 0 && (
+      {skill.targetTraits.length > 0 && (
         <FlexContainer style={{ marginBottom: 10 }}>
           <strong
             style={{
@@ -84,7 +84,21 @@ export const SkillPreview = (props: SkillPreviewPropsT) => {
           >
             target:
           </strong>
-          <TraitScore trait={combineTraits(skill.traits)} />
+          <TraitScore trait={combineTraits(skill.targetTraits)} />
+        </FlexContainer>
+      )}
+      {skill.sourceTraits.length > 0 && (
+        <FlexContainer style={{ marginBottom: 10 }}>
+          <strong
+            style={{
+              fontFamily: 'monospace',
+              marginRight: 10,
+              color: 'rgba(255,255,255,0.5)',
+            }}
+          >
+            self:
+          </strong>
+          <TraitScore trait={combineTraits(skill.sourceTraits)} />
         </FlexContainer>
       )}
       <div style={{ marginBottom: 10 }}>
@@ -127,31 +141,34 @@ export const SkillPreview = (props: SkillPreviewPropsT) => {
           ))}
         </div>
       )}
-      <DamageRollScores
-        parent={skill.combineWeaponDamage ? character.weapon : skill}
-      >
-        {(values, combinedRoll) => (
-          <>
-            <span
-              style={{
-                fontFamily: 'monospace',
-                color: 'rgba(255,255,255,0.25)',
-              }}
-            >
-              ({getRollRange(reduceCharacterRoll(combinedRoll, character))}){' '}
-              {getRollText(combinedRoll)}
-            </span>
-            {values.map((value) => (
-              <DamageRollScore
-                key={value.id}
-                id={value.id}
-                damageRangeText={value.damageRangeText}
-                damageRollText={value.damageRollText}
-              />
-            ))}
-          </>
-        )}
-      </DamageRollScores>
+      {skill.combineWeaponDamage ||
+        (Object.keys(skill.damageRolls).length > 0 && (
+          <DamageRollScores
+            parent={skill.combineWeaponDamage ? character.weapon : skill}
+          >
+            {(values, combinedRoll) => (
+              <>
+                <span
+                  style={{
+                    fontFamily: 'monospace',
+                    color: 'rgba(255,255,255,0.25)',
+                  }}
+                >
+                  ({getRollRange(reduceCharacterRoll(combinedRoll, character))}){' '}
+                  {getRollText(combinedRoll)}
+                </span>
+                {values.map((value) => (
+                  <DamageRollScore
+                    key={value.id}
+                    id={value.id}
+                    damageRangeText={value.damageRangeText}
+                    damageRollText={value.damageRollText}
+                  />
+                ))}
+              </>
+            )}
+          </DamageRollScores>
+        ))}
     </BoxContainer>
   )
 }

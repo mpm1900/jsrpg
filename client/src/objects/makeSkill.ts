@@ -2,6 +2,7 @@ import { SkillT } from '../types/Skill'
 import { v4 } from 'uuid'
 import { makeCharacterCheck, makeCharacterRoll } from '../types/Roll2'
 import { makeRequirementCheck, makeTrait } from './util'
+import Healing from '../assets/img/healing1.png'
 import Fireball from '../assets/img/fireball.png'
 import Thunderbolt from '../assets/img/thunderbolt.png'
 import DarkBlast from '../assets/img/dark-blast.png'
@@ -16,11 +17,13 @@ export const makeSkill = (name: string = 'Weapon Attack'): SkillT => {
     imgSrc: '',
     requirementCheck: makeRequirementCheck(['intelligence'], 1),
     damageRolls: {},
-    traits: [],
+    targetTraits: [],
+    sourceTraits: [],
     events: {},
     combineWeaponDamage: true,
     checkDodgeForTraits: true,
     focusCost: 0,
+    target: true,
   }
 }
 
@@ -53,7 +56,7 @@ export const CRIPPLING_BLOW: SkillT = {
   combineWeaponDamage: true,
   checkDodgeForTraits: true,
   damageRolls: {},
-  traits: [
+  targetTraits: [
     {
       ...makeTrait(),
       duration: 2,
@@ -97,4 +100,19 @@ export const DARK_BLAST: SkillT = {
     dark: makeCharacterRoll(['intelligence'], '2d6', -8),
   },
   focusCost: 5,
+}
+export const HEALING: SkillT = {
+  ...makeSkill('Healing'),
+  target: false,
+  imgSrc: Healing,
+  check: makeCharacterCheck(['intelligence']),
+  combineWeaponDamage: false,
+  damageRolls: {},
+  focusCost: 5,
+  sourceTraits: [
+    {
+      ...makeTrait(),
+      healthOffset: 15,
+    },
+  ],
 }
