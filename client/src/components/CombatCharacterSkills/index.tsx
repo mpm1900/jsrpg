@@ -44,8 +44,10 @@ export const CombatCharacterSkills = (props: CombatCharacterSkillsPropsT) => {
             opacity:
               character.dead ||
               character.stats.focus - character.focusOffset < skill.focusCost
-                ? 0.5
-                : 1,
+                ? 0.2
+                : active(skill.id)
+                ? 1
+                : 0.7,
             ...(active(skill.id) ? { borderColor: 'turquoise' } : {}),
           }}
         />

@@ -22,24 +22,6 @@ export const CombatCharacterTargets = (props: CombatCharacterTargetsPropsT) => {
   const characters = enemyParty ? enemyParty.characters : []
   return (
     <FlexContainer style={{ backgroundColor: '#1a1a1a' }}>
-      {characters.map((character) => (
-        <CombatCharacterTarget
-          key={character.id}
-          name={character.name}
-          onClick={() => onClick(character.id)}
-          disabled={cc.character.dead || character.dead}
-          style={{
-            padding: 0,
-            height: size + 2,
-            width: size + 2,
-            boxSizing: 'border-box',
-            margin: 0,
-            opacity: cc.character.dead || character.dead ? 0.5 : 1,
-            ...(active(character.id) ? { borderColor: 'turquoise' } : {}),
-          }}
-        />
-      ))}
-      <FlexContainer $full />
       <BoxButton
         disabled={cc.character.dead}
         onClick={() => onClick(undefined)}
@@ -47,8 +29,12 @@ export const CombatCharacterTargets = (props: CombatCharacterTargetsPropsT) => {
           padding: 0,
           height: size + 2,
           width: size + 2,
+          boxSizing: 'border-box',
+          opacity: activeTargetId === undefined ? 1 : 0.5,
+          margin: 0,
           ...(active(undefined) ? { borderColor: 'turquoise' } : {}),
         }}
+        // style={{ marginRight: 16 }}
       >
         <img
           alt='random'
@@ -63,6 +49,29 @@ export const CombatCharacterTargets = (props: CombatCharacterTargetsPropsT) => {
           }}
         />
       </BoxButton>
+      {characters.map((character) => (
+        <CombatCharacterTarget
+          key={character.id}
+          name={character.name}
+          onClick={() => onClick(character.id)}
+          disabled={cc.character.dead || character.dead}
+          style={{
+            padding: 0,
+            height: size + 2,
+            width: size + 2,
+            boxSizing: 'border-box',
+            margin: 0,
+            opacity:
+              cc.character.dead || character.dead
+                ? 0.5
+                : active(character.id)
+                ? 1
+                : 0.7,
+            ...(active(character.id) ? { borderColor: 'turquoise' } : {}),
+          }}
+        />
+      ))}
+      <FlexContainer $full />
     </FlexContainer>
   )
 }

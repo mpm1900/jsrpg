@@ -16,6 +16,12 @@ import { BoxContainer } from '../../elements/box'
 import { getSkillRange } from '../../types/Skill'
 import { useRollContext } from '../../contexts/RollContext'
 import { BASIC_ATTACK } from '../../objects/makeSkill'
+import {
+  ZERO_CHECK,
+  reduceCharacterCheck,
+  getCheckProbability,
+  makeCharacterCheck,
+} from '../../types/Roll2'
 
 export interface CombatPartyPropsT {
   party: PartyT
@@ -72,7 +78,7 @@ export const CombatParty = (props: CombatPartyPropsT) => {
               style={{
                 position: 'absolute',
                 right: -80,
-                top: 'calc(50% - 27px)',
+                top: 'calc(50% - 30px)',
                 fontFamily: 'monospace',
                 width: 80,
               }}
@@ -100,16 +106,29 @@ interface SelectedDamageRangePropsT {
 const SelectedDamageRange = (props: SelectedDamageRangePropsT) => {
   const { skillId, targetId, characters } = props
   const { character } = useCharacterContext()
+  const { getProbability } = useRollContext()
   const skill = character.skills.find((s) => s.id === skillId) || BASIC_ATTACK
   const target = characters.find((c) => c.id === targetId)
   if (!target) return null
   const range = getSkillRange(skill, character, target)
+  const prob = getCheckProbability(
+    reduceCharacterCheck(
+      skill.combineWeaponDamage
+        ? character.weapon.accuracyCheck
+        : skill.check || { ...ZERO_CHECK, keys: [] },
+      character,
+    ),
+  )
+  const dodgeProb = getCheckProbability(
+    reduceCharacterCheck(makeCharacterCheck(['evade']), target),
+  )
   return range !== '0' ? (
     <BoxContainer
       style={{ textAlign: 'center', fontWeight: 'bold', borderLeft: 'none' }}
       substyle={{ borderLeft: 'none', backgroundColor: '#111' }}
     >
-      ({range})
+      <div style={{ marginBottom: 5 }}>({range})</div>
+      <div>{(prob - dodgeProb).toFixed(2)}%</div>
     </BoxContainer>
   ) : null
 }
