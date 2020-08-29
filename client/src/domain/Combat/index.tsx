@@ -30,12 +30,12 @@ export const Combat = () => {
     <FlexContainer $full $direction='column'>
       <BoxContainer>
         <FlexContainer>
-          <FullContainer />
           <div>
             {done && <button onClick={() => reset()}>Reset</button>}
             {!done && <button onClick={() => next()}>Next</button>}
           </div>
         </FlexContainer>
+        <FullContainer />
       </BoxContainer>
       <FlexContainer id='Combat' $full style={{ padding: 10 }}>
         <CombatParty party={rawUserParty} />
