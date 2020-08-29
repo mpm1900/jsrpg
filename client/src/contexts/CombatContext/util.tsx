@@ -318,17 +318,20 @@ export const resolveRound = (
         }
       }
     })
-  rawCharacters.forEach((c) =>
+  rawCharacters.forEach((c) => {
+    const pc = processCharacter(c)
     updateCharacter(
       {
         ...c,
-        traits: c.traits
-          .map((t) => ({ ...t, duration: t.duration - 1 }))
-          .filter((t) => t.duration !== 0),
+        traits: pc.dead
+          ? c.traits
+          : c.traits
+              .map((t) => ({ ...t, duration: t.duration - 1 }))
+              .filter((t) => t.duration !== 0),
       },
       c.partyId,
-    ),
-  )
+    )
+  })
   return rawCharacters.map((c) => processCharacter(c))
 }
 
@@ -344,21 +347,23 @@ export const processEvent = (
   ) => void,
 ) => {
   const addedTraits = checkEvent(rawSource, skill)(event)
+  const name =
+    skill.combineWeaponDamage && !skill.events[event]
+      ? source.weapon.name
+      : skill.name
   if (addedTraits) {
     const combinedTrait = combineTraits(addedTraits)
     if (combinedTrait.healthOffset > 0) {
       addLine(
         <span>
-          {NameSpan(source)} gained {combinedTrait.healthOffset} HP from{' '}
-          {(source.weapon as WeaponT).name}.
+          {NameSpan(source)} gained {combinedTrait.healthOffset} HP from {name}.
         </span>,
       )
     }
     if (combinedTrait.focusOffset > 0) {
       addLine(
         <span>
-          {NameSpan(source)} gained {combinedTrait.focusOffset} FP from{' '}
-          {(source.weapon as WeaponT).name}.
+          {NameSpan(source)} gained {combinedTrait.focusOffset} FP from {name}.
         </span>,
       )
     }
@@ -367,8 +372,7 @@ export const processEvent = (
       if (value !== 0) {
         addLine(
           <span>
-            {NameSpan(source)} gained {value} {key} from{' '}
-            {(source.weapon as WeaponT).name}.
+            {NameSpan(source)} gained {value} {key} from {name}.
           </span>,
         )
       }

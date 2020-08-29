@@ -138,29 +138,28 @@ export const ItemPreview = (props: ItemPreviewPropsT) => {
       </FlexContainer>
       {!collapsed && (
         <>
-          {item.requirementCheck.roll.modifier !== 1 &&
-            showRequirementCheck && (
+          {item.requirementCheck.roll.modifier !== 1 && showRequirementCheck && (
+            <div style={{ marginTop: 10 }}>
               <CheckPreview
                 name='Requirement'
                 check={item.requirementCheck}
                 showCheckButton={false}
                 compareResult={requirementCompare}
               />
-            )}
-          <FlexContainer $direction='column' style={{ marginTop: 10 }}>
+            </div>
+          )}
+          <FlexContainer $direction='column'>
             {item.traits.map((trait) => (
-              <TraitScore
-                key={trait.id}
-                trait={trait}
-                compareResult={traitCompare}
-              />
+              <div key={trait.id} style={{ marginTop: 10 }}>
+                <TraitScore trait={trait} compareResult={traitCompare} />
+              </div>
             ))}
             {item.damageResistances && (
               <FlexContainer
                 style={{
                   fontFamily: 'monospace',
                   flexWrap: 'wrap',
-                  marginTop: 20,
+                  marginTop: 15,
                   justifyContent: 'space-evenly',
                 }}
               >
