@@ -5,6 +5,7 @@ import { BoxContainer, BoxButton } from '../../elements/box'
 import { useCharacterContext } from '../../contexts/CharacterContext'
 import { BASIC_ATTACK, INSPECT } from '../../objects/makeSkill'
 import { SkillPreview } from '../SkillPreview'
+import { Hover } from '../Hover'
 
 const size = 32
 export interface CombatCharacterSkillsPropsT {
@@ -56,47 +57,45 @@ export interface CombatCharacterSkillPropsT {
 }
 export const CombatCharacterSkill = (props: CombatCharacterSkillPropsT) => {
   const { skill, disabled, style, onClick } = props
-  const [isHovering, setIsHovering] = useState<boolean>(false)
   const isDefault = skill.id === BASIC_ATTACK.id || skill.id === INSPECT.id
   return (
-    <Tooltip
-      isOpen={isHovering}
-      direction='down'
-      tagName='div'
-      padding='0'
-      arrow={false}
-      content={
-        isDefault ? (
-          <BoxContainer>{skill.name}</BoxContainer>
-        ) : (
-          <SkillPreview skillId={skill.id} skill={skill} />
-        )
-      }
-    >
-      <div
-        onMouseEnter={() => setIsHovering(true)}
-        onMouseLeave={() => setIsHovering(false)}
-      >
-        <BoxButton
-          disabled={disabled}
-          onClick={() => onClick(skill.id)}
-          substyle={style}
+    <Hover>
+      {({ isHovering }) => (
+        <Tooltip
+          isOpen={isHovering}
+          direction='down'
+          tagName='div'
+          padding='0'
+          arrow={false}
+          content={
+            isDefault ? (
+              <BoxContainer>{skill.name}</BoxContainer>
+            ) : (
+              <SkillPreview skillId={skill.id} skill={skill} />
+            )
+          }
         >
-          {skill.imgSrc && (
-            <img
-              src={skill.imgSrc}
-              height={size}
-              width={size}
-              style={{
-                height: size,
-                width: size,
-                boxSizing: 'border-box',
-                border: '2px solid black',
-              }}
-            />
-          )}
-        </BoxButton>
-      </div>
-    </Tooltip>
+          <BoxButton
+            disabled={disabled}
+            onClick={() => onClick(skill.id)}
+            substyle={style}
+          >
+            {skill.imgSrc && (
+              <img
+                src={skill.imgSrc}
+                height={size}
+                width={size}
+                style={{
+                  height: size,
+                  width: size,
+                  boxSizing: 'border-box',
+                  border: '2px solid black',
+                }}
+              />
+            )}
+          </BoxButton>
+        </Tooltip>
+      )}
+    </Hover>
   )
 }

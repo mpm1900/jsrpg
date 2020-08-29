@@ -7,6 +7,7 @@ import { Icon } from '../Icon'
 import { FlexContainer } from '../../elements/flex'
 import { useCharacterContext } from '../../contexts/CharacterContext'
 import Roll from '../../assets/img/roll.png'
+import { Hover } from '../Hover'
 
 const size = 32
 export interface CombatCharacterTargetsPropsT {
@@ -76,33 +77,31 @@ export interface CombatCharacterTargetPropsT {
 }
 export const CombatCharacterTarget = (props: CombatCharacterTargetPropsT) => {
   const { name, disabled, style, onClick } = props
-  const [isHovering, setIsHovering] = useState<boolean>(false)
   return (
-    <Tooltip
-      isOpen={isHovering}
-      direction='up'
-      tagName='div'
-      padding='0'
-      arrow={false}
-      content={<BoxContainer>{name}</BoxContainer>}
-    >
-      <div
-        onMouseEnter={() => setIsHovering(true)}
-        onMouseLeave={() => setIsHovering(false)}
-      >
-        <BoxButton onClick={onClick} disabled={disabled} substyle={style}>
-          <img
-            alt='profile'
-            src={`https://picsum.photos/seed/${name}/60/60`}
-            style={{
-              height: size,
-              width: size,
-              boxSizing: 'border-box',
-              border: '2px solid black',
-            }}
-          />
-        </BoxButton>
-      </div>
-    </Tooltip>
+    <Hover>
+      {({ isHovering }) => (
+        <Tooltip
+          isOpen={isHovering}
+          direction='up'
+          tagName='div'
+          padding='0'
+          arrow={false}
+          content={<BoxContainer>{name}</BoxContainer>}
+        >
+          <BoxButton onClick={onClick} disabled={disabled} substyle={style}>
+            <img
+              alt='profile'
+              src={`https://picsum.photos/seed/${name}/60/60`}
+              style={{
+                height: size,
+                width: size,
+                boxSizing: 'border-box',
+                border: '2px solid black',
+              }}
+            />
+          </BoxButton>
+        </Tooltip>
+      )}
+    </Hover>
   )
 }
