@@ -3,10 +3,12 @@ import { RollLog } from '../RollLog'
 import Dice6 from '../../icons/svg/delapouite/dice-six-faces-six.svg'
 import Attack from '../../icons/svg/cathelineau/swordman.svg'
 import Items from '../../icons/svg/lorc/swap-bag.svg'
+import Skills from '../../icons/svg/delapouite/skills.svg'
 import { CharacterItems } from '../CharacterItems'
 import { AttackLog } from '../AttackLog'
 import { useUIContext } from '../../contexts/UIContext'
 import { SidebarOptionT, Sidebar } from '../Sidebar'
+import { PartySkills } from '../PartySkills'
 
 export const options: SidebarOptionT[] = [
   {
@@ -23,6 +25,11 @@ export const options: SidebarOptionT[] = [
     key: 'items',
     icon: Items,
     Component: CharacterItems,
+  },
+  {
+    key: 'skills',
+    icon: Skills,
+    Component: PartySkills,
   },
 ]
 

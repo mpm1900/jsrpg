@@ -15,6 +15,7 @@ import { usePartyContext } from '../../contexts/PartyContext'
 import { useUIContext } from '../../contexts/UIContext'
 import { SkillPreviewAlt } from '../../components/SkillPreviewAlt'
 import { BASIC_ATTACK, INSPECT } from '../../objects/makeSkill'
+import { BoxContainer } from '../../elements/box'
 
 export const Character = () => {
   const { id } = useParams()
@@ -96,7 +97,7 @@ export const Character = () => {
                   showCollapseButton={false}
                 />
               ))}
-              <FlexContainer>
+              <BoxContainer substyle={{ display: 'flex', flexWrap: 'wrap' }}>
                 {character.skills
                   .filter(
                     (s) => s.id !== BASIC_ATTACK.id && s.id !== INSPECT.id,
@@ -104,7 +105,7 @@ export const Character = () => {
                   .map((skill) => (
                     <SkillPreviewAlt key={skill.id} skill={skill} />
                   ))}
-              </FlexContainer>
+              </BoxContainer>
             </div>
             <ArmorScoreList />
           </FlexContainer>
