@@ -256,7 +256,12 @@ export const resolveRound = (
   const round = rounds[rounds.length - 1]
   addLine(
     <strong
-      style={{ color: 'lightblue', fontSize: 20 }}
+      style={{
+        color: 'lightblue',
+        fontSize: 20,
+        display: 'inline-block',
+        marginTop: 4,
+      }}
     >{`ROUND ${rounds.length}`}</strong>,
   )
   Object.values(round)

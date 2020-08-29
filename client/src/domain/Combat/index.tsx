@@ -12,6 +12,7 @@ export const Combat = () => {
     rawEnemyParty,
     running,
     done,
+    rounds,
     start,
     stop,
     reset,
@@ -29,13 +30,15 @@ export const Combat = () => {
   return (
     <FlexContainer $full $direction='column'>
       <BoxContainer>
-        <FlexContainer>
+        <FlexContainer style={{ alignItems: 'center' }}>
           <div>
             {done && <button onClick={() => reset()}>Reset</button>}
             {!done && <button onClick={() => next()}>Next</button>}
           </div>
+
+          <FullContainer />
+          <FlexContainer>Round {rounds.length + 1}</FlexContainer>
         </FlexContainer>
-        <FullContainer />
       </BoxContainer>
       <FlexContainer id='Combat' $full style={{ padding: 10 }}>
         <CombatParty party={rawUserParty} />
