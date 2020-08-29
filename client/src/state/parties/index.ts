@@ -26,9 +26,11 @@ import {
   FIREBALL,
   CRIPPLING_BLOW,
   THUNDERBOLT,
+  DARK_BLAST,
 } from '../../objects/makeSkill'
 import { makeCharacterRoll, makeCharacterCheck } from '../../types/Roll2'
 import { makeTrait, makeRequirementCheck } from '../../objects/util'
+import { buildWeapon } from '../../objects/builders/weapons/createWeapon'
 
 export const UPSERT_PARTY = '@actions/parties/upsert-party'
 export const UPSERT_CHARACTER = '@actions/parties/upsert-character'
@@ -166,6 +168,7 @@ export const core: StateCoreT<PartyT[]> = {
 
 const max = makeCharacter('Max M')
 const katie = makeCharacter('Katie C')
+const milo = makeCharacter('Milo W')
 export const PC_PARTY_ID = v4()
 export const INITIAL_STATE: PartyT[] = [
   {
@@ -181,12 +184,35 @@ export const INITIAL_STATE: PartyT[] = [
       {
         ...max,
         weapon: SWORD_OF_THE_INFINITE,
-        skills: [...max.skills, FIREBALL, CRIPPLING_BLOW],
+        skills: [
+          ...max.skills,
+          FIREBALL,
+          CRIPPLING_BLOW,
+          THUNDERBOLT,
+          DARK_BLAST,
+        ],
       },
       {
         ...katie,
-        skills: [...katie.skills, THUNDERBOLT],
+        skills: [
+          ...katie.skills,
+          FIREBALL,
+          CRIPPLING_BLOW,
+          THUNDERBOLT,
+          DARK_BLAST,
+        ],
         weapon: SWORD_OF_BLOOD_AND_FIRE,
+      },
+      {
+        ...milo,
+        skills: [
+          ...milo.skills,
+          FIREBALL,
+          CRIPPLING_BLOW,
+          THUNDERBOLT,
+          DARK_BLAST,
+        ],
+        weapon: buildWeapon('greataxe', 'mythic'),
       },
     ],
   },

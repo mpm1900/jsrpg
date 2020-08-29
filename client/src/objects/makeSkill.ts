@@ -4,6 +4,7 @@ import { makeCharacterCheck, makeCharacterRoll } from '../types/Roll2'
 import { makeRequirementCheck, makeTrait } from './util'
 import Fireball from '../assets/img/fireball.png'
 import Thunderbolt from '../assets/img/thunderbolt.png'
+import DarkBlast from '../assets/img/dark-blast.png'
 import CripplingBlow from '../assets/img/crippling-blow.png'
 import Inspect from '../assets/img/inspect.png'
 import WeaponAttack from '../assets/img/weapon-attack.png'
@@ -26,7 +27,6 @@ export const makeSkill = (name: string = 'Weapon Attack'): SkillT => {
 export const BASIC_ATTACK: SkillT = {
   ...makeSkill(),
   imgSrc: WeaponAttack,
-  id: 'weapon-attack',
 }
 export const INSPECT: SkillT = {
   ...makeSkill('Inspect'),
@@ -42,7 +42,7 @@ export const FIREBALL: SkillT = {
   check: makeCharacterCheck(['intelligence']),
   combineWeaponDamage: false,
   damageRolls: {
-    fire: makeCharacterRoll([], '4d10'),
+    fire: makeCharacterRoll([], '4d10', -7),
   },
   focusCost: 10,
 }
@@ -76,4 +76,14 @@ export const THUNDERBOLT: SkillT = {
     light: makeCharacterRoll(['intelligence']),
   },
   focusCost: 3,
+}
+export const DARK_BLAST: SkillT = {
+  ...makeSkill('Dark Blast'),
+  imgSrc: DarkBlast,
+  check: makeCharacterCheck(['intelligence']),
+  combineWeaponDamage: false,
+  damageRolls: {
+    dark: makeCharacterRoll(['intelligence'], '2d6', -8),
+  },
+  focusCost: 5,
 }

@@ -6,6 +6,7 @@ import Dice6 from '../../icons/svg/delapouite/dice-six-faces-six.svg'
 import { Icon } from '../Icon'
 import { FlexContainer } from '../../elements/flex'
 import { useCharacterContext } from '../../contexts/CharacterContext'
+import Roll from '../../assets/img/roll.png'
 
 const size = 32
 export interface CombatCharacterTargetsPropsT {
@@ -20,7 +21,7 @@ export const CombatCharacterTargets = (props: CombatCharacterTargetsPropsT) => {
   const characters = enemyParty ? enemyParty.characters : []
   return (
     <BoxContainer
-      substyle={{ display: 'flex', padding: 0, backgroundColor: '#111' }}
+      substyle={{ display: 'flex', padding: 0, backgroundColor: '#1a1a1a' }}
     >
       {characters.map((character) => (
         <CombatCharacterTarget
@@ -34,7 +35,7 @@ export const CombatCharacterTargets = (props: CombatCharacterTargetsPropsT) => {
             width: size + 2,
             boxSizing: 'border-box',
             margin: 0,
-            opacity: character.dead ? 0.5 : 1,
+            opacity: cc.character.dead || character.dead ? 0.5 : 1,
             ...(active(character.id) ? { borderColor: 'turquoise' } : {}),
           }}
         />
@@ -44,10 +45,24 @@ export const CombatCharacterTargets = (props: CombatCharacterTargetsPropsT) => {
         disabled={cc.character.dead}
         onClick={() => onClick(undefined)}
         substyle={{
+          padding: 0,
+          height: size + 2,
+          width: size + 2,
           ...(active(undefined) ? { borderColor: 'turquoise' } : {}),
         }}
       >
-        <Icon src={Dice6} size={24} />
+        <img
+          alt='random'
+          src={Roll}
+          height={size}
+          width={size}
+          style={{
+            height: size,
+            width: size,
+            boxSizing: 'border-box',
+            border: '2px solid black',
+          }}
+        />
       </BoxButton>
     </BoxContainer>
   )

@@ -19,7 +19,7 @@ export const CombatCharacterSkills = (props: CombatCharacterSkillsPropsT) => {
 
   return (
     <BoxContainer
-      substyle={{ display: 'flex', padding: 0, backgroundColor: '#111' }}
+      substyle={{ display: 'flex', padding: 0, backgroundColor: '#1a1a1a' }}
     >
       {skills.map((skill) => (
         <CombatCharacterSkill
@@ -35,6 +35,11 @@ export const CombatCharacterSkills = (props: CombatCharacterSkillsPropsT) => {
             height: size + 2,
             width: size + 2,
             margin: 0,
+            opacity:
+              character.dead ||
+              character.stats.focus - character.focusOffset < skill.focusCost
+                ? 0.5
+                : 1,
             ...(active(skill.id) ? { borderColor: 'turquoise' } : {}),
           }}
         />

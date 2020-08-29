@@ -17,6 +17,7 @@ import {
 import { useCombatLogContext } from '../CombatLogContext'
 import { useInterval } from '../../hooks/useInterval'
 import { useModalContext } from '../ModalContext'
+import { useHistory } from 'react-router'
 
 export interface CombatContextT {
   rounds: any[]
@@ -73,6 +74,7 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
   const { checkCharacter, rollCharacter } = useRollContext()
   const { addLine } = useCombatLogContext()
   const [rounds, setRounds] = useState<CombatRoundT[]>([])
+  const [wins, setWins] = useState<number>(0)
   const [characterSkills, setCharacterSkills] = useState<{
     [characterId: string]: string | undefined
   }>({})
@@ -88,7 +90,8 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
   const [done, setDone] = useState(false)
   const rawEnemyParty = rawParties.filter((p) => p.id === ENEMY_PARTY_ID)[0]
   const enemyParty = parties.filter((p) => p.id === ENEMY_PARTY_ID)[0]
-  const { open } = useModalContext()
+  const { open, setCallback } = useModalContext()
+  const history = useHistory()
 
   const next = () => {
     if (!enemyParty || !userParty) return
@@ -117,9 +120,9 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
         ...c,
         traits: [],
         partyId: PC_PARTY_ID,
-        dead: false,
-        healthOffset: 0,
-        focusOffset: 0,
+        //dead: false,
+        //healthOffset: 0,
+        //focusOffset: 0,
       })),
     })
   }
@@ -147,10 +150,15 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
 
   useEffect(() => {
     if (checkParty(userParty) && !done) {
-      finish('YOU DIED')
+      setCallback(() => {
+        history.push('/characters')
+      })
+      finish(`YOU DIED (${wins} wins)`)
     } else {
       if (checkParty(enemyParty) && !done) {
+        setCallback(() => {})
         finish('YOU WIN!')
+        setWins((w) => w + 1)
       } else {
         if (running) {
           start()
