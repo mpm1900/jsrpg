@@ -6,6 +6,7 @@ import { useCharacterContext } from '../../contexts/CharacterContext'
 import { BASIC_ATTACK, INSPECT } from '../../objects/makeSkill'
 import { SkillPreview } from '../SkillPreview'
 import { Hover } from '../Hover'
+import { FlexContainer } from '../../elements/flex'
 
 const size = 32
 export interface CombatCharacterSkillsPropsT {
@@ -19,8 +20,12 @@ export const CombatCharacterSkills = (props: CombatCharacterSkillsPropsT) => {
   const active = (skillId: string) => activeSkillId === skillId
 
   return (
-    <BoxContainer
-      substyle={{ display: 'flex', padding: 0, backgroundColor: '#1a1a1a' }}
+    <FlexContainer
+      style={{
+        backgroundColor: '#1a1a1a',
+        borderBottom: '1px solid black',
+        borderTop: '1px solid black',
+      }}
     >
       {skills.map((skill) => (
         <CombatCharacterSkill
@@ -45,7 +50,7 @@ export const CombatCharacterSkills = (props: CombatCharacterSkillsPropsT) => {
           }}
         />
       ))}
-    </BoxContainer>
+    </FlexContainer>
   )
 }
 

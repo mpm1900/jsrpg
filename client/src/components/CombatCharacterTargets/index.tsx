@@ -21,9 +21,7 @@ export const CombatCharacterTargets = (props: CombatCharacterTargetsPropsT) => {
   const active = (targetId?: string) => activeTargetId === targetId
   const characters = enemyParty ? enemyParty.characters : []
   return (
-    <BoxContainer
-      substyle={{ display: 'flex', padding: 0, backgroundColor: '#1a1a1a' }}
-    >
+    <FlexContainer style={{ backgroundColor: '#1a1a1a' }}>
       {characters.map((character) => (
         <CombatCharacterTarget
           key={character.id}
@@ -65,7 +63,7 @@ export const CombatCharacterTargets = (props: CombatCharacterTargetsPropsT) => {
           }}
         />
       </BoxButton>
-    </BoxContainer>
+    </FlexContainer>
   )
 }
 

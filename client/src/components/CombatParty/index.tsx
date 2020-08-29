@@ -48,7 +48,11 @@ export const CombatParty = (props: CombatPartyPropsT) => {
               opacity: processCharacter(character).dead ? 0.5 : 1,
             }}
           >
-            <FlexContainer $direction='column' $full>
+            <FlexContainer
+              $direction='column'
+              $full
+              style={{ marginBottom: 10 }}
+            >
               <CharacterDetails
                 showInspect={
                   character.inspected ||
@@ -60,25 +64,8 @@ export const CombatParty = (props: CombatPartyPropsT) => {
                   character.partyId === PC_PARTY_ID ||
                   processCharacter(character).dead
                 }
+                showSkills={party.id === PC_PARTY_ID}
               />
-              {party.id === PC_PARTY_ID && (
-                <>
-                  <CombatCharacterSkills
-                    activeSkillId={characterSkills[character.id]}
-                    skills={character.skills}
-                    onClick={(skillId) =>
-                      setCharacterSkill(character.id, skillId)
-                    }
-                  />
-                  <CombatCharacterTargets
-                    activeTargetId={characterTargets[character.id]}
-                    onClick={(targetId) =>
-                      setCharacterTarget(character.id, targetId)
-                    }
-                  />
-                  <div style={{ height: 10 }} />
-                </>
-              )}
             </FlexContainer>
             <FlexContainer
               $direction='column'
@@ -115,12 +102,13 @@ const SelectedDamageRange = (props: SelectedDamageRangePropsT) => {
   const { character } = useCharacterContext()
   const skill = character.skills.find((s) => s.id === skillId) || BASIC_ATTACK
   const target = characters.find((c) => c.id === targetId)
-  console.log(targetId)
-  console.log(character, target)
   if (!target) return null
   const range = getSkillRange(skill, character, target)
   return range !== '0' ? (
-    <BoxContainer style={{ textAlign: 'center', fontWeight: 'bold' }}>
+    <BoxContainer
+      style={{ textAlign: 'center', fontWeight: 'bold', borderLeft: 'none' }}
+      substyle={{ borderLeft: 'none', backgroundColor: '#111' }}
+    >
       ({range})
     </BoxContainer>
   ) : null

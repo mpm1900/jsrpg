@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Color from 'color'
 import Tooltip from 'react-tooltip-lite'
 import { BoxContainer } from '../../elements/box'
-import { FlexContainer } from '../../elements/flex'
+import { FlexContainer, FullContainer } from '../../elements/flex'
 
 export interface GaugePropsT {
   name?: string
@@ -26,14 +26,21 @@ export const Gauge = (props: GaugePropsT) => {
       content={<BoxContainer>{`${name} (${value} / ${max})`}</BoxContainer>}
     >
       <BoxContainer
-        substyle={{ padding: 0, backgroundColor: '#111', height: height - 2 }}
+        substyle={{
+          padding: 0,
+          backgroundColor: '#111',
+          height: height - 2,
+          position: 'relative',
+        }}
         onMouseEnter={() => setHovering(true)}
         onMouseLeave={() => setHovering(false)}
       >
         <FlexContainer
           style={{
+            position: 'absolute',
+            left: 0,
             boxSizing: 'border-box',
-            height: height,
+            height: height - 2,
             maxWidth: `${percentage}%`,
             minWidth: `${percentage}%`,
             border:
@@ -48,9 +55,22 @@ export const Gauge = (props: GaugePropsT) => {
             justifyContent: 'center',
             transition: 'all 0.5s',
           }}
+        ></FlexContainer>
+        <FullContainer
+          style={{
+            position: 'absolute',
+            height,
+            lineHeight: `${height - 2}px`,
+            right: 4,
+            top: 0,
+            fontFamily: 'monospace',
+            fontWeight: 'bold',
+            overflow: 'hidden',
+            textShadow: '0px 0px 3px black',
+          }}
         >
           {children}
-        </FlexContainer>
+        </FullContainer>
       </BoxContainer>
     </Tooltip>
   )

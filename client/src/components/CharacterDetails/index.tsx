@@ -16,29 +16,40 @@ import Save from '../../icons/svg/delapouite/save.svg'
 import Delete from '../../icons/svg/delapouite/trash-can.svg'
 import { usePartyContext } from '../../contexts/PartyContext'
 import { noneg } from '../../util/noneg'
+import { CombatCharacterSkills } from '../CombatCharacterSkills'
+import { CombatCharacterTargets } from '../CombatCharacterTargets'
+import { useCombatContext } from '../../contexts/CombatContext'
 
 export interface CharacterDetailsPropsT {
   character?: ProcessedCharacterT
   showInspect?: boolean
   showWeaponInspect?: boolean
   showEdit?: boolean
+  showSkills?: boolean
 }
 export const CharacterDetails = (props: CharacterDetailsPropsT) => {
   const {
     showEdit = false,
     showInspect = false,
     showWeaponInspect = false,
+    showSkills = false,
   } = props
   const characterContext = useCharacterContext()
   const { deleteCharacter } = usePartyContext()
+  const {
+    characterSkills,
+    setCharacterSkill,
+    characterTargets,
+    setCharacterTarget,
+  } = useCombatContext()
   const { rawCharacter, onChange } = characterContext
   const character = props.character || characterContext.character
   const [detailsHovering, setDetailsHovering] = useState(false)
   const [weaponHovering, setWeaponHovering] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
   const [name, setName] = useState<string>(character.name)
-  const health = character.stats.health - character.healthOffset
-  const focus = character.stats.focus - character.focusOffset
+  const health = noneg(character.stats.health - character.healthOffset)
+  const focus = noneg(character.stats.focus - character.focusOffset)
   useEffect(() => {
     setName(character.name)
   }, [character.name])
@@ -47,10 +58,12 @@ export const CharacterDetails = (props: CharacterDetailsPropsT) => {
       style={{
         minWidth: 430,
         transition: 'all 1s',
+        border: '2px solid black',
       }}
+      substyle={{ padding: 0 }}
     >
       <FlexContainer $direction='column'>
-        <FlexContainer style={{ marginBottom: 10 }}>
+        <FlexContainer style={{ padding: 4 }}>
           <FlexContainer $full>
             <BoxContainer
               style={{
@@ -172,20 +185,37 @@ export const CharacterDetails = (props: CharacterDetailsPropsT) => {
             </>
           )}
         </FlexContainer>
+        {showSkills && (
+          <>
+            <CombatCharacterSkills
+              activeSkillId={characterSkills[character.id]}
+              skills={character.skills}
+              onClick={(skillId) => setCharacterSkill(character.id, skillId)}
+            />
+            <CombatCharacterTargets
+              activeTargetId={characterTargets[character.id]}
+              onClick={(targetId) => setCharacterTarget(character.id, targetId)}
+            />
+          </>
+        )}
         <Gauge
           name='Health'
           color='#8f4e4d'
           max={character.stats.health}
-          value={noneg(health)}
-          height={10}
-        ></Gauge>
+          value={health}
+          height={15}
+        >
+          {health}/{character.stats.health}
+        </Gauge>
         <Gauge
           name='Focus'
           color='#517e4e'
           max={character.stats.focus}
-          value={noneg(focus)}
-          height={5}
-        ></Gauge>
+          value={focus}
+          height={15}
+        >
+          {focus}/{character.stats.focus}
+        </Gauge>
       </FlexContainer>
     </BoxContainer>
   )
