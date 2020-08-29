@@ -96,7 +96,7 @@ export const Character = () => {
                   showCollapseButton={false}
                 />
               ))}
-              <div style={{ marginTop: 10 }}>
+              <FlexContainer>
                 {character.skills
                   .filter(
                     (s) => s.id !== BASIC_ATTACK.id && s.id !== INSPECT.id,
@@ -104,7 +104,7 @@ export const Character = () => {
                   .map((skill) => (
                     <SkillPreviewAlt key={skill.id} skill={skill} />
                   ))}
-              </div>
+              </FlexContainer>
             </div>
             <ArmorScoreList />
           </FlexContainer>
