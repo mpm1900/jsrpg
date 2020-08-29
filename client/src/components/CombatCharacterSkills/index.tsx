@@ -6,6 +6,7 @@ import { useCharacterContext } from '../../contexts/CharacterContext'
 import { BASIC_ATTACK, INSPECT } from '../../objects/makeSkill'
 import { SkillPreview } from '../SkillPreview'
 
+const size = 32
 export interface CombatCharacterSkillsPropsT {
   activeSkillId?: string
   skills: SkillT[]
@@ -17,7 +18,9 @@ export const CombatCharacterSkills = (props: CombatCharacterSkillsPropsT) => {
   const active = (skillId: string) => activeSkillId === skillId
 
   return (
-    <BoxContainer substyle={{ display: 'flex', padding: 0 }}>
+    <BoxContainer
+      substyle={{ display: 'flex', padding: 4, backgroundColor: '#111' }}
+    >
       {skills.map((skill) => (
         <CombatCharacterSkill
           key={skill.id}
@@ -28,7 +31,10 @@ export const CombatCharacterSkills = (props: CombatCharacterSkillsPropsT) => {
           }
           onClick={() => onClick(skill.id)}
           style={{
-            ...(active(skill.id) ? { borderColor: 'white' } : {}),
+            padding: 0,
+            height: size + 2,
+            width: size + 2,
+            ...(active(skill.id) ? { borderColor: 'turquoise' } : {}),
           }}
         />
       ))}
@@ -45,16 +51,21 @@ export interface CombatCharacterSkillPropsT {
 export const CombatCharacterSkill = (props: CombatCharacterSkillPropsT) => {
   const { skill, disabled, style, onClick } = props
   const [isHovering, setIsHovering] = useState<boolean>(false)
+  const isDefault = skill.id === BASIC_ATTACK.id || skill.id === INSPECT.id
   return (
     <Tooltip
-      isOpen={
-        isHovering && skill.id !== BASIC_ATTACK.id && skill.id !== INSPECT.id
-      }
-      direction='up'
+      isOpen={isHovering}
+      direction='down'
       tagName='div'
       padding='0'
       arrow={false}
-      content={<SkillPreview skillId={skill.id} skill={skill} />}
+      content={
+        isDefault ? (
+          <BoxContainer>{skill.name}</BoxContainer>
+        ) : (
+          <SkillPreview skillId={skill.id} skill={skill} />
+        )
+      }
     >
       <div
         onMouseEnter={() => setIsHovering(true)}
@@ -65,7 +76,19 @@ export const CombatCharacterSkill = (props: CombatCharacterSkillPropsT) => {
           onClick={() => onClick(skill.id)}
           substyle={style}
         >
-          {skill.name}
+          {skill.imgSrc && (
+            <img
+              src={skill.imgSrc}
+              height={size}
+              width={size}
+              style={{
+                height: size,
+                width: size,
+                boxSizing: 'border-box',
+                border: '4px solid black',
+              }}
+            />
+          )}
         </BoxButton>
       </div>
     </Tooltip>

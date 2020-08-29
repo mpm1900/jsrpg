@@ -21,7 +21,12 @@ import {
   SWORD_OF_BLOOD_AND_FIRE,
   SWORD_OF_THE_INFINITE,
 } from '../../objects/builders/weapons/mythics'
-import { makeSkill } from '../../objects/makeSkill'
+import {
+  makeSkill,
+  FIREBALL,
+  CRIPPLING_BLOW,
+  THUNDERBOLT,
+} from '../../objects/makeSkill'
 import { makeCharacterRoll, makeCharacterCheck } from '../../types/Roll2'
 import { makeTrait, makeRequirementCheck } from '../../objects/util'
 
@@ -176,53 +181,11 @@ export const INITIAL_STATE: PartyT[] = [
       {
         ...max,
         weapon: SWORD_OF_THE_INFINITE,
-        skills: [
-          ...max.skills,
-          {
-            ...makeSkill('Fireball'),
-            check: makeCharacterCheck(['intelligence']),
-            combineWeaponDamage: false,
-            damageRolls: {
-              fire: makeCharacterRoll([], '4d10'),
-            },
-            focusCost: 10,
-          },
-          {
-            ...makeSkill('Crippling Blow'),
-            requirementCheck: makeRequirementCheck(['strength'], 10),
-            combineWeaponDamage: true,
-            checkDodgeForTraits: true,
-            damageRolls: {},
-            traits: [
-              {
-                ...makeTrait(),
-                duration: 2,
-                abilitiesModifiers: {
-                  strength: 0,
-                  dexterity: 0,
-                  intelligence: 0,
-                  vigor: -5,
-                },
-              },
-            ],
-            focusCost: 1,
-          },
-        ],
+        skills: [...max.skills, FIREBALL, CRIPPLING_BLOW],
       },
       {
         ...katie,
-        skills: [
-          ...katie.skills,
-          {
-            ...makeSkill('Thunderbolt'),
-            check: makeCharacterCheck(['intelligence']),
-            combineWeaponDamage: false,
-            damageRolls: {
-              light: makeCharacterRoll(['intelligence']),
-            },
-            focusCost: 3,
-          },
-        ],
+        skills: [...katie.skills, THUNDERBOLT],
         weapon: SWORD_OF_BLOOD_AND_FIRE,
       },
     ],

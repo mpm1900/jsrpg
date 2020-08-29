@@ -74,7 +74,7 @@ export const CharacterDetails = (props: CharacterDetailsPropsT) => {
               ) : (
                 <img
                   alt='profile'
-                  src='https://picsum.photos/60/60'
+                  src={`https://picsum.photos/seed/${character.name}/60/60`}
                   style={{ height: 60, width: 60 }}
                 />
               )}

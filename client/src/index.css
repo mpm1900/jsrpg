@@ -52,6 +52,9 @@ button {
   font-weight: bold;
   cursor: pointer;
 }
+button:focus {
+  outline: none;
+}
 
 button:disabled {
   background-color: #555;

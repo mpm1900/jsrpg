@@ -27,7 +27,14 @@ export const SkillPreview = (props: SkillPreviewPropsT) => {
     props.skill || character.skills.find((s) => s.id === skillId) || makeSkill()
 
   return (
-    <BoxContainer style={{ width: 380 }} substyle={{ backgroundColor: '#222' }}>
+    <BoxContainer
+      style={{
+        width: 380,
+        backgroundImage: `url(${skill.imgSrc})`,
+        borderColor: 'rgba(255,255,255,0.15)',
+      }}
+      substyle={{ backgroundColor: 'rgba(0,0,0,0.8)' }}
+    >
       <FlexContainer style={{ marginBottom: 10 }}>
         <h3 style={{ margin: '0 10px 0 0', flex: 1 }}>{skill.name}</h3>
       </FlexContainer>

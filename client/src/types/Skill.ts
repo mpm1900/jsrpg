@@ -6,6 +6,7 @@ import { EventsT } from './Events'
 export interface SkillT {
   id: string
   name: string
+  imgSrc: string
   check?: CharacterCheckT
   requirementCheck: CharacterCheckT
   damageRolls: DamageTypeRollsT

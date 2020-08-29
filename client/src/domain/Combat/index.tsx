@@ -26,16 +26,6 @@ export const Combat = () => {
     }
   }, [])
 
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      console.log('next', e)
-      next()
-    }
-    window.addEventListener('keydown', handler)
-    return () => {
-      window.removeEventListener('keydown', handler)
-    }
-  }, [next])
   return (
     <FlexContainer $full $direction='column'>
       <BoxContainer>
