@@ -83,7 +83,7 @@ export const CombatCharacterTarget = (props: CombatCharacterTargetPropsT) => {
               height: size,
               width: size,
               boxSizing: 'border-box',
-              border: '4px solid black',
+              border: '2px solid black',
             }}
           />
         </BoxButton>

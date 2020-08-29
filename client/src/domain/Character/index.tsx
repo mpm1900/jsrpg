@@ -85,7 +85,7 @@ export const Character = () => {
             <div>
               <WeaponPreview
                 weapon={character.weapon}
-                showEquipButton={false}
+                showEquipButton={true}
                 showRequirement={false}
               />
               {character.equippedItems.map((item) => (
