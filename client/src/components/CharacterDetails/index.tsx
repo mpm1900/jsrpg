@@ -46,7 +46,6 @@ export const CharacterDetails = (props: CharacterDetailsPropsT) => {
     <BoxContainer
       style={{
         minWidth: 430,
-        opacity: character.dead ? 0.5 : 1,
         transition: 'all 1s',
       }}
     >

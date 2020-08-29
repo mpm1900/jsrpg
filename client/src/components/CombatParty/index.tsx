@@ -42,7 +42,12 @@ export const CombatParty = (props: CombatPartyPropsT) => {
           character={character}
           onChange={(c) => upsertCharacter(c, party.id)}
         >
-          <FlexContainer style={{ position: 'relative' }}>
+          <FlexContainer
+            style={{
+              position: 'relative',
+              opacity: processCharacter(character).dead ? 0.5 : 1,
+            }}
+          >
             <FlexContainer $direction='column' $full>
               <CharacterDetails
                 showInspect={
