@@ -21,7 +21,7 @@ import { PC_PARTY_ID } from '../../state/parties'
 import { WeaponT } from '../../types/Weapon'
 import { getKeys } from '../../util/getKeys'
 import { BASIC_ATTACK } from '../../objects/makeSkill'
-import { NameSpan, logResult } from './log'
+import { NameSpan, logResult, gv } from './log'
 import {
   combineCharacterRolls,
   ZERO_ROLL,
@@ -349,17 +349,19 @@ export const processEvent = (
       : skill.name
   if (addedTraits) {
     const combinedTrait = combineTraits(addedTraits)
-    if (combinedTrait.healthOffset > 0) {
+    if (combinedTrait.healthOffset !== 0) {
       addLine(
         <span>
-          {NameSpan(source)} gained {combinedTrait.healthOffset} HP from {name}.
+          {NameSpan(source)} {gv(combinedTrait.healthOffset)}{' '}
+          {combinedTrait.healthOffset} HP from {name}.
         </span>,
       )
     }
-    if (combinedTrait.focusOffset > 0) {
+    if (combinedTrait.focusOffset !== 0) {
       addLine(
         <span>
-          {NameSpan(source)} gained {combinedTrait.focusOffset} FP from {name}.
+          {NameSpan(source)} {gv(combinedTrait.focusOffset)}{' '}
+          {combinedTrait.focusOffset} FP from {name}.
         </span>,
       )
     }
@@ -368,7 +370,7 @@ export const processEvent = (
       if (value !== 0) {
         addLine(
           <span>
-            {NameSpan(source)} gained {value} {key} from {name}.
+            {NameSpan(source)} {gv(value)} {value} {key} from {name}.
           </span>,
         )
       }

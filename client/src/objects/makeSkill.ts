@@ -64,6 +64,17 @@ export const CRIPPLING_BLOW: SkillT = {
         vigor: -5,
       },
     },
+    {
+      ...makeTrait(),
+      duration: -1,
+      focusOffset: -3,
+      abilitiesModifiers: {
+        strength: 0,
+        dexterity: 0,
+        intelligence: 0,
+        vigor: 0,
+      },
+    },
   ],
   focusCost: 1,
 }

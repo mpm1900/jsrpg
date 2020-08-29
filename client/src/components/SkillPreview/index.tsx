@@ -73,18 +73,20 @@ export const SkillPreview = (props: SkillPreviewPropsT) => {
           </FullContainer>
         )}
       </FlexContainer>
-      <FlexContainer style={{ marginBottom: 10 }}>
-        <strong
-          style={{
-            fontFamily: 'monospace',
-            marginRight: 10,
-            color: 'rgba(255,255,255,0.5)',
-          }}
-        >
-          target:
-        </strong>
-        <TraitScore trait={combineTraits(skill.traits)} />
-      </FlexContainer>
+      {skill.traits.length > 0 && (
+        <FlexContainer style={{ marginBottom: 10 }}>
+          <strong
+            style={{
+              fontFamily: 'monospace',
+              marginRight: 10,
+              color: 'rgba(255,255,255,0.5)',
+            }}
+          >
+            target:
+          </strong>
+          <TraitScore trait={combineTraits(skill.traits)} />
+        </FlexContainer>
+      )}
       <div style={{ marginBottom: 10 }}>
         {getKeys(skill.events).map((key) => (
           <FlexContainer key={key} style={{ alignItems: 'center' }}>

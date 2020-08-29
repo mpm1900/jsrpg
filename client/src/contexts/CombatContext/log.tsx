@@ -69,8 +69,8 @@ export const logResult = (
   }
 }
 
-const cz = (v: number) => v !== 0
-const gv = (v: number) => (v > 0 ? 'gained' : 'lost')
+export const cz = (v: number) => v !== 0
+export const gv = (v: number) => (v > 0 ? 'gained' : 'lost')
 export const LogAddedTraits = (
   attackResult: AttackResultT,
   source: ProcessedCharacterT,
@@ -78,6 +78,15 @@ export const LogAddedTraits = (
   addLine: (line: React.ReactNode) => void,
 ) => {
   attackResult.traits.forEach((trait) => {
+    if (cz(trait.focusOffset)) {
+      addLine(
+        <span>
+          {NameSpan(target)} {gv(trait.focusOffset)} {trait.focusOffset} FP.{' '}
+          {trait.duration > 0 &&
+            `(${trait.duration - 1} round${trait.duration !== 2 ? 's' : ''})`}
+        </span>,
+      )
+    }
     getKeys(trait.abilitiesModifiers).forEach((key) => {
       if (cz(trait.abilitiesModifiers[key])) {
         addLine(
