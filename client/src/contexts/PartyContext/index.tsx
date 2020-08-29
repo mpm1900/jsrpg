@@ -32,8 +32,14 @@ export interface PartyContextT {
 const defaultContextValue: PartyContextT = {
   parties: [],
   rawParties: [],
-  userParty: { id: v4(), characters: [], processed: true, items: [] },
-  rawUserParty: { id: v4(), characters: [], items: [] },
+  userParty: {
+    id: v4(),
+    characters: [],
+    processed: true,
+    items: [],
+    skills: [],
+  },
+  rawUserParty: { id: v4(), characters: [], items: [], skills: [] },
   activeCharacterId: null,
   upsertParty: (party) => {},
   upsertItem: (item) => {},

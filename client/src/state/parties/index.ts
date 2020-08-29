@@ -180,6 +180,7 @@ export const INITIAL_STATE: PartyT[] = [
         .fill(null)
         .map(() => makeItem()),
     ],
+    skills: [],
     characters: [
       {
         ...max,

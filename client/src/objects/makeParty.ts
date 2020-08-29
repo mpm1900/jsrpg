@@ -6,6 +6,7 @@ export const makeParty = (id: string = v4()): PartyT => {
   return {
     id,
     items: [],
+    skills: [],
     characters: [makeNpc(), makeNpc(), makeNpc()].map((c) => ({
       ...c,
       partyId: id,

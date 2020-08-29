@@ -39,10 +39,22 @@ export interface CombatContextT {
 }
 const defaultContextValue: CombatContextT = {
   rounds: [],
-  userParty: { id: v4(), characters: [], processed: true, items: [] },
-  rawUserParty: { id: v4(), characters: [], items: [] },
-  enemyParty: { id: v4(), characters: [], processed: true, items: [] },
-  rawEnemyParty: { id: v4(), characters: [], items: [] },
+  userParty: {
+    id: v4(),
+    characters: [],
+    processed: true,
+    items: [],
+    skills: [],
+  },
+  rawUserParty: { id: v4(), characters: [], items: [], skills: [] },
+  enemyParty: {
+    id: v4(),
+    characters: [],
+    processed: true,
+    items: [],
+    skills: [],
+  },
+  rawEnemyParty: { id: v4(), characters: [], items: [], skills: [] },
   parties: [],
   running: false,
   done: false,
