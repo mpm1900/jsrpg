@@ -1,6 +1,10 @@
 import { SkillT } from '../types/Skill'
 import { v4 } from 'uuid'
-import { makeCharacterCheck, makeCharacterRoll } from '../types/Roll2'
+import {
+  makeCharacterCheck,
+  makeCharacterRoll,
+  makeStandardCharacterCheck,
+} from '../types/Roll2'
 import { makeRequirementCheck, makeTrait } from './util'
 import Healing from '../assets/img/healing1.png'
 import Fireball from '../assets/img/fireball.png'
@@ -84,7 +88,7 @@ export const CRIPPLING_BLOW: SkillT = {
 export const THUNDERBOLT: SkillT = {
   ...makeSkill('Thunderbolt'),
   imgSrc: Thunderbolt,
-  check: makeCharacterCheck(['intelligence']),
+  check: makeStandardCharacterCheck(['intelligence'], -3),
   combineWeaponDamage: false,
   damageRolls: {
     light: makeCharacterRoll(['intelligence']),

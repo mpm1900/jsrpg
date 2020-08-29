@@ -47,6 +47,7 @@ export const logResult = (
         LogAddedTraits(attackResult, source, target, addLine)
       }
       if (attackResult.sourceTraits.length > 0) {
+        console.log(source.name, attackResult.sourceTraits)
         LogAddedTraits(attackResult, source, target, addLine)
       }
     }
@@ -85,14 +86,13 @@ export const LogAddedTraits = (
   target: ProcessedCharacterT,
   addLine: (line: React.ReactNode) => void,
 ) => {
-  console.log(attackResult.sourceTraits)
   attackResult.targetTraits.forEach((trait) => {
-    if (cz(trait.focusOffset)) {
+    const gfo = target.focusOffset - trait.focusOffset
+    const focusOffset = gfo < 0 ? trait.focusOffset + gfo : trait.focusOffset
+    if (cz(focusOffset)) {
       addLine(
         <span>
-          {NameSpan(target)} {gv(trait.focusOffset)} {trait.focusOffset} FP.{' '}
-          {trait.duration > 0 &&
-            `(${trait.duration - 1} round${trait.duration !== 2 ? 's' : ''})`}
+          {NameSpan(target)} {gv(focusOffset)} {focusOffset} FP.
         </span>,
       )
     }
@@ -120,12 +120,21 @@ export const LogAddedTraits = (
     })
   })
   attackResult.sourceTraits.forEach((trait) => {
-    if (cz(trait.focusOffset)) {
+    const gfo = source.focusOffset - trait.focusOffset
+    const focusOffset = gfo < 0 ? trait.focusOffset + gfo : trait.focusOffset
+    if (cz(focusOffset)) {
       addLine(
         <span>
-          {NameSpan(source)} {gv(trait.focusOffset)} {trait.focusOffset} FP.{' '}
-          {trait.duration > 0 &&
-            `(${trait.duration - 1} round${trait.duration !== 2 ? 's' : ''})`}
+          {NameSpan(source)} {gv(focusOffset)} {focusOffset} FP.
+        </span>,
+      )
+    }
+    const gho = source.healthOffset - trait.healthOffset
+    const healthOffset = gho < 0 ? trait.healthOffset + gho : trait.healthOffset
+    if (cz(healthOffset)) {
+      addLine(
+        <span>
+          {NameSpan(source)} {gv(healthOffset)} {healthOffset} HP.
         </span>,
       )
     }

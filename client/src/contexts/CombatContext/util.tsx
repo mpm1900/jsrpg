@@ -282,7 +282,6 @@ export const resolveRound = (
           c: CharacterT,
           traits: CharacterTraitT[],
         ): CharacterT => {
-          console.log(c.name, traits)
           if (attackResult.hitSuccess) {
             return {
               ...commitTrait(c)(combineTraits(traits)),
@@ -353,19 +352,23 @@ export const processEvent = (
       : skill.name
   if (addedTraits) {
     const combinedTrait = combineTraits(addedTraits)
-    if (combinedTrait.healthOffset !== 0) {
+    const gho = source.healthOffset - combinedTrait.healthOffset
+    const healthOffset =
+      gho <= 0 ? combinedTrait.healthOffset + gho : combinedTrait.healthOffset
+    if (healthOffset !== 0) {
       addLine(
         <span>
-          {NameSpan(source)} {gv(combinedTrait.healthOffset)}{' '}
-          {combinedTrait.healthOffset} HP from {name}.
+          {NameSpan(source)} {gv(healthOffset)} {healthOffset} HP from {name}.
         </span>,
       )
     }
-    if (combinedTrait.focusOffset !== 0) {
+    const gfo = source.focusOffset - combinedTrait.focusOffset
+    const focusOffset =
+      gfo < 0 ? combinedTrait.focusOffset + gfo : combinedTrait.focusOffset
+    if (focusOffset !== 0) {
       addLine(
         <span>
-          {NameSpan(source)} {gv(combinedTrait.focusOffset)}{' '}
-          {combinedTrait.focusOffset} FP from {name}.
+          {NameSpan(source)} {gv(focusOffset)} {focusOffset} FP from {name}.
         </span>,
       )
     }

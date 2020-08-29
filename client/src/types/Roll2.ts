@@ -175,6 +175,10 @@ export const makeCharacterCheck = (
     modifier: mod || THREE_D6.modifier,
   },
 })
+export const makeStandardCharacterCheck = (
+  keys: CharacterSkillCheckKeyT[],
+  modifier: number = 0,
+) => makeCharacterCheck(keys, undefined, undefined, modifier)
 export const combineRollStrings = (...rolls: string[]): string => {
   const list = rolls
     .filter((r) => r !== '')
