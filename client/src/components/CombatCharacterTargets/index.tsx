@@ -20,7 +20,7 @@ export const CombatCharacterTargets = (props: CombatCharacterTargetsPropsT) => {
   const characters = enemyParty ? enemyParty.characters : []
   return (
     <BoxContainer
-      substyle={{ display: 'flex', padding: 4, backgroundColor: '#111' }}
+      substyle={{ display: 'flex', padding: 0, backgroundColor: '#111' }}
     >
       {characters.map((character) => (
         <CombatCharacterTarget
@@ -33,6 +33,8 @@ export const CombatCharacterTargets = (props: CombatCharacterTargetsPropsT) => {
             height: size + 2,
             width: size + 2,
             boxSizing: 'border-box',
+            margin: 0,
+            opacity: character.dead ? 0.5 : 1,
             ...(active(character.id) ? { borderColor: 'turquoise' } : {}),
           }}
         />

@@ -19,7 +19,7 @@ export const CombatCharacterSkills = (props: CombatCharacterSkillsPropsT) => {
 
   return (
     <BoxContainer
-      substyle={{ display: 'flex', padding: 4, backgroundColor: '#111' }}
+      substyle={{ display: 'flex', padding: 0, backgroundColor: '#111' }}
     >
       {skills.map((skill) => (
         <CombatCharacterSkill
@@ -34,6 +34,7 @@ export const CombatCharacterSkills = (props: CombatCharacterSkillsPropsT) => {
             padding: 0,
             height: size + 2,
             width: size + 2,
+            margin: 0,
             ...(active(skill.id) ? { borderColor: 'turquoise' } : {}),
           }}
         />
