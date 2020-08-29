@@ -255,7 +255,9 @@ export const resolveRound = (
   }
   const round = rounds[rounds.length - 1]
   addLine(
-    <strong style={{ color: 'lightblue' }}>{`ROUND ${rounds.length}`}</strong>,
+    <strong
+      style={{ color: 'lightblue', fontSize: 20 }}
+    >{`ROUND ${rounds.length}`}</strong>,
   )
   Object.values(round)
     .sort((a, b) => a.index - b.index)

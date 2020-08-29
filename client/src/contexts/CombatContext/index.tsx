@@ -121,7 +121,17 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
 
   const reset = (log: boolean = true) => {
     if (log) {
-      addLine(<strong style={{ color: 'turquoise' }}>Combat: {v4()}</strong>)
+      addLine(
+        <strong
+          style={{
+            color: 'turquoise',
+            paddingTop: 48,
+            display: 'inline-block',
+          }}
+        >
+          Combat: {v4()}
+        </strong>,
+      )
     }
     setDone(false)
     setRounds([])
