@@ -32,9 +32,6 @@ export const RollLog = (props: RollLogPropsT) => {
         >
           {history.map((roll) => (
             <React.Fragment key={roll.id}>
-              {roll.label && (
-                <span style={{ fontFamily: 'monospace' }}>{roll.label}</span>
-              )}
               <RollResult key={roll.id} roll={roll} />
             </React.Fragment>
           ))}
