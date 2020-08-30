@@ -259,11 +259,7 @@ export const PC_PARTY_ID = v4()
 export const INITIAL_STATE: PartyT[] = [
   {
     id: PC_PARTY_ID,
-    items: [
-      ...Array(80)
-        .fill(null)
-        .map(() => makeItem()),
-    ],
+    items: [],
     skills: [
       WRATH,
       CHARGE,
