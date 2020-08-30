@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "438671c4124799c4a7d1d769901fb64b",
+    "revision": "a95c85e9db94424276da082bfa78ce46",
     "url": "/jsrpg/index.html"
   },
   {
