@@ -19,6 +19,7 @@ import { noneg } from '../../util/noneg'
 import { CombatCharacterSkills } from '../CombatCharacterSkills'
 import { CombatCharacterTargets } from '../CombatCharacterTargets'
 import { useCombatContext } from '../../contexts/CombatContext'
+import { PC_PARTY_ID } from '../../state/parties'
 
 export interface CharacterDetailsPropsT {
   character?: ProcessedCharacterT
@@ -35,7 +36,7 @@ export const CharacterDetails = (props: CharacterDetailsPropsT) => {
     showSkills = false,
   } = props
   const characterContext = useCharacterContext()
-  const { deleteCharacter } = usePartyContext()
+  const { deleteCharacter, userParty } = usePartyContext()
   const {
     characterSkills,
     setCharacterSkill,
@@ -60,10 +61,13 @@ export const CharacterDetails = (props: CharacterDetailsPropsT) => {
         transition: 'all 1s',
         border: '2px solid black',
       }}
-      substyle={{ padding: 0 }}
+      substyle={{
+        padding: 0,
+        backgroundColor: character.partyId === PC_PARTY_ID ? '#2a2a2a' : '#222',
+      }}
     >
       <FlexContainer $direction='column'>
-        <FlexContainer style={{ padding: 4 }}>
+        <FlexContainer style={{ padding: 4, marginBottom: 10 }}>
           <FlexContainer $full>
             <BoxContainer
               style={{
@@ -71,7 +75,11 @@ export const CharacterDetails = (props: CharacterDetailsPropsT) => {
                 height: 64,
                 width: 64,
               }}
-              substyle={{ padding: 0, backgroundColor: '#111' }}
+              substyle={{
+                padding: 0,
+                backgroundColor: '#111',
+                border: 'none',
+              }}
             >
               {character.dead ? (
                 <FlexContainer
@@ -87,7 +95,11 @@ export const CharacterDetails = (props: CharacterDetailsPropsT) => {
                 <img
                   alt='profile'
                   src={`https://picsum.photos/seed/${character.name}/60/60`}
-                  style={{ height: 60, width: 60 }}
+                  style={{
+                    height: 60,
+                    width: 60,
+                    border: '1px solid rgba(255,255,255,0.5)',
+                  }}
                 />
               )}
             </BoxContainer>
@@ -99,7 +111,16 @@ export const CharacterDetails = (props: CharacterDetailsPropsT) => {
             ) : (
               <FlexContainer $direction='column'>
                 <h2 style={{ margin: 0 }}>{character.name}</h2>
-                <strong>Power: {character.power}</strong>
+                <strong
+                  style={{
+                    fontFamily: 'monospace',
+                    //marginTop: 4,
+                    fontSize: 24,
+                    color: 'rgba(255,255,255,0.24)',
+                  }}
+                >
+                  {character.power}
+                </strong>
               </FlexContainer>
             )}
           </FlexContainer>
@@ -186,17 +207,45 @@ export const CharacterDetails = (props: CharacterDetailsPropsT) => {
           )}
         </FlexContainer>
         {showSkills && (
-          <>
+          <FlexContainer
+            $direction='column'
+            style={{
+              backgroundColor: '#1a1a1a',
+              boxShadow: 'inset 0px 0px 15px black',
+              width: 'calc(100% - 16px)',
+              padding: '4px 8px',
+            }}
+          >
+            <span
+              style={{
+                fontFamily: 'monospace',
+                fontWeight: 'bold',
+                color: 'rgba(255,255,255,0.24)',
+                marginBottom: 2,
+              }}
+            >
+              SKILLS
+            </span>
             <CombatCharacterSkills
               activeSkillId={characterSkills[character.id]}
               skills={character.skills}
               onClick={(skillId) => setCharacterSkill(character.id, skillId)}
             />
+            <span
+              style={{
+                fontFamily: 'monospace',
+                fontWeight: 'bold',
+                color: 'rgba(255,255,255,0.24)',
+                marginBottom: 2,
+              }}
+            >
+              TARGETS
+            </span>
             <CombatCharacterTargets
               activeTargetId={characterTargets[character.id]}
               onClick={(targetId) => setCharacterTarget(character.id, targetId)}
             />
-          </>
+          </FlexContainer>
         )}
         <Gauge
           name='Health'

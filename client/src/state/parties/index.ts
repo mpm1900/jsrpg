@@ -186,7 +186,18 @@ export const INITIAL_STATE: PartyT[] = [
         .fill(null)
         .map(() => makeItem()),
     ],
-    skills: [],
+    skills: [
+      WRATH,
+      CHARGE,
+      CRIPPLING_BLOW,
+      VANISH,
+      SHADOW_STRIKE,
+      SKILL_SHOT,
+      THUNDERBOLT,
+      FIREBALL,
+      DARK_BLAST,
+      HEALING,
+    ],
     characters: [
       {
         ...max,

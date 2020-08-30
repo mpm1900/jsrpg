@@ -74,7 +74,7 @@ export const BoxButton = (props: BoxContainerPropsT) => {
         borderColor: hovering ? '#999' : '#555',
         padding: '4px',
         cursor: props.disabled ? 'not-allowed' : 'pointer',
-        background: '#111',
+        background: props.disabled ? '#444' : '#111',
         ...(props.substyle || {}),
       }}
       onMouseEnter={(e) => {

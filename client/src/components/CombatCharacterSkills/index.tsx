@@ -8,7 +8,7 @@ import { SkillPreview } from '../SkillPreview'
 import { Hover } from '../Hover'
 import { FlexContainer } from '../../elements/flex'
 
-const size = 32
+const size = 34
 export interface CombatCharacterSkillsPropsT {
   activeSkillId?: string
   skills: SkillT[]
@@ -20,13 +20,7 @@ export const CombatCharacterSkills = (props: CombatCharacterSkillsPropsT) => {
   const active = (skillId: string) => activeSkillId === skillId
 
   return (
-    <FlexContainer
-      style={{
-        backgroundColor: '#1a1a1a',
-        borderBottom: '1px solid black',
-        borderTop: '1px solid black',
-      }}
-    >
+    <FlexContainer style={{ marginBottom: 2 }}>
       {skills.map((skill) => (
         <CombatCharacterSkill
           key={skill.id}
@@ -39,8 +33,9 @@ export const CombatCharacterSkills = (props: CombatCharacterSkillsPropsT) => {
           style={{
             padding: 0,
             height: size + 2,
-            width: size + 2,
+            maxWidth: size + 2,
             margin: 0,
+            borderColor: 'transparent',
             opacity:
               character.dead ||
               character.stats.focus - character.focusOffset < skill.focusCost
@@ -86,6 +81,7 @@ export const CombatCharacterSkill = (props: CombatCharacterSkillPropsT) => {
             disabled={disabled}
             onClick={() => onClick(skill.id)}
             substyle={style}
+            style={{ border: 'none' }}
           >
             {skill.imgSrc && (
               <img
@@ -94,9 +90,9 @@ export const CombatCharacterSkill = (props: CombatCharacterSkillPropsT) => {
                 width={size}
                 style={{
                   height: size,
-                  width: size,
+                  maxWidth: size,
                   boxSizing: 'border-box',
-                  border: '2px solid black',
+                  border: '1px solid black',
                 }}
               />
             )}

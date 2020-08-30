@@ -101,8 +101,7 @@ export const LogAddedTraits = (
           <span>
             {NameSpan(target)} {gv(trait.abilitiesModifiers[key])}{' '}
             {trait.abilitiesModifiers[key]} {key}.{' '}
-            {trait.duration > 0 &&
-              `(${trait.duration - 1} round${trait.duration !== 2 ? 's' : ''})`}
+            {trait.duration > 1 && `(${trait.duration - 1}`}
           </span>,
         )
       }
@@ -112,7 +111,8 @@ export const LogAddedTraits = (
         addLine(
           <span>
             {NameSpan(target)} {gv(trait.statsModifiers[key])}{' '}
-            {trait.statsModifiers[key]} {key}.
+            {trait.statsModifiers[key]} {key}.{' '}
+            {trait.duration > 1 && `(${trait.duration - 1})`}
           </span>,
         )
       }
@@ -143,8 +143,7 @@ export const LogAddedTraits = (
           <span>
             {NameSpan(source)} {gv(trait.abilitiesModifiers[key])}{' '}
             {trait.abilitiesModifiers[key]} {key}.{' '}
-            {trait.duration > 0 &&
-              `(${trait.duration - 1} round${trait.duration !== 2 ? 's' : ''})`}
+            {trait.duration > 1 && `(${trait.duration - 1})`}
           </span>,
         )
       }
@@ -154,7 +153,8 @@ export const LogAddedTraits = (
         addLine(
           <span>
             {NameSpan(source)} {gv(trait.statsModifiers[key])}{' '}
-            {trait.statsModifiers[key]} {key}.
+            {trait.statsModifiers[key]} {key}.{' '}
+            {trait.duration > 1 && `(${trait.duration - 1})`}
           </span>,
         )
       }

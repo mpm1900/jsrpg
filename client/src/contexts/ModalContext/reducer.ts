@@ -26,10 +26,11 @@ export const SET_BLOCKING = 'modalContext/SET_BLOCKING'
 export const SET_STYLE = 'modalContext/SET_STYLE'
 
 export const actions = {
-  open: (contents?: React.FC, style?: CSSProperties) => ({
+  open: (contents?: React.FC, style?: CSSProperties, blocking?: boolean) => ({
     type: OPEN,
     contents,
     style,
+    blocking,
   }),
   close: () => ({ type: CLOSE }),
   setPayload: (payload: any) => ({ type: SET_PAYLOAD, payload }),
@@ -54,6 +55,7 @@ const core: Record<
     isOpen: true,
     contents: action.contents ? action.contents : state.contents,
     style: action.style ? action.style : state.style || {},
+    blocking: action.blocking || false,
   }),
   [CLOSE]: (state: ModalContextStateT) => ({
     ...state,

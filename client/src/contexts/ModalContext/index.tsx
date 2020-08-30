@@ -14,7 +14,7 @@ const contentStyles = (styles: CSSProperties): CSSProperties => ({
 })
 
 export interface ModalContextT {
-  open: (contents?: React.FC, style?: CSSProperties) => void
+  open: (contents?: React.FC, style?: CSSProperties, blocking?: boolean) => void
   close: (payload?: any) => void
   setPayload: (payload: any) => void
   setBlocking: (blocking: boolean) => void
@@ -39,8 +39,8 @@ const getContextValue = (
   dispatch: React.Dispatch<any>,
 ) => ({
   isOpen: state.isOpen,
-  open: (contents?: React.FC, style?: CSSProperties) =>
-    dispatch(actions.open(contents, style)),
+  open: (contents?: React.FC, style?: CSSProperties, blocking?: boolean) =>
+    dispatch(actions.open(contents, style, blocking)),
   close: (payload?: any) => {
     if (state.callback) state.callback(payload || state.payload)
     dispatch(actions.close())
@@ -53,6 +53,7 @@ const getContextValue = (
   setStyle: (style: CSSProperties) => dispatch(actions.setStyle(style)),
 })
 
+Modal.setAppElement('#root')
 export interface ModalContextProviderPropsT {
   children: React.ReactNode | React.ReactNode[]
 }
@@ -68,8 +69,13 @@ export const ModalContextProvider = (props: ModalContextProviderPropsT) => {
     <ModalContext.Provider value={context}>
       {children}
       <Modal
+        parentSelector={() =>
+          document.querySelector('#content-root') as HTMLElement
+        }
         isOpen={state.isOpen}
-        onRequestClose={context.close}
+        onRequestClose={() => {
+          if (!state.blocking) context.close()
+        }}
         style={{
           content: {
             backgroundColor: '#111',

@@ -18,6 +18,8 @@ import { useCombatLogContext } from '../CombatLogContext'
 import { useInterval } from '../../hooks/useInterval'
 import { useModalContext } from '../ModalContext'
 import { useHistory } from 'react-router'
+import { CombatVictoryModal } from '../../components/CombatVictoryModal'
+import { CombatLossModal } from '../../components/CombatLossModal'
 
 export interface CombatContextT {
   rounds: any[]
@@ -82,9 +84,10 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
     rawUserParty,
     upsertParty,
     upsertCharacter,
+    upsertItem,
   } = usePartyContext()
   const { checkCharacter, rollCharacter } = useRollContext()
-  const { addLine } = useCombatLogContext()
+  const { addLine, clear } = useCombatLogContext()
   const [rounds, setRounds] = useState<CombatRoundT[]>([])
   const [wins, setWins] = useState<number>(0)
   const [characterSkills, setCharacterSkills] = useState<{
@@ -120,19 +123,7 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
   const { start, stop, running } = useInterval(next)
 
   const reset = (log: boolean = true) => {
-    if (log) {
-      addLine(
-        <strong
-          style={{
-            color: 'turquoise',
-            paddingTop: 48,
-            display: 'inline-block',
-          }}
-        >
-          Combat: {v4()}
-        </strong>,
-      )
-    }
+    clear()
     setDone(false)
     setRounds([])
     upsertParty(makeParty(ENEMY_PARTY_ID))
@@ -164,10 +155,17 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
     }
   }, [])
 
-  const finish = (text: string) => {
+  const finish = (didWin: boolean) => {
     stop()
     setDone(true)
-    open(() => <h1>{text}</h1>)
+    if (didWin) {
+      open(() => <CombatVictoryModal reset={reset} />, {}, true)
+      setCallback((item) => {
+        upsertItem(item)
+      })
+    } else {
+      open(() => <CombatLossModal wins={wins} />, {}, true)
+    }
   }
 
   useEffect(() => {
@@ -175,11 +173,11 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
       setCallback(() => {
         history.push('/characters')
       })
-      finish(`YOU DIED (${wins} wins)`)
+      finish(false)
     } else {
       if (checkParty(enemyParty) && !done) {
         setCallback(() => {})
-        finish('YOU WIN!')
+        finish(true)
         setWins((w) => w + 1)
       } else {
         if (running) {

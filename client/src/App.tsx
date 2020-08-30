@@ -31,7 +31,7 @@ export const App = () => {
           <PartyContextProvider>
             <CharacterStateContextProvider>
               <CombatLogContextProvider>
-                <FlexContainer $full $direction='column'>
+                <FlexContainer $full $direction='column' id='content-root'>
                   <AppHeader />
                   <FlexContainer
                     $full

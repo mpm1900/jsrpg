@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import Color from 'color'
 import { BoxContainer } from '../../elements/box'
 import { EquippableT, ItemRarityColorMap } from '../../types/Item'
@@ -6,14 +6,18 @@ import { ArmorIcon } from '../ArmorIcon'
 import { ArmorT } from '../../types/Armor'
 import { ItemPreview } from '../ItemPreview'
 import Tooltip from 'react-tooltip-lite'
+import { WeaponIcon } from '../WeaponIcon'
+import { WeaponT } from '../../types/Weapon'
+import { WeaponPreview } from '../WeaponPreview'
+import { BASE_EQUIPPABLE } from '../../objects/util'
 
-const size = 38
 export interface ItemPreviewSmallPropsT {
-  item?: EquippableT
+  item: EquippableT
+  size?: number
   onClick?: (item: EquippableT) => void
 }
 export const ItemPreviewSmall = (props: ItemPreviewSmallPropsT) => {
-  const { item, onClick } = props
+  const { item = BASE_EQUIPPABLE('armor'), size = 38, onClick } = props
   const [isHovering, setIsHovering] = useState(false)
   const isEmpty = item === undefined
   const rarityColor = ItemRarityColorMap[item ? item.rarity : 'common']
@@ -22,6 +26,25 @@ export const ItemPreviewSmall = (props: ItemPreviewSmallPropsT) => {
     .fade(0.5)
     .rgb()
     .string()
+
+  const isArmor = item.type === 'armor'
+  const isWeapon = item.type === 'weapon'
+  const icon = useMemo(() => {
+    if (isWeapon) {
+      return (
+        <WeaponIcon
+          weapon={item as WeaponT}
+          size={size - 16}
+          fill={rarityColor}
+        />
+      )
+    }
+    if (isArmor) {
+      return (
+        <ArmorIcon item={item as ArmorT} size={size - 6} fill={rarityColor} />
+      )
+    }
+  }, [item, isArmor, isWeapon, rarityColor])
   return (
     <div
       onMouseEnter={() => setIsHovering(true)}
@@ -34,15 +57,14 @@ export const ItemPreviewSmall = (props: ItemPreviewSmallPropsT) => {
         padding='0'
         arrow={false}
         content={
-          item &&
-          item.type === 'armor' && (
-            <div>
-              <ItemPreview
-                item={item as EquippableT}
-                showEquipButton={false}
-                showCollapseButton={false}
-              />
-            </div>
+          item.type === 'armor' ? (
+            <ItemPreview
+              item={item}
+              showEquipButton={false}
+              showCollapseButton={false}
+            />
+          ) : (
+            <WeaponPreview weapon={item as WeaponT} showEquipButton={false} />
           )
         }
       >
@@ -61,15 +83,9 @@ export const ItemPreviewSmall = (props: ItemPreviewSmallPropsT) => {
             justifyContent: 'center',
             padding: 0,
           }}
-          onClick={() => onClick && item && onClick(item)}
+          onClick={() => onClick && onClick(item)}
         >
-          {item && (
-            <ArmorIcon
-              item={item as ArmorT}
-              size={size - 16}
-              fill={rarityColor}
-            />
-          )}
+          {icon}
         </BoxContainer>
       </Tooltip>
     </div>

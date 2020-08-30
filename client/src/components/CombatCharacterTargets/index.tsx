@@ -9,7 +9,7 @@ import { useCharacterContext } from '../../contexts/CharacterContext'
 import Roll from '../../assets/img/roll.png'
 import { Hover } from '../Hover'
 
-const size = 32
+const size = 34
 export interface CombatCharacterTargetsPropsT {
   activeTargetId?: string
   onClick: (targetId?: string) => void
@@ -21,15 +21,17 @@ export const CombatCharacterTargets = (props: CombatCharacterTargetsPropsT) => {
   const active = (targetId?: string) => activeTargetId === targetId
   const characters = enemyParty ? enemyParty.characters : []
   return (
-    <FlexContainer style={{ backgroundColor: '#1a1a1a' }}>
+    <FlexContainer>
       <BoxButton
         disabled={cc.character.dead}
         onClick={() => onClick(undefined)}
+        style={{ border: 'none' }}
         substyle={{
           padding: 0,
           height: size + 2,
           width: size + 2,
           boxSizing: 'border-box',
+          borderColor: 'transparent',
           opacity: activeTargetId === undefined ? 1 : 0.5,
           margin: 0,
           ...(active(undefined) ? { borderColor: 'turquoise' } : {}),
@@ -45,7 +47,7 @@ export const CombatCharacterTargets = (props: CombatCharacterTargetsPropsT) => {
             height: size,
             width: size,
             boxSizing: 'border-box',
-            border: '2px solid black',
+            border: '1px solid black',
           }}
         />
       </BoxButton>
@@ -61,6 +63,7 @@ export const CombatCharacterTargets = (props: CombatCharacterTargetsPropsT) => {
             width: size + 2,
             boxSizing: 'border-box',
             margin: 0,
+            borderColor: 'transparent',
             opacity:
               cc.character.dead || character.dead
                 ? 0.5
@@ -95,7 +98,12 @@ export const CombatCharacterTarget = (props: CombatCharacterTargetPropsT) => {
           arrow={false}
           content={<BoxContainer>{name}</BoxContainer>}
         >
-          <BoxButton onClick={onClick} disabled={disabled} substyle={style}>
+          <BoxButton
+            onClick={onClick}
+            disabled={disabled}
+            substyle={style}
+            style={{ border: 'none' }}
+          >
             <img
               alt='profile'
               src={`https://picsum.photos/seed/${name}/60/60`}
@@ -103,7 +111,7 @@ export const CombatCharacterTarget = (props: CombatCharacterTargetPropsT) => {
                 height: size,
                 width: size,
                 boxSizing: 'border-box',
-                border: '2px solid black',
+                border: '1px solid black',
               }}
             />
           </BoxButton>

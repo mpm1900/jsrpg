@@ -57,7 +57,9 @@ export const CombatParty = (props: CombatPartyPropsT) => {
             <FlexContainer
               $direction='column'
               $full
-              style={{ marginBottom: 10 }}
+              style={{
+                marginBottom: 10,
+              }}
             >
               <CharacterDetails
                 showInspect={
