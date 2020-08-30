@@ -1,17 +1,18 @@
 {
   "files": {
     "main.css": "/jsrpg/static/css/main.6b640b01.chunk.css",
-    "main.js": "/jsrpg/static/js/main.27417b33.chunk.js",
-    "main.js.map": "/jsrpg/static/js/main.27417b33.chunk.js.map",
+    "main.js": "/jsrpg/static/js/main.aa6054c8.chunk.js",
+    "main.js.map": "/jsrpg/static/js/main.aa6054c8.chunk.js.map",
     "runtime-main.js": "/jsrpg/static/js/runtime-main.569d6e6e.js",
     "runtime-main.js.map": "/jsrpg/static/js/runtime-main.569d6e6e.js.map",
-    "static/js/2.5bd51865.chunk.js": "/jsrpg/static/js/2.5bd51865.chunk.js",
-    "static/js/2.5bd51865.chunk.js.map": "/jsrpg/static/js/2.5bd51865.chunk.js.map",
+    "static/js/2.eb0b2fec.chunk.js": "/jsrpg/static/js/2.eb0b2fec.chunk.js",
+    "static/js/2.eb0b2fec.chunk.js.map": "/jsrpg/static/js/2.eb0b2fec.chunk.js.map",
     "index.html": "/jsrpg/index.html",
-    "precache-manifest.831a5b1172e9d0e7f54f9e2ed6cc6576.js": "/jsrpg/precache-manifest.831a5b1172e9d0e7f54f9e2ed6cc6576.js",
+    "precache-manifest.270b66083e6fe00b12283476d9114442.js": "/jsrpg/precache-manifest.270b66083e6fe00b12283476d9114442.js",
     "service-worker.js": "/jsrpg/service-worker.js",
     "static/css/main.6b640b01.chunk.css.map": "/jsrpg/static/css/main.6b640b01.chunk.css.map",
-    "static/js/2.5bd51865.chunk.js.LICENSE.txt": "/jsrpg/static/js/2.5bd51865.chunk.js.LICENSE.txt",
+    "static/js/2.eb0b2fec.chunk.js.LICENSE.txt": "/jsrpg/static/js/2.eb0b2fec.chunk.js.LICENSE.txt",
+    "static/media/23761.jpg": "/jsrpg/static/media/23761.e6671090.jpg",
     "static/media/aura.svg": "/jsrpg/static/media/aura.72475924.svg",
     "static/media/barbed-arrow.svg": "/jsrpg/static/media/barbed-arrow.c6c3f6ae.svg",
     "static/media/barbute.svg": "/jsrpg/static/media/barbute.e93dc754.svg",
@@ -25,8 +26,10 @@
     "static/media/croc-sword.svg": "/jsrpg/static/media/croc-sword.dfa5ecf6.svg",
     "static/media/crossbow.svg": "/jsrpg/static/media/crossbow.6d23d544.svg",
     "static/media/crossed-swords.svg": "/jsrpg/static/media/crossed-swords.b7d2c27a.svg",
+    "static/media/crystal-shrine.svg": "/jsrpg/static/media/crystal-shrine.d915d792.svg",
     "static/media/dark-blast.png": "/jsrpg/static/media/dark-blast.155cdf6e.png",
     "static/media/dice-six-faces-six.svg": "/jsrpg/static/media/dice-six-faces-six.e202d07a.svg",
+    "static/media/emerald.svg": "/jsrpg/static/media/emerald.df0125b6.svg",
     "static/media/fire-axe.svg": "/jsrpg/static/media/fire-axe.3106dbae.svg",
     "static/media/fireball.png": "/jsrpg/static/media/fireball.267cc34c.png",
     "static/media/fist.svg": "/jsrpg/static/media/fist.d1b25a44.svg",
@@ -77,8 +80,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.569d6e6e.js",
-    "static/js/2.5bd51865.chunk.js",
+    "static/js/2.eb0b2fec.chunk.js",
     "static/css/main.6b640b01.chunk.css",
-    "static/js/main.27417b33.chunk.js"
+    "static/js/main.aa6054c8.chunk.js"
   ]
 }

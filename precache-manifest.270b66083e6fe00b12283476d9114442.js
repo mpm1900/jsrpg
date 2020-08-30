@@ -1,27 +1,31 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "51c9f82a0ef8617c52ccd1a1fe5343a7",
+    "revision": "1460f15428c28a4cfc37248431d64384",
     "url": "/jsrpg/index.html"
   },
   {
-    "revision": "1b25d1eea21a5986dfa2",
+    "revision": "d5db8d880575675fb271",
     "url": "/jsrpg/static/css/main.6b640b01.chunk.css"
   },
   {
-    "revision": "d7315a718e8e5735de08",
-    "url": "/jsrpg/static/js/2.5bd51865.chunk.js"
+    "revision": "60595e8630f7b6668d25",
+    "url": "/jsrpg/static/js/2.eb0b2fec.chunk.js"
   },
   {
     "revision": "4fc96d8633d093f6effd8ad2d7e6794c",
-    "url": "/jsrpg/static/js/2.5bd51865.chunk.js.LICENSE.txt"
+    "url": "/jsrpg/static/js/2.eb0b2fec.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "1b25d1eea21a5986dfa2",
-    "url": "/jsrpg/static/js/main.27417b33.chunk.js"
+    "revision": "d5db8d880575675fb271",
+    "url": "/jsrpg/static/js/main.aa6054c8.chunk.js"
   },
   {
     "revision": "c455a9ffbc4cbbcd5a32",
     "url": "/jsrpg/static/js/runtime-main.569d6e6e.js"
+  },
+  {
+    "revision": "e667109079f29a1c3ee42a32afd1ff98",
+    "url": "/jsrpg/static/media/23761.e6671090.jpg"
   },
   {
     "revision": "7247592441e4d352a7757cdf23749b5b",
@@ -76,12 +80,20 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/jsrpg/static/media/crossed-swords.b7d2c27a.svg"
   },
   {
+    "revision": "d915d792c4d7215c1e4c786ac0968d30",
+    "url": "/jsrpg/static/media/crystal-shrine.d915d792.svg"
+  },
+  {
     "revision": "155cdf6ec5eeff616b03ed44886589be",
     "url": "/jsrpg/static/media/dark-blast.155cdf6e.png"
   },
   {
     "revision": "e202d07a30c7bba9a9c30a4835c7332e",
     "url": "/jsrpg/static/media/dice-six-faces-six.e202d07a.svg"
+  },
+  {
+    "revision": "df0125b6e419741a2f8e268d33cf523f",
+    "url": "/jsrpg/static/media/emerald.df0125b6.svg"
   },
   {
     "revision": "3106dbaefae22145f91856d0e6f259b4",
