@@ -48,7 +48,7 @@ export const AppHeader = () => {
           ...check(['', 'characters']),
         }}
       >
-        character
+        edit characters
       </BoxContainer>
       <BoxContainer
         tag={Link}
@@ -64,7 +64,7 @@ export const AppHeader = () => {
           ...check(['battle']),
         }}
       >
-        battle
+        enter combat
       </BoxContainer>
     </BoxContainer>
   )
