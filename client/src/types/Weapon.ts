@@ -112,7 +112,5 @@ export const processWeapon = (weapon: WeaponT): ProcessedWeaponT => {
     traits: [...weapon.traits, ...combinedTrait.traits],
     events: combineEvents(weapon.events, combinedTrait.events),
   }
-  console.log('weapon', weapon.name)
-  console.log(ret)
   return ret
 }

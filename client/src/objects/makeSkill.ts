@@ -60,7 +60,7 @@ export const FIREBALL: SkillT = {
   focusCost: 10,
 }
 export const CRIPPLING_BLOW: SkillT = {
-  ...makeSkill('Crippling Blow'),
+  ...makeSkill('Critical Blow'),
   imgSrc: CripplingBlow,
   requirementCheck: makeRequirementCheck(['strength'], 10),
   combineWeaponDamage: true,

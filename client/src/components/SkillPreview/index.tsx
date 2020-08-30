@@ -25,7 +25,6 @@ export const SkillPreview = (props: SkillPreviewPropsT) => {
   const { character } = useCharacterContext()
   const skill =
     props.skill || character.skills.find((s) => s.id === skillId) || makeSkill()
-
   return (
     <BoxContainer
       style={{
@@ -141,34 +140,34 @@ export const SkillPreview = (props: SkillPreviewPropsT) => {
           ))}
         </div>
       )}
-      {skill.combineWeaponDamage ||
-        (Object.keys(skill.damageRolls).length > 0 && (
-          <DamageRollScores
-            parent={skill.combineWeaponDamage ? character.weapon : skill}
-          >
-            {(values, combinedRoll) => (
-              <>
-                <span
-                  style={{
-                    fontFamily: 'monospace',
-                    color: 'rgba(255,255,255,0.25)',
-                  }}
-                >
-                  ({getRollRange(reduceCharacterRoll(combinedRoll, character))}){' '}
-                  {getRollText(combinedRoll)}
-                </span>
-                {values.map((value) => (
-                  <DamageRollScore
-                    key={value.id}
-                    id={value.id}
-                    damageRangeText={value.damageRangeText}
-                    damageRollText={value.damageRollText}
-                  />
-                ))}
-              </>
-            )}
-          </DamageRollScores>
-        ))}
+      {(skill.combineWeaponDamage ||
+        Object.keys(skill.damageRolls).length > 0) && (
+        <DamageRollScores
+          parent={skill.combineWeaponDamage ? character.weapon : skill}
+        >
+          {(values, combinedRoll) => (
+            <>
+              <span
+                style={{
+                  fontFamily: 'monospace',
+                  color: 'rgba(255,255,255,0.25)',
+                }}
+              >
+                ({getRollRange(reduceCharacterRoll(combinedRoll, character))}){' '}
+                {getRollText(combinedRoll)}
+              </span>
+              {values.map((value) => (
+                <DamageRollScore
+                  key={value.id}
+                  id={value.id}
+                  damageRangeText={value.damageRangeText}
+                  damageRollText={value.damageRollText}
+                />
+              ))}
+            </>
+          )}
+        </DamageRollScores>
+      )}
     </BoxContainer>
   )
 }
