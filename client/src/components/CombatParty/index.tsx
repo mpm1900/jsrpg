@@ -119,11 +119,12 @@ const SelectedDamageRange = (props: SelectedDamageRangePropsT) => {
       character,
     ),
   )
-  const dodgeProb = target
-    ? getCheckProbability(
-        reduceCharacterCheck(makeCharacterCheck(['evade']), target),
-      )
-    : 0
+  const dodgeProb =
+    skill.target && target
+      ? getCheckProbability(
+          reduceCharacterCheck(makeCharacterCheck(['evade']), target),
+        )
+      : 0
   return (
     <BoxContainer
       style={{ textAlign: 'center', fontWeight: 'bold', borderLeft: 'none' }}
