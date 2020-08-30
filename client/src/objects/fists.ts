@@ -19,4 +19,6 @@ export const FISTS: WeaponT = {
   accuracyCheck: makeCharacterCheck(['dexterity']),
   traits: [],
   events: {},
+  slotCount: 0,
+  slots: [],
 }

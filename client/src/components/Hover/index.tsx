@@ -6,10 +6,11 @@ export interface HoverChildrenT {
   isHovering: boolean
 }
 export interface HoverPropsT {
+  delay?: number
   children: (props: HoverChildrenT) => JSX.Element
 }
 export const Hover = (props: HoverPropsT) => {
-  const { children } = props
+  const { delay = 500, children } = props
   const [internalHovering, setInternalHovering] = useState<boolean>(false)
   const [isHovering, setIsHovering] = useState<boolean>(false)
   const [guid, setGuid] = useState<string>(v4())
@@ -18,7 +19,7 @@ export const Hover = (props: HoverPropsT) => {
       if (internalHovering) {
         setTimeout(() => {
           setGuid(v4())
-        }, 500)
+        }, delay)
       }
     }
     action()

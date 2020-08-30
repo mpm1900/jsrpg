@@ -90,6 +90,8 @@ export const createWeapon = (
       },
     ],
     events: {},
+    slotCount: 0,
+    slots: [],
     ...rest,
   }
 }

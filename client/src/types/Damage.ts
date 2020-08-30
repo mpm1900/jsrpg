@@ -1,5 +1,10 @@
 import { getKeys } from '../util/getKeys'
-import { CharacterRollT, Roll2ResultT } from './Roll2'
+import {
+  CharacterRollT,
+  Roll2ResultT,
+  makeCharacterRoll,
+  combineCharacterRolls,
+} from './Roll2'
 import { RollCheckerT } from '../contexts/RollContext'
 
 export type DamageElementTypeT = 'fire' | 'blood' | 'light' | 'dark'
@@ -61,4 +66,26 @@ export const rollDamage = (
     total,
     rollResults,
   }
+}
+
+export const ZERO_DAMAGE_ROLLS: DamageTypeRollsT = {
+  slashing: makeCharacterRoll([]),
+  piercing: makeCharacterRoll([]),
+  fire: makeCharacterRoll([]),
+  blood: makeCharacterRoll([]),
+  light: makeCharacterRoll([]),
+  dark: makeCharacterRoll([]),
+}
+const force = (roll?: CharacterRollT) => roll as CharacterRollT
+
+export const combineDamageTypeRolls = (...rolls: DamageTypeRollsT[]) => {
+  return rolls.reduce((p, c) => {
+    let ret: DamageTypeRollsT = {}
+    getKeys(p).forEach((key) => {
+      ret[key] = c[key]
+        ? combineCharacterRolls(force(p[key]), force(c[key]))
+        : p[key]
+    })
+    return ret
+  }, ZERO_DAMAGE_ROLLS)
 }

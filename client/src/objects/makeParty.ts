@@ -7,9 +7,12 @@ export const makeParty = (id: string = v4()): PartyT => {
     id,
     items: [],
     skills: [],
-    characters: [makeNpc(), makeNpc(), makeNpc()].map((c) => ({
-      ...c,
-      partyId: id,
-    })),
+    mods: [],
+    characters: [makeNpc(), makeNpc(), makeNpc(), makeNpc(), makeNpc()].map(
+      (c) => ({
+        ...c,
+        partyId: id,
+      }),
+    ),
   }
 }

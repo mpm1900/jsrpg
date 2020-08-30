@@ -37,6 +37,7 @@ import {
 import { makeCharacterRoll, makeCharacterCheck } from '../../types/Roll2'
 import { makeTrait, makeRequirementCheck } from '../../objects/util'
 import { buildWeapon } from '../../objects/builders/weapons/createWeapon'
+import { SLASHING_MOD } from '../../objects/builders/mods'
 
 export const UPSERT_PARTY = '@actions/parties/upsert-party'
 export const UPSERT_CHARACTER = '@actions/parties/upsert-character'
@@ -196,6 +197,7 @@ export const INITIAL_STATE: PartyT[] = [
       DARK_BLAST,
       HEALING,
     ],
+    mods: [SLASHING_MOD],
     characters: [
       {
         ...max,

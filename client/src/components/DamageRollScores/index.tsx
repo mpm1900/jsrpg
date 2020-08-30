@@ -76,6 +76,7 @@ export const DamageRollScore = (props: DamageRollScorePropsT) => {
     damageRollText,
     compareResult = ZERO_COMPARE,
   } = props
+  if (!damageRollText) return null
   return (
     <FlexContainer
       key={id}

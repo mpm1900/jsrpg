@@ -63,7 +63,7 @@ export const SmallBox = (props: BoxContainerPropsT) => (
 
 export const BoxButton = (props: BoxContainerPropsT) => {
   return (
-    <Hover>
+    <Hover delay={0}>
       {({ isHovering }) => (
         <BoxContainer
           {...props}

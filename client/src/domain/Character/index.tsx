@@ -85,11 +85,7 @@ export const Character = () => {
           </FlexContainer>
           <FlexContainer>
             <div>
-              <WeaponPreview
-                weapon={character.weapon}
-                showEquipButton={true}
-                showRequirement={false}
-              />
+              <WeaponPreview showEquipButton={true} showRequirement={false} />
               {character.equippedItems.map((item) => (
                 <ItemPreview
                   key={item.id}

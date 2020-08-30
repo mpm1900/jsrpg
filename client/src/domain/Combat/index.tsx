@@ -5,6 +5,7 @@ import { CombatParty } from '../../components/CombatParty'
 import { useUIContext } from '../../contexts/UIContext'
 import { useEvent } from '../../hooks/useEvent'
 import { BoxContainer } from '../../elements/box'
+import BG from '../../assets/img/23761.jpg'
 
 export const Combat = () => {
   const {
@@ -28,7 +29,14 @@ export const Combat = () => {
   }, [])
 
   return (
-    <FlexContainer $full $direction='column'>
+    <FlexContainer
+      $full
+      $direction='column'
+      style={{
+        background: `url(${BG}) center center`,
+        backgroundSize: 'cover',
+      }}
+    >
       <BoxContainer>
         <FlexContainer style={{ alignItems: 'center' }}>
           <div>

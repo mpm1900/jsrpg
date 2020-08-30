@@ -1,7 +1,8 @@
-import { WeaponT } from '../../../../types/Weapon'
+import { WeaponT, ZERO_WEAPON_TRAIT } from '../../../../types/Weapon'
 import { buildWeapon } from '../createWeapon'
 import { makeTrait } from '../../../util'
 import { makeCharacterRoll } from '../../../../types/Roll2'
+import { v4 } from 'uuid'
 
 export const SWORD_OF_BLOOD_AND_FIRE: WeaponT = {
   ...buildWeapon('elementalSword', 'mythic'),
@@ -49,6 +50,7 @@ export const SWORD_OF_THE_INFINITE: WeaponT = {
     blood: makeCharacterRoll([], '', 6),
     light: makeCharacterRoll(['intelligence'], '', -7),
     dark: makeCharacterRoll(['intelligence'], '1d6', -10),
+    slashing: makeCharacterRoll([]),
   },
   events: {
     onHit: [
@@ -71,6 +73,37 @@ export const SWORD_OF_THE_INFINITE: WeaponT = {
       },
     ],
   },
+  slotCount: 1,
+  slots: [
+    {
+      id: v4(),
+      name: 'Test Weapon Mod',
+      rarity: 'mythic',
+      traits: [
+        {
+          ...ZERO_WEAPON_TRAIT,
+          accuracyOffset: 2,
+          traits: [
+            {
+              ...makeTrait(),
+              statsModifiers: {
+                health: 0,
+                focus: 2,
+                will: 0,
+                perception: 0,
+                accuracy: 0,
+                agility: 0,
+                evade: 2,
+              },
+            },
+          ],
+          damageRolls: {
+            slashing: makeCharacterRoll([], '1d6'),
+          },
+        },
+      ],
+    },
+  ],
 }
 
 export const MYTHIC_WEAPONS: WeaponT[] = []

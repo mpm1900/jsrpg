@@ -1,4 +1,4 @@
-import { WeaponT } from './Weapon'
+import { WeaponT, ProcessedWeaponT, processWeapon } from './Weapon'
 import { EquippableT } from './Item'
 import { FISTS } from '../objects/fists'
 import { DamageTypeRollsT, getDamageTypeKeys, DamageTypeKeyT } from './Damage'
@@ -75,7 +75,7 @@ export interface CharacterT {
 }
 export interface ProcessedCharacterT extends CharacterT {
   stats: CharacterStatsT
-  weapon: WeaponT
+  weapon: ProcessedWeaponT
   processed: true
 }
 
@@ -91,7 +91,7 @@ export const getTraits = (character: CharacterT): CharacterTraitT[] => {
   >(character.equippedItems, (result, item) => [...result, ...item.traits], [])
   return [
     ...character.traits,
-    ...(character?.weapon?.traits || []),
+    ...processWeapon(character.weapon || FISTS).traits,
     ...equippedItemTraits,
     ...armorTraits,
   ]
@@ -181,7 +181,7 @@ export const processCharacter = (
   return {
     ...character,
     healthOffset,
-    weapon: character.weapon || FISTS,
+    weapon: processWeapon(character.weapon || FISTS),
     abilities,
     stats,
     traits,
