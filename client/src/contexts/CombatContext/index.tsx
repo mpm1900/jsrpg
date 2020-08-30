@@ -28,15 +28,12 @@ export interface CombatContextT {
   enemyParty: ProcessedPartyT
   rawEnemyParty: PartyT
   parties: ProcessedPartyT[]
-  running: boolean
   done: boolean
   characterSkills: { [characterId: string]: string | undefined }
   characterTargets: { [characterId: string]: string | undefined }
   setCharacterSkill: (characterId: string, skillId?: string) => void
   setCharacterTarget: (characterId: string, targetId?: string) => void
   next: () => void
-  start: () => void
-  stop: () => void
   reset: (done: boolean) => void
 }
 const defaultContextValue: CombatContextT = {
@@ -60,15 +57,12 @@ const defaultContextValue: CombatContextT = {
   },
   rawEnemyParty: { id: v4(), characters: [], items: [], skills: [], mods: [] },
   parties: [],
-  running: false,
   done: false,
   characterSkills: {},
   characterTargets: {},
   setCharacterSkill: (characterId, skillId) => {},
   setCharacterTarget: (characterId, targetId) => {},
   next: () => {},
-  start: () => {},
-  stop: () => {},
   reset: (done: boolean) => {},
 }
 export const CombatContext = createContext<CombatContextT>(defaultContextValue)
@@ -105,6 +99,7 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
   const setCharacterTarget = (characterId: string, targetId?: string) =>
     setCharacterTargets((targets) => ({ ...targets, [characterId]: targetId }))
   const [done, setDone] = useState(false)
+  const [started, setStarted] = useState(false)
   const rawEnemyParty = rawParties.filter((p) => p.id === ENEMY_PARTY_ID)[0]
   const enemyParty = parties.filter((p) => p.id === ENEMY_PARTY_ID)[0]
   const { open, setCallback } = useModalContext()
@@ -121,8 +116,6 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
     const round = builder(userParty, enemyParty, rawParties)
     setRounds((r) => [...r, round])
   }
-
-  const { start, stop, running } = useInterval(next)
 
   const reset = (done: boolean = false) => {
     clear()
@@ -157,14 +150,13 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
         traits: [],
       })),
     })
+    setStarted(true)
     return () => {
-      stop()
       reset(true)
     }
   }, [])
 
   const finish = (didWin: boolean) => {
-    stop()
     setDone(true)
     if (didWin) {
       open(() => <CombatVictoryModal reset={reset} />, {}, true)
@@ -177,6 +169,7 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
   }
 
   useEffect(() => {
+    if (!started) return
     if (checkParty(userParty) && !done) {
       setCallback(() => {
         history.push('/characters')
@@ -187,10 +180,6 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
         setCallback(() => {})
         finish(true)
         setWins((w) => w + 1)
-      } else {
-        if (running) {
-          start()
-        }
       }
     }
   }, [userParty, enemyParty])
@@ -222,14 +211,11 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
         enemyParty,
         rawEnemyParty,
         parties,
-        running,
         done,
         characterSkills,
         characterTargets,
         setCharacterSkill,
         setCharacterTarget,
-        start,
-        stop,
         reset,
         next,
       }}

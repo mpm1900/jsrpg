@@ -11,11 +11,8 @@ export const Combat = () => {
   const {
     rawUserParty,
     rawEnemyParty,
-    running,
     done,
     rounds,
-    start,
-    stop,
     reset,
     next,
   } = useCombatContext()

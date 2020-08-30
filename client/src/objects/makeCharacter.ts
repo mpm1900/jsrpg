@@ -20,7 +20,7 @@ export const makeCharacter = (name?: string): CharacterT => ({
   id: v4(),
   power: 600,
   resources: {
-    characterPoints: 250,
+    characterPoints: 0,
     weaponHands: 1,
     heads: 0,
     bodies: 0,
@@ -48,10 +48,10 @@ export const makeCharacter = (name?: string): CharacterT => ({
 
   equippedItems: [],
   armor: [
-    buildArmor(getRandom(['cowl', 'helmet'])),
-    buildArmor(getRandom(['chestplate', 'robe'])),
-    buildArmor('gloves'),
-    buildArmor('boots'),
+    buildArmor(getRandom(['cowl', 'helmet']), 'common'),
+    buildArmor(getRandom(['chestplate', 'robe']), 'common'),
+    buildArmor('gloves', 'common'),
+    buildArmor('boots', 'common'),
   ],
 
   weapon: buildWeapon(
