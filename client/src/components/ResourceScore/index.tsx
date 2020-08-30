@@ -21,10 +21,12 @@ export const ResourceScore = (props: ResourceScorePropsT) => {
         padding: 4,
         fontFamily: 'monospace',
         fontSize: 16,
+        background: '#1a1a1a',
+        color: 'rgba(255,255,255,0.6)',
       }}
     >
       <div style={{ flex: 1, marginRight: 10 }}>
-        <Icon size={18} src={iconUrl} />
+        <Icon size={18} src={iconUrl} fill='rgba(255,255,255,0.8)' />
       </div>
       {character.resources[id]}
     </BoxContainer>

@@ -97,6 +97,7 @@ export const Character = () => {
                 substyle={{
                   width: 320,
                   padding: '4px 8px',
+                  boxShadow: 'inset 0px 0px 10px black',
                 }}
               >
                 <span
@@ -104,6 +105,7 @@ export const Character = () => {
                     fontFamily: 'monospace',
                     fontWeight: 'bold',
                     color: 'rgba(255,255,255,0.24)',
+                    background: '#222',
                     marginBottom: 2,
                   }}
                 >

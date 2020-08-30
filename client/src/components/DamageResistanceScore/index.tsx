@@ -35,6 +35,8 @@ export const DamageResistanceScore = (props: DamageResistanceScorePropsT) => {
         whiteSpace: 'nowrap',
         fontFamily: 'monospace',
         alignItems: 'center',
+        background: '#222',
+        boxShadow: 'inset -1px 0px 10px black',
       }}
     >
       <div style={{ flex: 1, marginRight: 20 }}>

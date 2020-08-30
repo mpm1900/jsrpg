@@ -30,6 +30,7 @@ export const BoxContainer = (props: BoxContainerPropsT) => {
           padding: 10,
           color: '#ccc',
           flex: 1,
+          boxShadow: 'inset 0px 0px 2px black',
           ...substyle,
         }}
         {...rest}

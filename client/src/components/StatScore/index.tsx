@@ -20,6 +20,8 @@ export const StatScore = (props: StatScorePropsT) => {
         display: 'flex',
         fontFamily: 'monospace',
         alignItems: 'center',
+        background: '#222',
+        boxShadow: 'inset 3px 0px 10px black',
       }}
     >
       <strong
