@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "bd260a6891d12feab46aef77b4f0bf9c",
+    "revision": "51c9f82a0ef8617c52ccd1a1fe5343a7",
     "url": "/jsrpg/index.html"
   },
   {
-    "revision": "8e7e12e148ecf86aa413",
+    "revision": "1b25d1eea21a5986dfa2",
     "url": "/jsrpg/static/css/main.6b640b01.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/jsrpg/static/js/2.5bd51865.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "8e7e12e148ecf86aa413",
-    "url": "/jsrpg/static/js/main.6e3c2795.chunk.js"
+    "revision": "1b25d1eea21a5986dfa2",
+    "url": "/jsrpg/static/js/main.27417b33.chunk.js"
   },
   {
     "revision": "c455a9ffbc4cbbcd5a32",
