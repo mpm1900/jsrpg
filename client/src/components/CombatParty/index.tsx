@@ -75,21 +75,23 @@ export const CombatParty = (props: CombatPartyPropsT) => {
                 showSkills={party.id === PC_PARTY_ID}
               />
             </FlexContainer>
-            <FlexContainer
-              $direction='column'
-              style={{
-                fontFamily: 'monospace',
-                width: 80,
-              }}
-            >
-              <FullContainer />
-              <SelectedDamageRange
-                skillId={characterSkills[character.id]}
-                targetId={characterTargets[character.id]}
-                characters={characters}
-              />
-              <FullContainer />
-            </FlexContainer>
+            {character.partyId === PC_PARTY_ID && (
+              <FlexContainer
+                $direction='column'
+                style={{
+                  fontFamily: 'monospace',
+                  width: 80,
+                }}
+              >
+                <FullContainer />
+                <SelectedDamageRange
+                  skillId={characterSkills[character.id]}
+                  targetId={characterTargets[character.id]}
+                  characters={characters}
+                />
+                <FullContainer />
+              </FlexContainer>
+            )}
           </FlexContainer>
         </CharacterContextProvider>
       ))}
