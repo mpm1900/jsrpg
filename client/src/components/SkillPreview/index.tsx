@@ -34,7 +34,7 @@ export const SkillPreview = (props: SkillPreviewPropsT) => {
         backgroundSize: 'cover',
       }}
       substyle={{
-        backgroundColor: 'rgba(0,0,0,0.8)',
+        background: 'rgba(0,0,0,0.8)',
         borderColor: 'rgba(255,255,255,0.5)',
       }}
     >
