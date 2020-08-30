@@ -28,7 +28,7 @@ export const Gauge = (props: GaugePropsT) => {
       <BoxContainer
         substyle={{
           padding: 0,
-          backgroundColor: '#555',
+          background: '#555',
           height: height - 2,
           position: 'relative',
         }}

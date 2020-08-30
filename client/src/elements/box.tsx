@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Hover } from '../components/Hover'
 
 export interface BoxContainerPropsT extends React.HTMLProps<HTMLDivElement> {
   substyle?: React.CSSProperties
@@ -24,8 +25,8 @@ export const BoxContainer = (props: BoxContainerPropsT) => {
     >
       <Element
         style={{
-          border: '1px solid #555',
-          background: '#222',
+          border: substyle.border || '1px solid #555',
+          background: 'linear-gradient(0deg, #222222 0%, #2a2a2a 100%)',
           padding: 10,
           color: '#ccc',
           flex: 1,
@@ -52,7 +53,7 @@ export const SmallBox = (props: BoxContainerPropsT) => (
       padding: 0,
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: '#111',
+      background: '#111',
       ...props.substyle,
     }}
   >
@@ -61,30 +62,25 @@ export const SmallBox = (props: BoxContainerPropsT) => (
 )
 
 export const BoxButton = (props: BoxContainerPropsT) => {
-  const [hovering, setHovering] = useState(false)
   return (
-    <BoxContainer
-      {...props}
-      tag='button'
-      style={{
-        margin: 0,
-        ...(props.style || {}),
-      }}
-      substyle={{
-        borderColor: hovering ? '#999' : '#555',
-        padding: '4px',
-        cursor: props.disabled ? 'not-allowed' : 'pointer',
-        background: props.disabled ? '#444' : '#111',
-        ...(props.substyle || {}),
-      }}
-      onMouseEnter={(e) => {
-        setHovering(true)
-        if (props.onMouseEnter) props.onMouseEnter(e)
-      }}
-      onMouseLeave={(e) => {
-        setHovering(false)
-        if (props.onMouseLeave) props.onMouseLeave(e)
-      }}
-    />
+    <Hover>
+      {({ isHovering }) => (
+        <BoxContainer
+          {...props}
+          tag='button'
+          style={{
+            margin: 0,
+            ...(props.style || {}),
+          }}
+          substyle={{
+            borderColor: isHovering ? '#999' : '#555',
+            padding: '4px',
+            cursor: props.disabled ? 'default' : 'pointer',
+            background: props.disabled ? '#444' : '#111',
+            ...(props.substyle || {}),
+          }}
+        />
+      )}
+    </Hover>
   )
 }

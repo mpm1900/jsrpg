@@ -25,7 +25,7 @@ export const makeCharacter = (name?: string): CharacterT => ({
     heads: 0,
     bodies: 0,
     hands: 0,
-    fingers: 0,
+    fingers: 10,
     feet: 0,
   },
   abilities: {
@@ -52,16 +52,6 @@ export const makeCharacter = (name?: string): CharacterT => ({
     buildArmor(getRandom(['chestplate', 'robe'])),
     buildArmor('gloves'),
     buildArmor('boots'),
-    buildArmor('ring'),
-    buildArmor('ring'),
-    buildArmor('ring'),
-    buildArmor('ring'),
-    buildArmor('ring'),
-    buildArmor('ring'),
-    buildArmor('ring'),
-    buildArmor('ring'),
-    buildArmor('ring'),
-    buildArmor('ring'),
   ],
 
   weapon: buildWeapon(

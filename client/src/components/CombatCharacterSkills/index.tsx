@@ -77,10 +77,15 @@ export const CombatCharacterSkill = (props: CombatCharacterSkillPropsT) => {
             )
           }
         >
-          <BoxButton
-            disabled={disabled}
-            onClick={() => onClick(skill.id)}
-            substyle={style}
+          <BoxContainer
+            onClick={() => !disabled && onClick(skill.id)}
+            substyle={{
+              borderColor: isHovering ? '#999' : '#555',
+              padding: '4px',
+              cursor: disabled ? 'default' : 'pointer',
+              background: disabled ? '#444' : '#111',
+              ...style,
+            }}
             style={{ border: 'none' }}
           >
             {skill.imgSrc && (
@@ -96,7 +101,7 @@ export const CombatCharacterSkill = (props: CombatCharacterSkillPropsT) => {
                 }}
               />
             )}
-          </BoxButton>
+          </BoxContainer>
         </Tooltip>
       )}
     </Hover>

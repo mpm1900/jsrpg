@@ -1,16 +1,16 @@
 import { CharacterT, ProcessedCharacterT, processCharacter } from './Character'
-import { ItemT } from './Item'
+import { ItemT, EquippableT } from './Item'
 import { SkillT } from './Skill'
 
 export interface PartyT {
   id: string
-  items: ItemT[]
+  items: EquippableT[]
   characters: CharacterT[]
   skills: SkillT[]
 }
 export interface ProcessedPartyT {
   id: string
-  items: ItemT[]
+  items: EquippableT[]
   characters: ProcessedCharacterT[]
   skills: SkillT[]
   processed: true

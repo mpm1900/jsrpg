@@ -100,19 +100,31 @@ export const Character = () => {
               ))}
               <BoxContainer
                 substyle={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
                   width: 320,
-                  padding: 28,
+                  // padding: 28,
                 }}
               >
-                {character.skills
-                  .filter(
-                    (s) => s.id !== BASIC_ATTACK.id && s.id !== INSPECT.id,
-                  )
-                  .map((skill) => (
-                    <SkillPreviewAlt key={skill.id} skill={skill} />
-                  ))}
+                <span
+                  style={{
+                    fontFamily: 'monospace',
+                    fontWeight: 'bold',
+                    color: 'rgba(255,255,255,0.24)',
+                    marginBottom: 2,
+                  }}
+                >
+                  SKILLS
+                </span>
+                <FlexContainer style={{ flexWrap: 'wrap' }}>
+                  {character.skills
+                    .filter(
+                      (s) => s.id !== BASIC_ATTACK.id && s.id !== INSPECT.id,
+                    )
+                    .map((skill) => (
+                      <div style={{ padding: 3.5 }}>
+                        <SkillPreviewAlt key={skill.id} skill={skill} />
+                      </div>
+                    ))}
+                </FlexContainer>
               </BoxContainer>
             </div>
             <ArmorScoreList />

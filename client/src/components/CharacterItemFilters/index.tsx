@@ -50,7 +50,7 @@ export const CharacterItemFilterButton = (
       tag='button'
       style={{ width: 40, height: 40 }}
       substyle={{
-        backgroundColor: backgroundColor,
+        background: backgroundColor,
         cursor: 'pointer',
         borderColor: borderColor,
         boxShadow: 'inset 0 0 3px black',

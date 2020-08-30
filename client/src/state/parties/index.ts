@@ -180,9 +180,7 @@ export const INITIAL_STATE: PartyT[] = [
   {
     id: PC_PARTY_ID,
     items: [
-      BASIC_SHIELD,
-      BASIC_TOME,
-      ...Array(40)
+      ...Array(80)
         .fill(null)
         .map(() => makeItem()),
     ],

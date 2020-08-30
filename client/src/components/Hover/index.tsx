@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useLayoutEffect } from 'react'
 import { timeout } from '../../util/wait'
 import { v4 } from 'uuid'
 
@@ -13,16 +13,17 @@ export const Hover = (props: HoverPropsT) => {
   const [internalHovering, setInternalHovering] = useState<boolean>(false)
   const [isHovering, setIsHovering] = useState<boolean>(false)
   const [guid, setGuid] = useState<string>(v4())
-  useEffect(() => {
+  useLayoutEffect(() => {
     const action = async () => {
       if (internalHovering) {
-        await timeout(500)
-        setGuid(v4())
+        setTimeout(() => {
+          setGuid(v4())
+        }, 500)
       }
     }
     action()
   }, [internalHovering])
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (internalHovering) {
       setIsHovering(true)
     }

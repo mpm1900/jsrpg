@@ -10,6 +10,7 @@ import { WeaponIcon } from '../WeaponIcon'
 import { WeaponT } from '../../types/Weapon'
 import { WeaponPreview } from '../WeaponPreview'
 import { BASE_EQUIPPABLE } from '../../objects/util'
+import { Hover } from '../Hover'
 
 export interface ItemPreviewSmallPropsT {
   item: EquippableT
@@ -17,9 +18,8 @@ export interface ItemPreviewSmallPropsT {
   onClick?: (item: EquippableT) => void
 }
 export const ItemPreviewSmall = (props: ItemPreviewSmallPropsT) => {
-  const { item = BASE_EQUIPPABLE('armor'), size = 38, onClick } = props
-  const [isHovering, setIsHovering] = useState(false)
-  const isEmpty = item === undefined
+  const { item = {} as EquippableT, size = 38, onClick } = props
+  const isEmpty = item.type === undefined
   const rarityColor = ItemRarityColorMap[item ? item.rarity : 'common']
   const borderColor = Color(rarityColor)
     .desaturate(0.5)
@@ -30,6 +30,7 @@ export const ItemPreviewSmall = (props: ItemPreviewSmallPropsT) => {
   const isArmor = item.type === 'armor'
   const isWeapon = item.type === 'weapon'
   const icon = useMemo(() => {
+    if (!item) return null
     if (isWeapon) {
       return (
         <WeaponIcon
@@ -41,53 +42,53 @@ export const ItemPreviewSmall = (props: ItemPreviewSmallPropsT) => {
     }
     if (isArmor) {
       return (
-        <ArmorIcon item={item as ArmorT} size={size - 6} fill={rarityColor} />
+        <ArmorIcon item={item as ArmorT} size={size - 16} fill={rarityColor} />
       )
     }
   }, [item, isArmor, isWeapon, rarityColor])
+  if (!item) return null
   return (
-    <div
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
-    >
-      <Tooltip
-        isOpen={isHovering}
-        direction='bottom'
-        tagName='div'
-        padding='0'
-        arrow={false}
-        content={
-          item.type === 'armor' ? (
-            <ItemPreview
-              item={item}
-              showEquipButton={false}
-              showCollapseButton={false}
-            />
-          ) : (
-            <WeaponPreview weapon={item as WeaponT} showEquipButton={false} />
-          )
-        }
-      >
-        <BoxContainer
-          style={{
-            height: size,
-            width: size,
-            cursor: item && onClick ? 'pointer' : 'default',
-          }}
-          substyle={{
-            backgroundColor: isEmpty ? '#111' : '#222',
-            boxShadow: 'inset 0 0 3px black',
-            borderColor: item ? borderColor : '#555',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: 0,
-          }}
-          onClick={() => onClick && onClick(item)}
+    <Hover>
+      {({ isHovering }) => (
+        <Tooltip
+          isOpen={isHovering}
+          direction='bottom'
+          tagName='div'
+          padding='0'
+          arrow={false}
+          content={
+            item.type === 'armor' ? (
+              <ItemPreview
+                item={item}
+                showEquipButton={false}
+                showCollapseButton={false}
+              />
+            ) : (
+              <WeaponPreview weapon={item as WeaponT} showEquipButton={false} />
+            )
+          }
         >
-          {icon}
-        </BoxContainer>
-      </Tooltip>
-    </div>
+          <BoxContainer
+            style={{
+              height: size,
+              width: size,
+              cursor: item && onClick ? 'pointer' : 'default',
+            }}
+            substyle={{
+              background: isEmpty ? '#111' : '#222',
+              boxShadow: 'inset 0 0 3px black',
+              border: `1px solid ${!isEmpty ? borderColor : '#555'}`,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: 0,
+            }}
+            onClick={() => onClick && onClick(item)}
+          >
+            {icon}
+          </BoxContainer>
+        </Tooltip>
+      )}
+    </Hover>
   )
 }

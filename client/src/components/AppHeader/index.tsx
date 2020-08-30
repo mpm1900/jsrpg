@@ -3,7 +3,7 @@ import { BoxContainer } from '../../elements/box'
 import { Link, useLocation } from 'react-router-dom'
 
 const activeStyles: CSSProperties = {
-  backgroundColor: '#111',
+  background: '#111',
   boxShadow: 'inset 0 0 3px black',
 }
 const inactiveStyles: CSSProperties = {

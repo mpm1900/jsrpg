@@ -24,9 +24,11 @@ export const CombatCharacterTargets = (props: CombatCharacterTargetsPropsT) => {
     <FlexContainer>
       <BoxButton
         disabled={cc.character.dead}
-        onClick={() => onClick(undefined)}
+        onClick={() => !cc.character.dead && onClick(undefined)}
         style={{ border: 'none' }}
         substyle={{
+          cursor: cc.character.dead ? 'default' : 'pointer',
+          background: cc.character.dead ? '#444' : '#111',
           padding: 0,
           height: size + 2,
           width: size + 2,
@@ -98,10 +100,16 @@ export const CombatCharacterTarget = (props: CombatCharacterTargetPropsT) => {
           arrow={false}
           content={<BoxContainer>{name}</BoxContainer>}
         >
-          <BoxButton
-            onClick={onClick}
+          <BoxContainer
+            onClick={() => !disabled && onClick()}
             disabled={disabled}
-            substyle={style}
+            substyle={{
+              borderColor: isHovering ? '#999' : '#555',
+              padding: '4px',
+              cursor: disabled ? 'default' : 'pointer',
+              background: disabled ? '#444' : '#111',
+              ...style,
+            }}
             style={{ border: 'none' }}
           >
             <img
@@ -114,7 +122,7 @@ export const CombatCharacterTarget = (props: CombatCharacterTargetPropsT) => {
                 border: '1px solid black',
               }}
             />
-          </BoxButton>
+          </BoxContainer>
         </Tooltip>
       )}
     </Hover>

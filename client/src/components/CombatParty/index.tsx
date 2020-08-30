@@ -78,9 +78,6 @@ export const CombatParty = (props: CombatPartyPropsT) => {
             <FlexContainer
               $direction='column'
               style={{
-                position: 'absolute',
-                right: -80,
-                top: 'calc(50% - 30px)',
                 fontFamily: 'monospace',
                 width: 80,
               }}
@@ -128,10 +125,12 @@ const SelectedDamageRange = (props: SelectedDamageRangePropsT) => {
   return (
     <BoxContainer
       style={{ textAlign: 'center', fontWeight: 'bold', borderLeft: 'none' }}
-      substyle={{ borderLeft: 'none', backgroundColor: '#111' }}
+      substyle={{ borderLeft: 'none', background: '#111' }}
     >
-      {range && <div style={{ marginBottom: 5 }}>({range})</div>}
-      <div>{(prob - dodgeProb).toFixed(2)}%</div>
+      {range && range !== '0' && (
+        <div style={{ marginBottom: 5 }}>({range})</div>
+      )}
+      <div style={{ fontSize: 20 }}>{Math.floor(prob - dodgeProb)}%</div>
     </BoxContainer>
   )
 }

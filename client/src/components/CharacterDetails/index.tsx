@@ -4,7 +4,7 @@ import Inspect from '../../icons/svg/lorc/magnifying-glass.svg'
 import WeaponHands from '../../icons/svg/delapouite/sword-brandish.svg'
 import { useCharacterContext } from '../../contexts/CharacterContext'
 import { BoxContainer, SmallBox, BoxButton } from '../../elements/box'
-import { FlexContainer } from '../../elements/flex'
+import { FlexContainer, FullContainer } from '../../elements/flex'
 import { Gauge } from '../Gauge'
 import { CharacterInspect } from '../CharacterInspect'
 import { Icon } from '../Icon'
@@ -57,17 +57,22 @@ export const CharacterDetails = (props: CharacterDetailsPropsT) => {
   return (
     <BoxContainer
       style={{
-        minWidth: 430,
+        width: 454,
         transition: 'all 1s',
         border: '2px solid black',
       }}
       substyle={{
         padding: 0,
-        backgroundColor: character.partyId === PC_PARTY_ID ? '#2a2a2a' : '#222',
       }}
     >
       <FlexContainer $direction='column'>
-        <FlexContainer style={{ padding: 4, marginBottom: 10 }}>
+        <FlexContainer
+          style={{
+            padding: 4,
+            background:
+              'linear-gradient(0deg, rgba(34,34,34,1) 0%, rgba(51,51,51,1) 100%)',
+          }}
+        >
           <FlexContainer $full>
             <BoxContainer
               style={{
@@ -110,16 +115,36 @@ export const CharacterDetails = (props: CharacterDetailsPropsT) => {
               </div>
             ) : (
               <FlexContainer $direction='column'>
-                <h2 style={{ margin: 0 }}>{character.name}</h2>
+                <h2
+                  style={{
+                    margin: 0,
+                    textShadow: '1px 1px 1px black',
+                    fontSize: 18,
+                  }}
+                >
+                  {character.name}
+                </h2>
+                <FullContainer />
                 <strong
                   style={{
                     fontFamily: 'monospace',
-                    //marginTop: 4,
-                    fontSize: 24,
+                    fontSize: 10,
                     color: 'rgba(255,255,255,0.24)',
                   }}
                 >
-                  {character.power}
+                  {character.abilities.strength} {character.abilities.dexterity}{' '}
+                  {character.abilities.intelligence} {character.abilities.vigor}
+                </strong>
+                <strong
+                  style={{
+                    fontFamily: 'monospace',
+                    fontSize: 10,
+                    color: 'rgba(255,255,255,0.24)',
+                  }}
+                >
+                  {character.stats.will} {character.stats.perception}{' '}
+                  {character.stats.agility} {character.stats.accuracy}{' '}
+                  {character.stats.evade}
                 </strong>
               </FlexContainer>
             )}
@@ -214,6 +239,7 @@ export const CharacterDetails = (props: CharacterDetailsPropsT) => {
               boxShadow: 'inset 0px 0px 15px black',
               width: 'calc(100% - 16px)',
               padding: '4px 8px',
+              borderTop: '1px solid #555',
             }}
           >
             <span
@@ -237,6 +263,7 @@ export const CharacterDetails = (props: CharacterDetailsPropsT) => {
                 fontWeight: 'bold',
                 color: 'rgba(255,255,255,0.24)',
                 marginBottom: 2,
+                marginTop: 4,
               }}
             >
               TARGETS

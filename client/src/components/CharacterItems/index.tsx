@@ -27,6 +27,22 @@ export const CharacterItems = () => {
   const { userParty, equipItem } = usePartyContext()
   const [itemType, setItemType] = useState<ItemTypeT | undefined>()
   const [itemRarity, setItemRarity] = useState<ItemRarityT | undefined>()
+
+  const filter = (i: EquippableT) => {
+    if (itemType) return i.type === itemType
+    if (itemRarity) return i.rarity === itemRarity
+    return true
+  }
+
+  const other = userParty.items
+    .filter((i) => i.type !== 'armor' && i.type !== 'weapon')
+    .filter(filter)
+  const weapons = userParty.items
+    .filter((i) => i.type === 'weapon')
+    .filter(filter)
+  const armors = userParty.items
+    .filter((i) => i.type === 'armor')
+    .filter(filter)
   return (
     <FlexContainer style={{}} $direction='column'>
       <CharacterItemFilters
@@ -40,27 +56,86 @@ export const CharacterItems = () => {
         }}
       />
       <div style={{ marginTop: 10 }}>
+        {weapons.length > 0 && (
+          <span
+            style={{
+              fontFamily: 'monospace',
+              fontWeight: 'bold',
+              color: 'rgba(255,255,255,0.24)',
+              marginBottom: 2,
+            }}
+          >
+            WEAPONS
+          </span>
+        )}
         <FlexContainer
           style={{
             flexWrap: 'wrap',
             width: 400,
           }}
         >
-          {userParty.items
-            .filter((i) => {
-              let ret = true
-              if (itemType) ret = ret && (i as EquippableT).type === itemType
-              if (itemRarity) ret = ret && i.rarity === itemRarity
-              return ret
-            })
-            .map((item) => (
-              <Item
-                key={item.id}
-                item={item}
-                rawCharacter={rawCharacter}
-                onEquip={(id) => equipItem(rawCharacter.id, id)}
-              />
-            ))}
+          {weapons.map((item) => (
+            <Item
+              key={item.id}
+              item={item}
+              rawCharacter={rawCharacter}
+              onEquip={(id) => equipItem(rawCharacter.id, id)}
+            />
+          ))}
+        </FlexContainer>
+        {armors.length > 0 && (
+          <span
+            style={{
+              fontFamily: 'monospace',
+              fontWeight: 'bold',
+              color: 'rgba(255,255,255,0.24)',
+              marginBottom: 2,
+            }}
+          >
+            ARMOR
+          </span>
+        )}
+        <FlexContainer
+          style={{
+            flexWrap: 'wrap',
+            width: 400,
+          }}
+        >
+          {armors.map((item) => (
+            <Item
+              key={item.id}
+              item={item}
+              rawCharacter={rawCharacter}
+              onEquip={(id) => equipItem(rawCharacter.id, id)}
+            />
+          ))}
+        </FlexContainer>
+        {other.length > 0 && (
+          <span
+            style={{
+              fontFamily: 'monospace',
+              fontWeight: 'bold',
+              color: 'rgba(255,255,255,0.24)',
+              marginBottom: 2,
+            }}
+          >
+            OTHER
+          </span>
+        )}
+        <FlexContainer
+          style={{
+            flexWrap: 'wrap',
+            width: 400,
+          }}
+        >
+          {other.map((item) => (
+            <Item
+              key={item.id}
+              item={item}
+              rawCharacter={rawCharacter}
+              onEquip={(id) => equipItem(rawCharacter.id, id)}
+            />
+          ))}
         </FlexContainer>
       </div>
     </FlexContainer>
@@ -136,7 +211,7 @@ const Item = (props: ItemPropsT) => {
           style={{
             width: 40,
             height: 40,
-            backgroundColor: !canEquipItem ? '#333' : '#222',
+            background: !canEquipItem ? '#333' : '#222',
             boxShadow: `inset 0 0 ${!canEquipItem ? '3px' : '12px'} ${
               item.rarity !== 'common' && canEquipItem
                 ? Color(rarityColor).fade(0.5).hsl().toString()
@@ -144,7 +219,7 @@ const Item = (props: ItemPropsT) => {
             }`,
           }}
           substyle={{
-            backgroundColor: 'transparent',
+            background: 'transparent',
             cursor: canEquipItem ? 'pointer' : 'default',
             borderColor: isHovering
               ? rarityColor
