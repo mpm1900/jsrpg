@@ -22,7 +22,7 @@ export const DamageResistanceScore = (props: DamageResistanceScorePropsT) => {
   const { damageResistances } = character
   const roll = damageResistances[id] as CharacterRollT
   const rollText = roll
-    ? `(${getRollRange(reduceCharacterRoll(roll, character))})`
+    ? `${getRollRange(reduceCharacterRoll(roll, character))}`
     : ''
   const iconUrl = IconDamageTypeMap[id]
   const fill = DamageTypeKeyColors[id]
@@ -45,12 +45,18 @@ export const DamageResistanceScore = (props: DamageResistanceScorePropsT) => {
             fill={fill}
             style={{ marginRight: 10 }}
           />
-          <a href='#' onClick={() => (roll ? execRoll(roll) : null)}>
-            {id}
-          </a>
+          <strong
+            style={{
+              color: 'rgba(255,255,255,0.5)',
+              textShadow: '1px 1px 0px black',
+            }}
+            onClick={() => (roll ? execRoll(roll) : null)}
+          >
+            {id.toLocaleUpperCase()}
+          </strong>
         </FlexContainer>
       </div>
-      <div>{rollText ? rollText : 0}</div>
+      <div style={{ fontWeight: 'bolder' }}>{rollText ? rollText : 0}</div>
     </BoxContainer>
   )
 }

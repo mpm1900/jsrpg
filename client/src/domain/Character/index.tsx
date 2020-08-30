@@ -69,13 +69,13 @@ export const Character = () => {
                 <ResourceScore id='feet' />
               </FlexContainer>
               <FlexContainer>
-                <div>
+                <FlexContainer $direction='column'>
                   <AbilityScore id='strength' />
                   <AbilityScore id='dexterity' />
                   <AbilityScore id='intelligence' />
                   <AbilityScore id='vigor' />
-                </div>
-                <div>
+                </FlexContainer>
+                <FlexContainer $direction='column'>
                   <StatScore id='health' />
                   <StatScore id='focus' />
                   <StatScore id='will' />
@@ -83,19 +83,47 @@ export const Character = () => {
                   <StatScore id='agility' />
                   <StatScore id='accuracy' />
                   <StatScore id='evade' />
-                </div>
-                <div>
+                </FlexContainer>
+                <FlexContainer $direction='column'>
                   <DamageResistanceScore id='slashing' />
                   <DamageResistanceScore id='piercing' />
                   <DamageResistanceScore id='fire' />
                   <DamageResistanceScore id='blood' />
                   <DamageResistanceScore id='light' />
                   <DamageResistanceScore id='dark' />
-                </div>
+                </FlexContainer>
               </FlexContainer>
+              <BoxContainer
+                substyle={{
+                  width: 320,
+                  padding: '4px 8px',
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: 'monospace',
+                    fontWeight: 'bold',
+                    color: 'rgba(255,255,255,0.24)',
+                    marginBottom: 2,
+                  }}
+                >
+                  SKILLS
+                </span>
+                <FlexContainer style={{ flexWrap: 'wrap' }}>
+                  {character.skills
+                    .filter(
+                      (s) => s.id !== BASIC_ATTACK.id && s.id !== INSPECT.id,
+                    )
+                    .map((skill) => (
+                      <div style={{ padding: 3 }}>
+                        <SkillPreviewAlt key={skill.id} skill={skill} />
+                      </div>
+                    ))}
+                </FlexContainer>
+              </BoxContainer>
             </FlexContainer>
             <FlexContainer>
-              <div>
+              <div style={{ marginRight: 10 }}>
                 <WeaponPreview showEquipButton={true} showRequirement={false} />
                 {character.equippedItems.map((item) => (
                   <ItemPreview
@@ -105,34 +133,6 @@ export const Character = () => {
                     showCollapseButton={false}
                   />
                 ))}
-                <BoxContainer
-                  substyle={{
-                    width: 320,
-                    // padding: 28,
-                  }}
-                >
-                  <span
-                    style={{
-                      fontFamily: 'monospace',
-                      fontWeight: 'bold',
-                      color: 'rgba(255,255,255,0.24)',
-                      marginBottom: 2,
-                    }}
-                  >
-                    SKILLS
-                  </span>
-                  <FlexContainer style={{ flexWrap: 'wrap' }}>
-                    {character.skills
-                      .filter(
-                        (s) => s.id !== BASIC_ATTACK.id && s.id !== INSPECT.id,
-                      )
-                      .map((skill) => (
-                        <div style={{ padding: 3.5 }}>
-                          <SkillPreviewAlt key={skill.id} skill={skill} />
-                        </div>
-                      ))}
-                  </FlexContainer>
-                </BoxContainer>
               </div>
               <ArmorScoreList />
             </FlexContainer>

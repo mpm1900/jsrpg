@@ -22,14 +22,19 @@ export const StatScore = (props: StatScorePropsT) => {
         alignItems: 'center',
       }}
     >
-      <a
-        href='#'
-        style={{ display: 'inline-block', flex: 1, marginRight: 10 }}
-        onClick={() => execCheck(makeCharacterCheck([id]))}
+      <strong
+        style={{
+          color: 'rgba(255,255,255,0.5)',
+          textShadow: '1px 1px 0px black',
+          display: 'inline-block',
+          flex: 1,
+          marginRight: 10,
+        }}
+        // onClick={() => execCheck(makeCharacterCheck([id]))}
       >
-        {displayName}
-      </a>
-      <span>{character.stats[id]}</span>
+        {displayName.toLocaleUpperCase()}
+      </strong>
+      <span style={{ fontWeight: 'bolder' }}>{character.stats[id]}</span>
     </BoxContainer>
   )
 }

@@ -89,10 +89,30 @@ export const PureAbilityScore = (props: any) => {
         $direction='column'
         $full
       >
-        <a href='#' onClick={onClick}>
+        <span
+          style={{
+            fontWeight: 'bold',
+            color: 'rgba(255,255,255,0.5)',
+            textShadow: '1px 1px 0px black',
+          }}
+        >
           {name} ({rawValue})
-        </a>
-        <span style={{ fontSize: 36, fontWeight: 'bolder' }}>{value}</span>
+        </span>
+        <span
+          style={{
+            fontSize: 36,
+            fontWeight: 'bolder',
+            textShadow: '1px 1px 3px black',
+            color:
+              value > rawValue
+                ? 'lightgreen'
+                : value < rawValue
+                ? 'lightcoral'
+                : 'white',
+          }}
+        >
+          {value}
+        </span>
       </FlexContainer>
       {edit && (
         <FlexContainer
