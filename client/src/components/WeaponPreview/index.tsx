@@ -44,7 +44,7 @@ export interface WeaponPreviewPropsT {
 }
 export const WeaponPreview = (props: WeaponPreviewPropsT) => {
   const { character, rawCharacter, onChange } = useCharacterContext()
-  const { unequipItem } = usePartyContext()
+  const { unequipItem, unequipMod } = usePartyContext()
   const { showEquipButton = true, showRequirement = true } = props
   const weapon = props.weapon || character.weapon
   const rarityColor = ItemRarityColorMap[weapon.rarity]
@@ -169,6 +169,10 @@ export const WeaponPreview = (props: WeaponPreviewPropsT) => {
                         style={{
                           padding: '0 8px',
                           cursor: 'pointer',
+                        }}
+                        onClick={() => {
+                          console.log('click')
+                          unequipMod(character.id, mod.id)
                         }}
                       />
                     </Tooltip>

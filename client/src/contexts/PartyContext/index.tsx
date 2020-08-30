@@ -30,6 +30,8 @@ export interface PartyContextT {
   ) => CharacterT | undefined
   equipItem: (characterId: string, itemId: string, partyId?: string) => void
   unequipItem: (characterId: string, itemId: string, partyId?: string) => void
+  equipMod: (characterId: string, modId: string, partyId?: string) => void
+  unequipMod: (characterId: string, modId: string, partyId?: string) => void
   setActiveCharacterId: (id: string | null) => void
 }
 const defaultContextValue: PartyContextT = {
@@ -55,6 +57,8 @@ const defaultContextValue: PartyContextT = {
   findRawCharacter: (characterId, partyId) => undefined,
   equipItem: (characterId, itemId, partyId) => {},
   unequipItem: (characterId, itemId, partyId) => {},
+  equipMod: (characterId, modId, partyId) => {},
+  unequipMod: (characterId, modId, partyId) => {},
   setActiveCharacterId: (id) => {},
 }
 export const PartyContext = React.createContext<PartyContextT>(
@@ -122,6 +126,20 @@ export const PartyContextProvider = (props: PartyContextProviderPropsT) => {
   ) => {
     actions.unequipItem(partyId, characterId, itemId)
   }
+  const equipMod = (
+    characterId: string,
+    modId: string,
+    partyId: string = PC_PARTY_ID,
+  ) => {
+    actions.equipMod(partyId, characterId, modId)
+  }
+  const unequipMod = (
+    characterId: string,
+    modId: string,
+    partyId: string = PC_PARTY_ID,
+  ) => {
+    actions.unequipMod(partyId, characterId, modId)
+  }
   const findCharacter = (
     characterId: string,
     partyId: string = PC_PARTY_ID,
@@ -153,6 +171,8 @@ export const PartyContextProvider = (props: PartyContextProviderPropsT) => {
         deleteMod,
         equipItem,
         unequipItem,
+        equipMod,
+        unequipMod,
         findCharacter,
         findRawCharacter,
         setActiveCharacterId,

@@ -161,6 +161,51 @@ export const actions = {
       dispatch(actionCreators.upsertItem(partyId, item))
     })
   },
+  equipMod: (partyId: string, characterId: string, modId: string) => (
+    dispatch: Dispatch,
+    getState: () => StateT,
+  ) => {
+    const party = getState().parties.find((p) => p.id === partyId)
+    if (!party) return
+    const character = party.characters.find((c) => c.id === characterId)
+    const mod = party.mods.find((m) => m.id === modId)
+    if (!character || !mod) return
+    const { weapon } = character
+    if (!weapon) return
+    if (weapon.slotCount > weapon.slots.length) {
+      dispatch(
+        actionCreators.upsertCharacter(partyId, {
+          ...character,
+          weapon: { ...weapon, slots: [...weapon.slots, mod] },
+        }),
+      )
+      dispatch(actionCreators.deleteMod(partyId, modId))
+    }
+  },
+  unequipMod: (partyId: string, characterId: string, modId: string) => (
+    dispatch: Dispatch,
+    getState: () => StateT,
+  ) => {
+    console.log('unequip mod')
+    const party = getState().parties.find((p) => p.id === partyId)
+    if (!party) return
+    const character = party.characters.find((c) => c.id === characterId)
+    if (!character) return
+    const { weapon } = character
+    if (!weapon) return
+    const mod = weapon.slots.find((m) => m.id === modId)
+    if (!mod) return
+    dispatch(
+      actionCreators.upsertCharacter(partyId, {
+        ...character,
+        weapon: {
+          ...weapon,
+          slots: weapon.slots.filter((m) => m.id !== modId),
+        },
+      }),
+    )
+    dispatch(actionCreators.upsertMod(partyId, mod))
+  },
 }
 
 export const core: StateCoreT<PartyT[]> = {
@@ -191,6 +236,18 @@ export const core: StateCoreT<PartyT[]> = {
     return updateIn(state, action.payload.partyId, (party) => ({
       ...party,
       items: party.items.filter((i) => i.id !== action.payload.itemId),
+    }))
+  },
+  [UPSERT_MOD]: (state, action) => {
+    return updateIn(state, action.payload.partyId, (party) => ({
+      ...party,
+      mods: upsertIn(party.mods, action.payload.mod),
+    }))
+  },
+  [DELETE_MOD]: (state, action) => {
+    return updateIn(state, action.payload.partyId, (party) => ({
+      ...party,
+      mods: party.mods.filter((i) => i.id !== action.payload.modId),
     }))
   },
 }
@@ -288,4 +345,6 @@ export const usePartiesActions = () =>
     deleteMod: (partyId: string, modId: string) => void
     equipItem: (partyId: string, characterId: string, itemId: string) => void
     unequipItem: (partyId: string, characterId: string, itemId: string) => void
+    equipMod: (partyId: string, characterId: string, modId: string) => void
+    unequipMod: (partyId: string, characterId: string, modId: string) => void
   }

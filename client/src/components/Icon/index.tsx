@@ -4,8 +4,15 @@ export interface IconPropsT {
   size: number
   fill?: string
   style?: React.CSSProperties
+  onClick?: () => void
 }
-export const Icon = ({ src, size, style = {}, fill = 'white' }: IconPropsT) => {
+export const Icon = ({
+  src,
+  size,
+  style = {},
+  fill = 'white',
+  onClick,
+}: IconPropsT) => {
   const [loading, setLoading] = useState(true)
   const [svg, setSvg] = useState('')
 
@@ -20,6 +27,9 @@ export const Icon = ({ src, size, style = {}, fill = 'white' }: IconPropsT) => {
 
   return !loading ? (
     <div
+      onClick={() => {
+        if (onClick) onClick()
+      }}
       style={{ ...style, height: size, width: size, fill }}
       dangerouslySetInnerHTML={{ __html: svg }}
     />

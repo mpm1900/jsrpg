@@ -11,9 +11,10 @@ import { TraitScore } from '../TraitScore'
 
 export interface ModPreviewPropsT {
   mod: WeaponModT
+  onEquip?: (modId: string) => void
 }
 export const ModPreview = (props: ModPreviewPropsT) => {
-  const { mod } = props
+  const { mod, onEquip } = props
   const { character } = useCharacterContext()
   const weaponTrait = combineWeaponTraits(...mod.traits)
   const trait = combineTraits(weaponTrait.traits)
@@ -31,7 +32,7 @@ export const ModPreview = (props: ModPreviewPropsT) => {
         >
           {mod.name}
         </span>
-        <BoxButton>equip</BoxButton>
+        <BoxButton onClick={() => onEquip && onEquip(mod.id)}>equip</BoxButton>
       </FlexContainer>
       <div style={{ marginBottom: 10 }}>
         <TraitScore trait={trait} />
