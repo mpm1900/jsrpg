@@ -37,7 +37,7 @@ export interface CombatContextT {
   next: () => void
   start: () => void
   stop: () => void
-  reset: () => void
+  reset: (done: boolean) => void
 }
 const defaultContextValue: CombatContextT = {
   rounds: [],
@@ -69,7 +69,7 @@ const defaultContextValue: CombatContextT = {
   next: () => {},
   start: () => {},
   stop: () => {},
-  reset: () => {},
+  reset: (done: boolean) => {},
 }
 export const CombatContext = createContext<CombatContextT>(defaultContextValue)
 export const useCombatContext = () => useContext(CombatContext)
@@ -124,22 +124,24 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
 
   const { start, stop, running } = useInterval(next)
 
-  const reset = (log: boolean = true) => {
+  const reset = (done: boolean = false) => {
     clear()
-    setDone(false)
-    setRounds([])
-    upsertParty(makeParty(ENEMY_PARTY_ID))
-    upsertParty({
-      ...rawUserParty,
-      characters: rawUserParty.characters.map((c) => ({
-        ...c,
-        traits: [],
-        partyId: PC_PARTY_ID,
-        //dead: false,
-        //healthOffset: 0,
-        //focusOffset: 0,
-      })),
-    })
+    if (!done) {
+      setDone(false)
+      setRounds([])
+      upsertParty(makeParty(ENEMY_PARTY_ID))
+      upsertParty({
+        ...rawUserParty,
+        characters: rawUserParty.characters.map((c) => ({
+          ...c,
+          traits: [],
+          partyId: PC_PARTY_ID,
+          //dead: false,
+          //healthOffset: 0,
+          //focusOffset: 0,
+        })),
+      })
+    }
   }
 
   useEffect(() => {
@@ -149,11 +151,15 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
       characters: rawUserParty.characters.map((c) => ({
         ...c,
         partyId: PC_PARTY_ID,
+        dead: false,
+        healthOffset: 0,
+        focusOffset: 0,
+        traits: [],
       })),
     })
     return () => {
       stop()
-      reset(false)
+      reset(true)
     }
   }, [])
 

@@ -7,7 +7,7 @@ import { ItemPreviewSmall } from '../ItemPreviewSmall'
 import { EquippableT } from '../../types/Item'
 
 export interface CombatVictoryModalPropsT {
-  reset: () => void
+  reset: (done: boolean) => void
 }
 export const CombatVictoryModal = (props: CombatVictoryModalPropsT) => {
   const { reset } = props
@@ -19,7 +19,7 @@ export const CombatVictoryModal = (props: CombatVictoryModalPropsT) => {
   }, [])
 
   const onNextClick = () => {
-    reset()
+    reset(false)
     close(rewardChoices.find((i) => i.id === chosenItemId))
   }
 

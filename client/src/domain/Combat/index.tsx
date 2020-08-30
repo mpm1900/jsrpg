@@ -39,10 +39,7 @@ export const Combat = () => {
     >
       <BoxContainer>
         <FlexContainer style={{ alignItems: 'center' }}>
-          <div>
-            {done && <button onClick={() => reset()}>Reset</button>}
-            {!done && <button onClick={() => next()}>Next</button>}
-          </div>
+          <div>{!done && <button onClick={() => next()}>Next</button>}</div>
 
           <FullContainer />
           <FlexContainer>Round {rounds.length + 1}</FlexContainer>
