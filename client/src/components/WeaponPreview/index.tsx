@@ -156,7 +156,7 @@ export const WeaponPreview = (props: WeaponPreviewPropsT) => {
                   {({ isHovering }) => (
                     <Tooltip
                       isOpen={isHovering}
-                      direction='left'
+                      direction='up'
                       tagName='div'
                       padding='0'
                       arrow={false}

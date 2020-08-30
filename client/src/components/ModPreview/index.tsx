@@ -8,6 +8,7 @@ import { combineTraits } from '../../types/Character'
 import { DamageRollScores, DamageRollScore } from '../DamageRollScores'
 import { useCharacterContext } from '../../contexts/CharacterContext'
 import { TraitScore } from '../TraitScore'
+import { getSign } from '../../util/getSign'
 
 export interface ModPreviewPropsT {
   mod: WeaponModT
@@ -34,6 +35,12 @@ export const ModPreview = (props: ModPreviewPropsT) => {
         </span>
         <BoxButton onClick={() => onEquip && onEquip(mod.id)}>equip</BoxButton>
       </FlexContainer>
+      {weaponTrait.accuracyOffset !== 0 && (
+        <div style={{ fontFamily: 'monospace', marginTop: 10 }}>
+          {getSign(weaponTrait.accuracyOffset)}
+          {Math.abs(weaponTrait.accuracyOffset)} to hit
+        </div>
+      )}
       <div style={{ marginBottom: 10 }}>
         <TraitScore trait={trait} />
       </div>
