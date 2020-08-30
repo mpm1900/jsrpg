@@ -73,11 +73,11 @@ export const SWORD_OF_THE_INFINITE: WeaponT = {
       },
     ],
   },
-  slotCount: 1,
+  slotCount: 3,
   slots: [
     {
       id: v4(),
-      name: 'Test Weapon Mod',
+      name: 'Slash Gem',
       rarity: 'mythic',
       traits: [
         {

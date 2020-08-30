@@ -27,6 +27,10 @@ import {
   reduceCharacterRoll,
 } from '../../types/Roll2'
 import { EventsTypeMap } from '../../types/Events'
+import { ModPreview } from '../ModPreview'
+import Mod from '../../icons/svg/lorc/emerald.svg'
+import { Hover } from '../Hover'
+import Tooltip from 'react-tooltip-lite'
 
 export interface WeaponPreviewPropsT {
   weapon?: WeaponT
@@ -141,6 +145,48 @@ export const WeaponPreview = (props: WeaponPreviewPropsT) => {
           </FlexContainer>
         ))}
       </div>
+      <FlexContainer style={{ justifyContent: 'center', padding: 8 }}>
+        {Array(weapon.slotCount)
+          .fill(null)
+          .map((_, i) => {
+            const mod = weapon.slots[i]
+            if (mod) {
+              return (
+                <Hover>
+                  {({ isHovering }) => (
+                    <Tooltip
+                      isOpen={isHovering}
+                      direction='left'
+                      tagName='div'
+                      padding='0'
+                      arrow={false}
+                      content={<ModPreview mod={mod} />}
+                    >
+                      <Icon
+                        src={Mod}
+                        size={20}
+                        fill={ItemRarityColorMap[mod.rarity]}
+                        style={{
+                          padding: '0 8px',
+                          cursor: 'pointer',
+                        }}
+                      />
+                    </Tooltip>
+                  )}
+                </Hover>
+              )
+            } else {
+              return (
+                <Icon
+                  src={Mod}
+                  size={20}
+                  fill='rgba(255,255,255,0.4)'
+                  style={{ padding: '0 8px' }}
+                />
+              )
+            }
+          })}
+      </FlexContainer>
       <DamageRollScores parent={weapon}>
         {(values, combinedRoll) => (
           <>

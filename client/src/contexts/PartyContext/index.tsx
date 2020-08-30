@@ -5,6 +5,7 @@ import { v4 } from 'uuid'
 import { useParties, PC_PARTY_ID, usePartiesActions } from '../../state/parties'
 import { actionCreators } from '../../state/rolls'
 import { EquippableT } from '../../types/Item'
+import { WeaponModT } from '../../types/Weapon'
 
 export interface PartyContextT {
   parties: ProcessedPartyT[]
@@ -17,6 +18,8 @@ export interface PartyContextT {
   upsertItem: (item: EquippableT) => void
   upsertCharacter: (character: CharacterT, partyId?: string) => void
   deleteCharacter: (characterId: string, partyId?: string) => void
+  upsertMod: (mod: WeaponModT, partyId?: string) => void
+  deleteMod: (modId: string, partyId?: string) => void
   findCharacter: (
     characterId: string,
     partyId?: string,
@@ -46,6 +49,8 @@ const defaultContextValue: PartyContextT = {
   upsertItem: (item) => {},
   upsertCharacter: (character, partyId) => {},
   deleteCharacter: (characterId, partyId) => {},
+  upsertMod: (mod, partyId) => {},
+  deleteMod: (modId, partyId) => {},
   findCharacter: (characterId, partyId) => undefined,
   findRawCharacter: (characterId, partyId) => undefined,
   equipItem: (characterId, itemId, partyId) => {},
@@ -97,6 +102,12 @@ export const PartyContextProvider = (props: PartyContextProviderPropsT) => {
   ) => {
     actions.deleteCharacter(partyId, characterId)
   }
+  const upsertMod = (mod: WeaponModT, partyId: string = PC_PARTY_ID) => {
+    actions.upsertMod(partyId, mod)
+  }
+  const deleteMod = (modId: string, partyId: string = PC_PARTY_ID) => {
+    actions.deleteMod(partyId, modId)
+  }
   const equipItem = (
     characterId: string,
     itemId: string,
@@ -138,6 +149,8 @@ export const PartyContextProvider = (props: PartyContextProviderPropsT) => {
         upsertItem,
         upsertCharacter,
         deleteCharacter,
+        upsertMod,
+        deleteMod,
         equipItem,
         unequipItem,
         findCharacter,

@@ -21,7 +21,14 @@ export const ModPreview = (props: ModPreviewPropsT) => {
     <BoxContainer>
       <FlexContainer>
         <Icon src={Mod} size={24} />
-        <span style={{ margin: '0 10px', flex: 1, fontWeight: 'bold' }}>
+        <span
+          style={{
+            margin: '0 10px',
+            flex: 1,
+            fontWeight: 'bold',
+            whiteSpace: 'nowrap',
+          }}
+        >
           {mod.name}
         </span>
         <BoxButton>equip</BoxButton>

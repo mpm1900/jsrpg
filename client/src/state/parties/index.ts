@@ -13,8 +13,6 @@ import { useSelector } from 'react-redux'
 import { useActions } from '../../hooks/useActions'
 import { ItemT, EquippableT } from '../../types/Item'
 import { upsertIn, updateIn } from '../../util/updateIn'
-import { BASIC_SHIELD } from '../../objects/basicShield'
-import { BASIC_TOME } from '../../objects/basicTome'
 import makeItem from '../../objects/builders/makeItem'
 import { makeCharacter } from '../../objects/makeCharacter'
 import {
@@ -22,7 +20,6 @@ import {
   SWORD_OF_THE_INFINITE,
 } from '../../objects/builders/weapons/mythics'
 import {
-  makeSkill,
   FIREBALL,
   CRIPPLING_BLOW,
   THUNDERBOLT,
@@ -34,16 +31,17 @@ import {
   VANISH,
   SHADOW_STRIKE,
 } from '../../objects/makeSkill'
-import { makeCharacterRoll, makeCharacterCheck } from '../../types/Roll2'
-import { makeTrait, makeRequirementCheck } from '../../objects/util'
 import { buildWeapon } from '../../objects/builders/weapons/createWeapon'
 import { SLASHING_MOD } from '../../objects/builders/mods'
+import { WeaponModT } from '../../types/Weapon'
 
 export const UPSERT_PARTY = '@actions/parties/upsert-party'
 export const UPSERT_CHARACTER = '@actions/parties/upsert-character'
 export const DELETE_CHARACTER = '@actions/parties/delete-character'
 export const UPSERT_ITEM = '@actions/parties/upsert-item'
 export const DELETE_ITEM = '@actions/parties/delete-item'
+export const UPSERT_MOD = '@actions/parties/upsert-mod'
+export const DELETE_MOD = '@actions/parties/delete-mod'
 
 export const actionCreators = {
   upsertParty: (party: PartyT): StateActionT => ({
@@ -88,6 +86,24 @@ export const actionCreators = {
       },
     }
   },
+  upsertMod: (partyId: string, mod: WeaponModT) => {
+    return {
+      type: UPSERT_MOD,
+      payload: {
+        partyId,
+        mod,
+      },
+    }
+  },
+  deleteMod: (partyId: string, modId: string) => {
+    return {
+      type: DELETE_MOD,
+      payload: {
+        partyId,
+        modId,
+      },
+    }
+  },
 }
 
 export const actions = {
@@ -109,6 +125,12 @@ export const actions = {
   },
   removeItem: (partyId: string, itemId: string) => (dispatch: Dispatch) => {
     dispatch(actionCreators.deleteItem(partyId, itemId))
+  },
+  upsertMod: (partyId: string, mod: WeaponModT) => (dispatch: Dispatch) => {
+    dispatch(actionCreators.upsertMod(partyId, mod))
+  },
+  deleteMod: (partyId: string, modId: string) => (dispatch: Dispatch) => {
+    dispatch(actionCreators.deleteMod(partyId, modId))
   },
   equipItem: (partyId: string, characterId: string, itemId: string) => (
     dispatch: Dispatch,
@@ -262,6 +284,8 @@ export const usePartiesActions = () =>
     deleteCharacter: (partyId: string, characterId: string) => void
     upsertItem: (partyId: string, item: ItemT) => void
     removeItem: (partyId: string, itemId: string) => void
+    upsertMod: (partyId: string, mod: WeaponModT) => void
+    deleteMod: (partyId: string, modId: string) => void
     equipItem: (partyId: string, characterId: string, itemId: string) => void
     unequipItem: (partyId: string, characterId: string, itemId: string) => void
   }
