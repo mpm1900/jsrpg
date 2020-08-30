@@ -57,7 +57,7 @@ export const CharacterDetails = (props: CharacterDetailsPropsT) => {
   return (
     <BoxContainer
       style={{
-        width: 454,
+        minWidth: 350,
         transition: 'all 1s',
         border: '2px solid black',
       }}

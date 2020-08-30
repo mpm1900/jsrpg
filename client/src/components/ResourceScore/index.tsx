@@ -15,6 +15,7 @@ export const ResourceScore = (props: ResourceScorePropsT) => {
 
   return (
     <BoxContainer
+      style={{ flex: 1 }}
       substyle={{
         display: 'flex',
         padding: 4,

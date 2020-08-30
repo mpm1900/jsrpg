@@ -21,7 +21,7 @@ export const CharacterHeader = () => {
   return (
     <BoxContainer
       substyle={{
-        height: 40,
+        height: 51,
         padding: 0,
         alignItems: 'center',
         display: 'flex',

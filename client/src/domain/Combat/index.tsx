@@ -32,6 +32,7 @@ export const Combat = () => {
       style={{
         background: `url(${BG}) center center`,
         backgroundSize: 'cover',
+        backgroundPositionX: -112,
       }}
     >
       <BoxContainer>

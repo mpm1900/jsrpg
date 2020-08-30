@@ -17,6 +17,7 @@ import { SkillPreviewAlt } from '../../components/SkillPreviewAlt'
 import { BASIC_ATTACK, INSPECT } from '../../objects/makeSkill'
 import { BoxContainer } from '../../elements/box'
 import { CharacterHeader } from '../../components/CharacterHeader'
+import BG from '../../assets/img/forest-931706_1920.jpg'
 
 export const Character = () => {
   const { id } = useParams()
@@ -46,21 +47,28 @@ export const Character = () => {
   return (
     <CharacterStateContextProvider>
       <RollStateContextProvider>
-        <FlexContainer $direction='column' $full>
+        <FlexContainer
+          $direction='column'
+          $full
+          style={{
+            background: `url(${BG}) center center`,
+            backgroundSize: 'cover',
+          }}
+        >
           <CharacterHeader />
           <FlexContainer style={{ margin: 10, flex: 1 }}>
             <FlexContainer $direction='column' style={{ marginRight: 10 }}>
               <CharacterDetails showEdit={true} />
               <FlexContainer>
-                <div>
-                  <ResourceScore id='characterPoints' />
-                  <ResourceScore id='weaponHands' />
-                  <ResourceScore id='heads' />
-                  <ResourceScore id='bodies' />
-                  <ResourceScore id='hands' />
-                  <ResourceScore id='fingers' />
-                  <ResourceScore id='feet' />
-                </div>
+                <ResourceScore id='characterPoints' />
+                <ResourceScore id='weaponHands' />
+                <ResourceScore id='fingers' />
+                <ResourceScore id='heads' />
+                <ResourceScore id='bodies' />
+                <ResourceScore id='hands' />
+                <ResourceScore id='feet' />
+              </FlexContainer>
+              <FlexContainer>
                 <div>
                   <AbilityScore id='strength' />
                   <AbilityScore id='dexterity' />

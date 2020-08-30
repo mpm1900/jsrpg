@@ -429,7 +429,7 @@ export const getTraitValue = (
 export const combineTraits = (traits: CharacterTraitT[]): CharacterTraitT => {
   const id = v4()
   const name = 'combine' + id
-  return traits.reduce((result, current) => {
+  return (traits || []).reduce((result, current) => {
     const ar = result.abilitiesModifiers
     const ac = current.abilitiesModifiers
     const sr = result.statsModifiers
