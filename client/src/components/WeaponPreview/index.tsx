@@ -128,7 +128,7 @@ export const WeaponPreview = (props: WeaponPreviewPropsT) => {
         <TraitScore trait={trait} compareResult={traitCompare} />
       </div>
       <div style={{ marginBottom: 10 }}>
-        {getKeys(weapon.events).map(
+        {getKeys(weapon.events || {}).map(
           (key) =>
             (weapon.events[key] || []).length > 0 && (
               <FlexContainer key={key} style={{ alignItems: 'center' }}>
