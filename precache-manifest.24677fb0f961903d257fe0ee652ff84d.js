@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "6875b6c3ac2d0c8330165d37f0f541cd",
+    "revision": "fb948a4fd9f6b8a6b5fb2c6a4fb8ea6b",
     "url": "/jsrpg/index.html"
   },
   {
-    "revision": "1e07c7102db727f0bd0e",
+    "revision": "07e743552b955109d87c",
     "url": "/jsrpg/static/css/main.6b640b01.chunk.css"
   },
   {
-    "revision": "a771e5aa45a527010f11",
-    "url": "/jsrpg/static/js/2.ff36e73f.chunk.js"
+    "revision": "cc524f59a856c7497978",
+    "url": "/jsrpg/static/js/2.20d84ab4.chunk.js"
   },
   {
     "revision": "4fc96d8633d093f6effd8ad2d7e6794c",
-    "url": "/jsrpg/static/js/2.ff36e73f.chunk.js.LICENSE.txt"
+    "url": "/jsrpg/static/js/2.20d84ab4.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "1e07c7102db727f0bd0e",
-    "url": "/jsrpg/static/js/main.f49b3fa6.chunk.js"
+    "revision": "07e743552b955109d87c",
+    "url": "/jsrpg/static/js/main.e65b303a.chunk.js"
   },
   {
     "revision": "c455a9ffbc4cbbcd5a32",
@@ -118,6 +118,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "88018ef0a57f5db67b5de3002de5f277",
     "url": "/jsrpg/static/media/footprint.88018ef0.svg"
+  },
+  {
+    "revision": "f9c3ec0d7701066bde4532f096a09b5c",
+    "url": "/jsrpg/static/media/forest-931706_1920.f9c3ec0d.jpg"
   },
   {
     "revision": "03da1411244855d352cb1db768ae5d10",

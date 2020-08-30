@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/jsrpg/static/css/main.6b640b01.chunk.css",
-    "main.js": "/jsrpg/static/js/main.f49b3fa6.chunk.js",
-    "main.js.map": "/jsrpg/static/js/main.f49b3fa6.chunk.js.map",
+    "main.js": "/jsrpg/static/js/main.e65b303a.chunk.js",
+    "main.js.map": "/jsrpg/static/js/main.e65b303a.chunk.js.map",
     "runtime-main.js": "/jsrpg/static/js/runtime-main.569d6e6e.js",
     "runtime-main.js.map": "/jsrpg/static/js/runtime-main.569d6e6e.js.map",
-    "static/js/2.ff36e73f.chunk.js": "/jsrpg/static/js/2.ff36e73f.chunk.js",
-    "static/js/2.ff36e73f.chunk.js.map": "/jsrpg/static/js/2.ff36e73f.chunk.js.map",
+    "static/js/2.20d84ab4.chunk.js": "/jsrpg/static/js/2.20d84ab4.chunk.js",
+    "static/js/2.20d84ab4.chunk.js.map": "/jsrpg/static/js/2.20d84ab4.chunk.js.map",
     "index.html": "/jsrpg/index.html",
-    "precache-manifest.2b1c79f0fdd0c721d3797db843843bc4.js": "/jsrpg/precache-manifest.2b1c79f0fdd0c721d3797db843843bc4.js",
+    "precache-manifest.24677fb0f961903d257fe0ee652ff84d.js": "/jsrpg/precache-manifest.24677fb0f961903d257fe0ee652ff84d.js",
     "service-worker.js": "/jsrpg/service-worker.js",
     "static/css/main.6b640b01.chunk.css.map": "/jsrpg/static/css/main.6b640b01.chunk.css.map",
-    "static/js/2.ff36e73f.chunk.js.LICENSE.txt": "/jsrpg/static/js/2.ff36e73f.chunk.js.LICENSE.txt",
+    "static/js/2.20d84ab4.chunk.js.LICENSE.txt": "/jsrpg/static/js/2.20d84ab4.chunk.js.LICENSE.txt",
     "static/media/23761.jpg": "/jsrpg/static/media/23761.e6671090.jpg",
     "static/media/aura.svg": "/jsrpg/static/media/aura.72475924.svg",
     "static/media/barbed-arrow.svg": "/jsrpg/static/media/barbed-arrow.c6c3f6ae.svg",
@@ -36,6 +36,7 @@
     "static/media/flail.svg": "/jsrpg/static/media/flail.1f360b03.svg",
     "static/media/flame.svg": "/jsrpg/static/media/flame.332be8c2.svg",
     "static/media/footprint.svg": "/jsrpg/static/media/footprint.88018ef0.svg",
+    "static/media/forest-931706_1920.jpg": "/jsrpg/static/media/forest-931706_1920.f9c3ec0d.jpg",
     "static/media/gloves.svg": "/jsrpg/static/media/gloves.03da1411.svg",
     "static/media/hand.svg": "/jsrpg/static/media/hand.9a950e42.svg",
     "static/media/headshot.png": "/jsrpg/static/media/headshot.6549c4b8.png",
@@ -80,8 +81,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.569d6e6e.js",
-    "static/js/2.ff36e73f.chunk.js",
+    "static/js/2.20d84ab4.chunk.js",
     "static/css/main.6b640b01.chunk.css",
-    "static/js/main.f49b3fa6.chunk.js"
+    "static/js/main.e65b303a.chunk.js"
   ]
 }
