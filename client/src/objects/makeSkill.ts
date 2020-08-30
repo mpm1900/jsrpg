@@ -13,6 +13,10 @@ import Thunderbolt from '../assets/img/thunderbolt.png'
 import DarkBlast from '../assets/img/dark-blast.png'
 import CripplingBlow from '../assets/img/crippling-blow.png'
 import Wrath from '../assets/img/wrath.png'
+import Charge from '../assets/img/charge.png'
+import SkillShot from '../assets/img/headshot.png'
+import ShadowStrike from '../assets/img/shadow-strike.png'
+import Vanish from '../assets/img/vanish.png'
 import Inspect from '../assets/img/inspect.png'
 import WeaponAttack from '../assets/img/weapon-attack.png'
 
@@ -153,4 +157,102 @@ export const WRATH: SkillT = {
       },
     },
   ],
+}
+export const CHARGE: SkillT = {
+  ...makeSkill('Charge'),
+  imgSrc: Charge,
+  focusCost: 5,
+  check: makeCharacterCheck(['strength']),
+  combineWeaponDamage: false,
+  damageRolls: {
+    slashing: makeCharacterRoll(['strength'], '3d6', -12),
+    piercing: makeCharacterRoll(['strength'], '3d6', -12),
+  },
+  sourceTraits: [
+    {
+      ...makeTrait(),
+      duration: 2,
+      statsModifiers: {
+        health: 0,
+        focus: 0,
+        will: 0,
+        perception: 0,
+        accuracy: 0,
+        evade: 0,
+        agility: 3,
+      },
+    },
+  ],
+  targetTraits: [
+    {
+      ...makeTrait(),
+      duration: 2,
+      abilitiesModifiers: {
+        strength: 0,
+        dexterity: 0,
+        intelligence: 0,
+        vigor: -3,
+      },
+    },
+  ],
+}
+
+export const SKILL_SHOT: SkillT = {
+  ...makeSkill('Skill Shot'),
+  imgSrc: SkillShot,
+  focusCost: 12,
+  check: makeStandardCharacterCheck(['dexterity'], -4),
+  combineWeaponDamage: false,
+  damageRolls: {
+    piercing: makeCharacterRoll(['dexterity'], '1d20'),
+    fire: makeCharacterRoll([], '8d2', -8),
+  },
+  targetTraits: [
+    {
+      ...makeTrait(),
+      duration: 2,
+      abilitiesModifiers: {
+        strength: 0,
+        dexterity: 0,
+        intelligence: -2,
+        vigor: 0,
+      },
+    },
+  ],
+}
+
+export const VANISH: SkillT = {
+  ...makeSkill('Vanish'),
+  imgSrc: Vanish,
+  focusCost: 8,
+  check: makeStandardCharacterCheck(['dexterity']),
+  combineWeaponDamage: false,
+  damageRolls: {},
+  target: false,
+  sourceTraits: [
+    {
+      ...makeTrait(),
+      duration: 2,
+      statsModifiers: {
+        health: 0,
+        focus: 0,
+        will: 0,
+        perception: 2,
+        agility: -2,
+        accuracy: 0,
+        evade: 20,
+      },
+    },
+  ],
+}
+
+export const SHADOW_STRIKE: SkillT = {
+  ...makeSkill('Shadow Strike'),
+  imgSrc: ShadowStrike,
+  focusCost: 7,
+  check: makeStandardCharacterCheck(['evade'], -3),
+  combineWeaponDamage: false,
+  damageRolls: {
+    piercing: makeCharacterRoll(['evade'], '1d6', -6),
+  },
 }

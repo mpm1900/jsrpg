@@ -98,7 +98,14 @@ export const Character = () => {
                   showCollapseButton={false}
                 />
               ))}
-              <BoxContainer substyle={{ display: 'flex', flexWrap: 'wrap' }}>
+              <BoxContainer
+                substyle={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  width: 320,
+                  padding: 28,
+                }}
+              >
                 {character.skills
                   .filter(
                     (s) => s.id !== BASIC_ATTACK.id && s.id !== INSPECT.id,
