@@ -16,6 +16,7 @@ import { useUIContext } from '../../contexts/UIContext'
 import { SkillPreviewAlt } from '../../components/SkillPreviewAlt'
 import { BASIC_ATTACK, INSPECT } from '../../objects/makeSkill'
 import { BoxContainer } from '../../elements/box'
+import { CharacterHeader } from '../../components/CharacterHeader'
 
 export const Character = () => {
   const { id } = useParams()
@@ -45,85 +46,88 @@ export const Character = () => {
   return (
     <CharacterStateContextProvider>
       <RollStateContextProvider>
-        <FlexContainer style={{ margin: 10, flex: 1 }}>
-          <FlexContainer $direction='column' style={{ marginRight: 10 }}>
-            <CharacterDetails showEdit={true} />
+        <FlexContainer $direction='column' $full>
+          <CharacterHeader />
+          <FlexContainer style={{ margin: 10, flex: 1 }}>
+            <FlexContainer $direction='column' style={{ marginRight: 10 }}>
+              <CharacterDetails showEdit={true} />
+              <FlexContainer>
+                <div>
+                  <ResourceScore id='characterPoints' />
+                  <ResourceScore id='weaponHands' />
+                  <ResourceScore id='heads' />
+                  <ResourceScore id='bodies' />
+                  <ResourceScore id='hands' />
+                  <ResourceScore id='fingers' />
+                  <ResourceScore id='feet' />
+                </div>
+                <div>
+                  <AbilityScore id='strength' />
+                  <AbilityScore id='dexterity' />
+                  <AbilityScore id='intelligence' />
+                  <AbilityScore id='vigor' />
+                </div>
+                <div>
+                  <StatScore id='health' />
+                  <StatScore id='focus' />
+                  <StatScore id='will' />
+                  <StatScore id='perception' />
+                  <StatScore id='agility' />
+                  <StatScore id='accuracy' />
+                  <StatScore id='evade' />
+                </div>
+                <div>
+                  <DamageResistanceScore id='slashing' />
+                  <DamageResistanceScore id='piercing' />
+                  <DamageResistanceScore id='fire' />
+                  <DamageResistanceScore id='blood' />
+                  <DamageResistanceScore id='light' />
+                  <DamageResistanceScore id='dark' />
+                </div>
+              </FlexContainer>
+            </FlexContainer>
             <FlexContainer>
               <div>
-                <ResourceScore id='characterPoints' />
-                <ResourceScore id='weaponHands' />
-                <ResourceScore id='heads' />
-                <ResourceScore id='bodies' />
-                <ResourceScore id='hands' />
-                <ResourceScore id='fingers' />
-                <ResourceScore id='feet' />
-              </div>
-              <div>
-                <AbilityScore id='strength' />
-                <AbilityScore id='dexterity' />
-                <AbilityScore id='intelligence' />
-                <AbilityScore id='vigor' />
-              </div>
-              <div>
-                <StatScore id='health' />
-                <StatScore id='focus' />
-                <StatScore id='will' />
-                <StatScore id='perception' />
-                <StatScore id='agility' />
-                <StatScore id='accuracy' />
-                <StatScore id='evade' />
-              </div>
-              <div>
-                <DamageResistanceScore id='slashing' />
-                <DamageResistanceScore id='piercing' />
-                <DamageResistanceScore id='fire' />
-                <DamageResistanceScore id='blood' />
-                <DamageResistanceScore id='light' />
-                <DamageResistanceScore id='dark' />
-              </div>
-            </FlexContainer>
-          </FlexContainer>
-          <FlexContainer>
-            <div>
-              <WeaponPreview showEquipButton={true} showRequirement={false} />
-              {character.equippedItems.map((item) => (
-                <ItemPreview
-                  key={item.id}
-                  item={item}
-                  showRequirementCheck={false}
-                  showCollapseButton={false}
-                />
-              ))}
-              <BoxContainer
-                substyle={{
-                  width: 320,
-                  // padding: 28,
-                }}
-              >
-                <span
-                  style={{
-                    fontFamily: 'monospace',
-                    fontWeight: 'bold',
-                    color: 'rgba(255,255,255,0.24)',
-                    marginBottom: 2,
+                <WeaponPreview showEquipButton={true} showRequirement={false} />
+                {character.equippedItems.map((item) => (
+                  <ItemPreview
+                    key={item.id}
+                    item={item}
+                    showRequirementCheck={false}
+                    showCollapseButton={false}
+                  />
+                ))}
+                <BoxContainer
+                  substyle={{
+                    width: 320,
+                    // padding: 28,
                   }}
                 >
-                  SKILLS
-                </span>
-                <FlexContainer style={{ flexWrap: 'wrap' }}>
-                  {character.skills
-                    .filter(
-                      (s) => s.id !== BASIC_ATTACK.id && s.id !== INSPECT.id,
-                    )
-                    .map((skill) => (
-                      <div style={{ padding: 3.5 }}>
-                        <SkillPreviewAlt key={skill.id} skill={skill} />
-                      </div>
-                    ))}
-                </FlexContainer>
-              </BoxContainer>
-            </div>
-            <ArmorScoreList />
+                  <span
+                    style={{
+                      fontFamily: 'monospace',
+                      fontWeight: 'bold',
+                      color: 'rgba(255,255,255,0.24)',
+                      marginBottom: 2,
+                    }}
+                  >
+                    SKILLS
+                  </span>
+                  <FlexContainer style={{ flexWrap: 'wrap' }}>
+                    {character.skills
+                      .filter(
+                        (s) => s.id !== BASIC_ATTACK.id && s.id !== INSPECT.id,
+                      )
+                      .map((skill) => (
+                        <div style={{ padding: 3.5 }}>
+                          <SkillPreviewAlt key={skill.id} skill={skill} />
+                        </div>
+                      ))}
+                  </FlexContainer>
+                </BoxContainer>
+              </div>
+              <ArmorScoreList />
+            </FlexContainer>
           </FlexContainer>
         </FlexContainer>
       </RollStateContextProvider>

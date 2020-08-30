@@ -34,7 +34,6 @@ export const AppHeader = () => {
       >
         rpgjs
       </div>
-      {/*
       <BoxContainer
         tag={Link}
         to=''
@@ -51,7 +50,6 @@ export const AppHeader = () => {
       >
         character
       </BoxContainer>
-      */}
       <BoxContainer
         tag={Link}
         to='/battle'
