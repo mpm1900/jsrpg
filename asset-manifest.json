@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/jsrpg/static/css/main.d34ff4ea.chunk.css",
-    "main.js": "/jsrpg/static/js/main.d413832a.chunk.js",
-    "main.js.map": "/jsrpg/static/js/main.d413832a.chunk.js.map",
+    "main.js": "/jsrpg/static/js/main.b906b67a.chunk.js",
+    "main.js.map": "/jsrpg/static/js/main.b906b67a.chunk.js.map",
     "runtime-main.js": "/jsrpg/static/js/runtime-main.569d6e6e.js",
     "runtime-main.js.map": "/jsrpg/static/js/runtime-main.569d6e6e.js.map",
     "static/js/2.e376dfe0.chunk.js": "/jsrpg/static/js/2.e376dfe0.chunk.js",
     "static/js/2.e376dfe0.chunk.js.map": "/jsrpg/static/js/2.e376dfe0.chunk.js.map",
     "index.html": "/jsrpg/index.html",
-    "precache-manifest.c2192b9985132dee834104482208c25e.js": "/jsrpg/precache-manifest.c2192b9985132dee834104482208c25e.js",
+    "precache-manifest.ed8bcc5d348a9c3d9d396736998a4b1a.js": "/jsrpg/precache-manifest.ed8bcc5d348a9c3d9d396736998a4b1a.js",
     "service-worker.js": "/jsrpg/service-worker.js",
     "static/css/main.d34ff4ea.chunk.css.map": "/jsrpg/static/css/main.d34ff4ea.chunk.css.map",
     "static/js/2.e376dfe0.chunk.js.LICENSE.txt": "/jsrpg/static/js/2.e376dfe0.chunk.js.LICENSE.txt",
@@ -81,6 +81,6 @@
     "static/js/runtime-main.569d6e6e.js",
     "static/js/2.e376dfe0.chunk.js",
     "static/css/main.d34ff4ea.chunk.css",
-    "static/js/main.d413832a.chunk.js"
+    "static/js/main.b906b67a.chunk.js"
   ]
 }
