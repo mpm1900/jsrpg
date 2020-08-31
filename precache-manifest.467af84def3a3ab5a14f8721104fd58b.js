@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "57d4aa94fbc633c76ab387339efb0979",
+    "revision": "7b5d78746d581b9da6b2dfb72fa785ff",
     "url": "/jsrpg/index.html"
   },
   {
-    "revision": "b2ed52df32d9be0a93a1",
+    "revision": "a086680521d2d3519dd5",
     "url": "/jsrpg/static/css/main.6b640b01.chunk.css"
   },
   {
-    "revision": "1d62cec66bd1faf17313",
-    "url": "/jsrpg/static/js/2.edc80390.chunk.js"
+    "revision": "1d2a3a922a383cfd89af",
+    "url": "/jsrpg/static/js/2.35c989b2.chunk.js"
   },
   {
     "revision": "4fc96d8633d093f6effd8ad2d7e6794c",
-    "url": "/jsrpg/static/js/2.edc80390.chunk.js.LICENSE.txt"
+    "url": "/jsrpg/static/js/2.35c989b2.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "b2ed52df32d9be0a93a1",
-    "url": "/jsrpg/static/js/main.951048e4.chunk.js"
+    "revision": "a086680521d2d3519dd5",
+    "url": "/jsrpg/static/js/main.eb778d63.chunk.js"
   },
   {
     "revision": "c455a9ffbc4cbbcd5a32",
