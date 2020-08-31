@@ -4,17 +4,15 @@ import { v4 } from 'uuid'
 import {
   uniqueNamesGenerator,
   Config,
-  names,
   adjectives,
   animals,
-  colors,
 } from 'unique-names-generator'
 import { CharacterResourcesT, CharacterAbilitiesT } from '../types/Character'
 import { DamageTypeRollsT } from '../types/Damage'
 import { buildWeapon } from './builders/weapons/createWeapon'
 import { getRandom } from '../util/getRandom'
 import { buildArmor } from './builders/armor/createArmor'
-import { makeSkill, BASIC_ATTACK } from './makeSkill'
+import { BASIC_ATTACK } from './makeSkill'
 import { makeCharacterRoll } from '../types/Roll2'
 
 const randomNameConfig: Config = {

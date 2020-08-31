@@ -3,7 +3,6 @@ import { useCombatContext } from '../../contexts/CombatContext'
 import { FlexContainer, FullContainer } from '../../elements/flex'
 import { CombatParty } from '../../components/CombatParty'
 import { useUIContext } from '../../contexts/UIContext'
-import { useEvent } from '../../hooks/useEvent'
 import { BoxContainer, BoxButton } from '../../elements/box'
 import BG from '../../assets/img/23761.jpg'
 import { CombatCharacterTargets } from '../../components/CombatCharacterTargets'
@@ -97,6 +96,7 @@ export const Combat = () => {
             </span>
             <CombatCharacterTargets
               activeTargetId={targetId}
+              showRandom={false}
               onClick={(targetId) => {
                 setAllIds(targetId)
               }}

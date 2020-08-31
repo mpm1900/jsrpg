@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react'
-import { timeout } from '../../util/wait'
+import React, { useState, useLayoutEffect } from 'react'
 import { v4 } from 'uuid'
 
 export interface HoverChildrenT {

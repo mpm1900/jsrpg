@@ -1,11 +1,11 @@
-import { EquippableT, ItemRarityT, ItemT } from './Item'
+import { EquippableT, ItemT } from './Item'
 import {
   DamageTypeRollsT,
   ZERO_DAMAGE_ROLLS,
   combineDamageTypeRolls,
 } from './Damage'
-import { CharacterT, ProcessedCharacterT, CharacterTraitT } from './Character'
-import { CharacterCheckT, makeCharacterRoll } from './Roll2'
+import { CharacterTraitT } from './Character'
+import { CharacterCheckT } from './Roll2'
 import { EventsT, combineEvents } from './Events'
 import { reduce } from '../util/reduce'
 

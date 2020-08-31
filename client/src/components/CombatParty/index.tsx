@@ -6,15 +6,12 @@ import {
 } from '../../contexts/CharacterContext'
 import { usePartyContext } from '../../contexts/PartyContext'
 import { CharacterDetails } from '../CharacterDetails'
-import { CombatCharacterSkills } from '../CombatCharacterSkills'
 import { useCombatContext } from '../../contexts/CombatContext'
 import { PC_PARTY_ID } from '../../state/parties'
-import { CombatCharacterTargets } from '../CombatCharacterTargets'
 import { processCharacter, ProcessedCharacterT } from '../../types/Character'
 import { FlexContainer, FullContainer } from '../../elements/flex'
 import { BoxContainer } from '../../elements/box'
 import { getSkillRange } from '../../types/Skill'
-import { useRollContext } from '../../contexts/RollContext'
 import { BASIC_ATTACK } from '../../objects/makeSkill'
 import {
   ZERO_CHECK,
@@ -33,9 +30,7 @@ export const CombatParty = (props: CombatPartyPropsT) => {
     userParty,
     enemyParty,
     characterSkills,
-    setCharacterSkill,
     characterTargets,
-    setCharacterTarget,
   } = useCombatContext()
   if (!party || !userParty || !enemyParty) return <div>Loading...</div>
 

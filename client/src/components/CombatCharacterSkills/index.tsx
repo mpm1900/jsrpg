@@ -1,13 +1,12 @@
-import React, { CSSProperties, useState } from 'react'
+import React, { CSSProperties } from 'react'
 import Tooltip from 'react-tooltip-lite'
 import { SkillT } from '../../types/Skill'
-import { BoxContainer, BoxButton } from '../../elements/box'
+import { BoxContainer } from '../../elements/box'
 import { useCharacterContext } from '../../contexts/CharacterContext'
 import { BASIC_ATTACK, INSPECT } from '../../objects/makeSkill'
 import { SkillPreview } from '../SkillPreview'
 import { Hover } from '../Hover'
 import { FlexContainer } from '../../elements/flex'
-import { BASE_CHARACTER } from '../../objects/baseCharacter'
 
 const size = 34
 export interface CombatCharacterSkillsPropsT {

@@ -21,7 +21,7 @@ import { CombatVictoryModal } from '../../components/CombatVictoryModal'
 import { CombatLossModal } from '../../components/CombatLossModal'
 
 export interface CombatContextT {
-  rounds: any[]
+  rounds: CombatRoundT[]
   userParty: ProcessedPartyT
   rawUserParty: PartyT
   enemyParty: ProcessedPartyT
