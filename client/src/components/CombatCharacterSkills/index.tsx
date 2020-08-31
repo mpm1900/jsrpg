@@ -7,6 +7,7 @@ import { BASIC_ATTACK, INSPECT } from '../../objects/makeSkill'
 import { SkillPreview } from '../SkillPreview'
 import { Hover } from '../Hover'
 import { FlexContainer } from '../../elements/flex'
+import { BASE_CHARACTER } from '../../objects/baseCharacter'
 
 const size = 34
 export interface CombatCharacterSkillsPropsT {
@@ -18,6 +19,9 @@ export const CombatCharacterSkills = (props: CombatCharacterSkillsPropsT) => {
   const { activeSkillId = BASIC_ATTACK.id, skills, onClick } = props
   const { character } = useCharacterContext()
   const active = (skillId: string) => activeSkillId === skillId
+  const disabled = (skill: SkillT) =>
+    character.dead ||
+    character.stats.focus - character.focusOffset < skill.focusCost
 
   return (
     <FlexContainer style={{ marginBottom: 2 }}>
@@ -25,10 +29,7 @@ export const CombatCharacterSkills = (props: CombatCharacterSkillsPropsT) => {
         <CombatCharacterSkill
           key={skill.id}
           skill={skill}
-          disabled={
-            character.dead ||
-            character.stats.focus - character.focusOffset < skill.focusCost
-          }
+          disabled={disabled(skill)}
           onClick={() => onClick(skill.id)}
           style={{
             padding: 0,
@@ -36,13 +37,7 @@ export const CombatCharacterSkills = (props: CombatCharacterSkillsPropsT) => {
             maxWidth: size + 2,
             margin: 0,
             borderColor: 'transparent',
-            opacity:
-              character.dead ||
-              character.stats.focus - character.focusOffset < skill.focusCost
-                ? 0.2
-                : active(skill.id)
-                ? 1
-                : 0.7,
+            opacity: disabled(skill) ? 0.2 : active(skill.id) ? 1 : 0.7,
             ...(active(skill.id) ? { borderColor: 'turquoise' } : {}),
           }}
         />
@@ -59,7 +54,7 @@ export interface CombatCharacterSkillPropsT {
 }
 export const CombatCharacterSkill = (props: CombatCharacterSkillPropsT) => {
   const { skill, disabled, style, onClick } = props
-  const isDefault = skill.id === BASIC_ATTACK.id || skill.id === INSPECT.id
+  const isDefault = skill.id === INSPECT.id
   return (
     <Hover>
       {({ isHovering }) => (

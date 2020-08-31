@@ -48,7 +48,11 @@ export const DamageRollScores = (props: DamageRollScoresPropsT) => {
   return (
     <BoxContainer
       style={{ whiteSpace: 'nowrap' }}
-      substyle={{ padding: '4px 10px', background: '#111' }}
+      substyle={{
+        padding: '4px 10px',
+        borderColor: 'rgba(255,255,255,0.3)',
+        background: 'rgba(0,0,0,0.75)',
+      }}
     >
       {children(
         keys.map((key) => ({

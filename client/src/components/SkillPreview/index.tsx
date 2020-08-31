@@ -19,9 +19,10 @@ import {
 export interface SkillPreviewPropsT {
   skillId: string
   skill?: SkillT
+  showRequirementCheck?: boolean
 }
 export const SkillPreview = (props: SkillPreviewPropsT) => {
-  const { skillId } = props
+  const { skillId, showRequirementCheck } = props
   const { character } = useCharacterContext()
   const skill =
     props.skill || character.skills.find((s) => s.id === skillId) || makeSkill()
@@ -34,7 +35,7 @@ export const SkillPreview = (props: SkillPreviewPropsT) => {
       }}
       substyle={{
         background: 'rgba(0,0,0,0.8)',
-        borderColor: 'rgba(255,255,255,0.5)',
+        borderColor: 'rgba(255,255,255,0.4)',
       }}
     >
       <FlexContainer style={{ marginBottom: 10 }}>
@@ -46,13 +47,15 @@ export const SkillPreview = (props: SkillPreviewPropsT) => {
         <span>{skill.focusCost}</span>
       </FlexContainer>
       <FlexContainer style={{ marginBottom: 10 }}>
-        <FullContainer>
-          <CheckPreview
-            name='Requirement'
-            showCheckButton={false}
-            check={skill.requirementCheck}
-          />
-        </FullContainer>
+        {showRequirementCheck && (
+          <FullContainer>
+            <CheckPreview
+              name='Requirement'
+              showCheckButton={false}
+              check={skill.requirementCheck}
+            />
+          </FullContainer>
+        )}
         {skill.check && (
           <FullContainer>
             <CheckPreview
