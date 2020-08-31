@@ -1,24 +1,23 @@
 {
   "files": {
     "main.css": "/jsrpg/static/css/main.6b640b01.chunk.css",
-    "main.js": "/jsrpg/static/js/main.62796bd3.chunk.js",
-    "main.js.map": "/jsrpg/static/js/main.62796bd3.chunk.js.map",
+    "main.js": "/jsrpg/static/js/main.951048e4.chunk.js",
+    "main.js.map": "/jsrpg/static/js/main.951048e4.chunk.js.map",
     "runtime-main.js": "/jsrpg/static/js/runtime-main.569d6e6e.js",
     "runtime-main.js.map": "/jsrpg/static/js/runtime-main.569d6e6e.js.map",
-    "static/js/2.20d84ab4.chunk.js": "/jsrpg/static/js/2.20d84ab4.chunk.js",
-    "static/js/2.20d84ab4.chunk.js.map": "/jsrpg/static/js/2.20d84ab4.chunk.js.map",
+    "static/js/2.edc80390.chunk.js": "/jsrpg/static/js/2.edc80390.chunk.js",
+    "static/js/2.edc80390.chunk.js.map": "/jsrpg/static/js/2.edc80390.chunk.js.map",
     "index.html": "/jsrpg/index.html",
-    "precache-manifest.370182bab589541df743b440260a3eb8.js": "/jsrpg/precache-manifest.370182bab589541df743b440260a3eb8.js",
+    "precache-manifest.7f78e2cc531cccb8d5617986b9ba1c02.js": "/jsrpg/precache-manifest.7f78e2cc531cccb8d5617986b9ba1c02.js",
     "service-worker.js": "/jsrpg/service-worker.js",
     "static/css/main.6b640b01.chunk.css.map": "/jsrpg/static/css/main.6b640b01.chunk.css.map",
-    "static/js/2.20d84ab4.chunk.js.LICENSE.txt": "/jsrpg/static/js/2.20d84ab4.chunk.js.LICENSE.txt",
+    "static/js/2.edc80390.chunk.js.LICENSE.txt": "/jsrpg/static/js/2.edc80390.chunk.js.LICENSE.txt",
     "static/media/23761.jpg": "/jsrpg/static/media/23761.e6671090.jpg",
     "static/media/aura.svg": "/jsrpg/static/media/aura.72475924.svg",
     "static/media/barbed-arrow.svg": "/jsrpg/static/media/barbed-arrow.c6c3f6ae.svg",
     "static/media/barbute.svg": "/jsrpg/static/media/barbute.e93dc754.svg",
     "static/media/bleeding-eye.svg": "/jsrpg/static/media/bleeding-eye.12de19c6.svg",
     "static/media/bloody-sword.svg": "/jsrpg/static/media/bloody-sword.59d8ca0f.svg",
-    "static/media/book-cover.svg": "/jsrpg/static/media/book-cover.a02eb2a5.svg",
     "static/media/boots.svg": "/jsrpg/static/media/boots.b6910f10.svg",
     "static/media/charge.png": "/jsrpg/static/media/charge.11d38245.png",
     "static/media/closed-barbute.svg": "/jsrpg/static/media/closed-barbute.59102a4b.svg",
@@ -58,7 +57,6 @@
     "static/media/save.svg": "/jsrpg/static/media/save.ec2d8043.svg",
     "static/media/shadow-strike.png": "/jsrpg/static/media/shadow-strike.b9675e5b.png",
     "static/media/shard-sword.svg": "/jsrpg/static/media/shard-sword.23a923d5.svg",
-    "static/media/shield.svg": "/jsrpg/static/media/shield.2cc62e8a.svg",
     "static/media/shoulder-armor.svg": "/jsrpg/static/media/shoulder-armor.caa17ee9.svg",
     "static/media/skills.svg": "/jsrpg/static/media/skills.60519e24.svg",
     "static/media/spiral-thrust.svg": "/jsrpg/static/media/spiral-thrust.4b9960c0.svg",
@@ -81,8 +79,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.569d6e6e.js",
-    "static/js/2.20d84ab4.chunk.js",
+    "static/js/2.edc80390.chunk.js",
     "static/css/main.6b640b01.chunk.css",
-    "static/js/main.62796bd3.chunk.js"
+    "static/js/main.951048e4.chunk.js"
   ]
 }

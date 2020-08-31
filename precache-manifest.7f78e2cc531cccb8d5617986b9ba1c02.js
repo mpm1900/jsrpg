@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "79822b83039c93eca6bc9436d5071254",
+    "revision": "57d4aa94fbc633c76ab387339efb0979",
     "url": "/jsrpg/index.html"
   },
   {
-    "revision": "d6a22a3df81318dc2f2b",
+    "revision": "b2ed52df32d9be0a93a1",
     "url": "/jsrpg/static/css/main.6b640b01.chunk.css"
   },
   {
-    "revision": "cc524f59a856c7497978",
-    "url": "/jsrpg/static/js/2.20d84ab4.chunk.js"
+    "revision": "1d62cec66bd1faf17313",
+    "url": "/jsrpg/static/js/2.edc80390.chunk.js"
   },
   {
     "revision": "4fc96d8633d093f6effd8ad2d7e6794c",
-    "url": "/jsrpg/static/js/2.20d84ab4.chunk.js.LICENSE.txt"
+    "url": "/jsrpg/static/js/2.edc80390.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "d6a22a3df81318dc2f2b",
-    "url": "/jsrpg/static/js/main.62796bd3.chunk.js"
+    "revision": "b2ed52df32d9be0a93a1",
+    "url": "/jsrpg/static/js/main.951048e4.chunk.js"
   },
   {
     "revision": "c455a9ffbc4cbbcd5a32",
@@ -46,10 +46,6 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "59d8ca0f9d928923fe1963d5e161f221",
     "url": "/jsrpg/static/media/bloody-sword.59d8ca0f.svg"
-  },
-  {
-    "revision": "a02eb2a54ff9b7a10e130bde24ec5d45",
-    "url": "/jsrpg/static/media/book-cover.a02eb2a5.svg"
   },
   {
     "revision": "b6910f109fa09a4a332fe54ce40aab0c",
@@ -206,10 +202,6 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "23a923d518ede71041a607caa26cec91",
     "url": "/jsrpg/static/media/shard-sword.23a923d5.svg"
-  },
-  {
-    "revision": "2cc62e8aab89a8d0d2bec981bb8e1667",
-    "url": "/jsrpg/static/media/shield.2cc62e8a.svg"
   },
   {
     "revision": "caa17ee92040d31407446494e47a4536",
