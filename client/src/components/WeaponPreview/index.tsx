@@ -160,7 +160,7 @@ export const WeaponPreview = (props: WeaponPreviewPropsT) => {
                     {({ isHovering }) => (
                       <Tooltip
                         isOpen={isHovering}
-                        direction='left'
+                        direction='down'
                         tagName='div'
                         padding='0'
                         arrow={false}
@@ -175,7 +175,6 @@ export const WeaponPreview = (props: WeaponPreviewPropsT) => {
                             cursor: 'pointer',
                           }}
                           onClick={() => {
-                            console.log('click')
                             unequipMod(character.id, mod.id)
                           }}
                         />
