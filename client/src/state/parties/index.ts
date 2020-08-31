@@ -252,9 +252,9 @@ export const core: StateCoreT<PartyT[]> = {
   },
 }
 
-const max = makeCharacter('Max M')
-const katie = makeCharacter('Katie C')
-const milo = makeCharacter('Milo W')
+const max = makeCharacter('Character One')
+const katie = makeCharacter('Character Two')
+const milo = makeCharacter('Character Three')
 export const PC_PARTY_ID = v4()
 export const INITIAL_STATE: PartyT[] = [
   {

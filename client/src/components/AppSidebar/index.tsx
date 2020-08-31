@@ -47,7 +47,7 @@ const AppSidebarCharacters = () => {
           {character.name}
         </Link>
       ))}
-      {userParty.characters.length < 4 && (
+      {userParty.characters.length < 3 && (
         <BoxButton
           onClick={() => {
             const newCharacter = makeCharacter('new character')
