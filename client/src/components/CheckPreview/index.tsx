@@ -45,7 +45,6 @@ export const CheckPreview = (props: CheckPreviewPropsT) => {
       >
         {name && <strong>{name}</strong>}
         <div style={{ fontFamily: 'monospace', whiteSpace: 'nowrap' }}>
-          {rollStr}
           {keyStr}
           {rollStr && getValueString(value)}{' '}
           {!rollStr && ' = ' + getValueString(check.roll.modifier)} (

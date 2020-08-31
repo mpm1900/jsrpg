@@ -55,9 +55,16 @@ export const ItemPreview = (props: ItemPreviewPropsT) => {
   return (
     <BoxContainer
       style={{ width: 380 }}
-      substyle={{ borderColor: borderColor }}
+      substyle={{ borderColor: borderColor, padding: 0 }}
     >
-      <FlexContainer>
+      <FlexContainer
+        style={{
+          padding: 8,
+          background:
+            'linear-gradient(0deg, rgba(34,34,34,1) 0%, rgba(51,51,51,1) 100%)',
+          borderBottom: '1px solid #555',
+        }}
+      >
         {isArmor ? (
           <ArmorIcon
             item={item as ArmorT}
@@ -136,63 +143,71 @@ export const ItemPreview = (props: ItemPreviewPropsT) => {
           </BoxButton>
         )}
       </FlexContainer>
-      {!collapsed && (
-        <>
-          {item.requirementCheck.roll.modifier !== 1 && showRequirementCheck && (
-            <div style={{ marginTop: 10 }}>
-              <CheckPreview
-                name='Requirement'
-                check={item.requirementCheck}
-                showCheckButton={false}
-                compareResult={requirementCompare}
-              />
-            </div>
-          )}
-          <FlexContainer $direction='column'>
-            {item.traits.map((trait) => (
-              <div key={trait.id} style={{ marginTop: 10 }}>
-                <TraitScore trait={trait} compareResult={traitCompare} />
+      <div
+        style={{
+          padding: '8px 16px',
+          background: '#222',
+          boxShadow: 'inset 0px 0px 15px black',
+        }}
+      >
+        {!collapsed && (
+          <>
+            {item.requirementCheck.roll.modifier !== 1 && showRequirementCheck && (
+              <div style={{ marginTop: 4 }}>
+                <CheckPreview
+                  name='Requirement'
+                  check={item.requirementCheck}
+                  showCheckButton={false}
+                  compareResult={requirementCompare}
+                />
               </div>
-            ))}
-            {item.damageResistances && (
-              <FlexContainer
-                style={{
-                  fontFamily: 'monospace',
-                  flexWrap: 'wrap',
-                  marginTop: 15,
-                  justifyContent: 'space-evenly',
-                }}
-              >
-                {getDamageTypeKeys(item.damageResistances)
-                  .filter((k) => item.damageResistances[k])
-                  .map((key) => (
-                    <FlexContainer key={key}>
-                      <Icon
-                        src={IconDamageTypeMap[key]}
-                        size={14}
-                        fill={DamageTypeKeyColors[key]}
-                        style={{
-                          marginRight: 8,
-                        }}
-                      />
-                      <div
-                        style={{
-                          fontSize: 16,
-                          lineHeight: '16px',
-                          color: resistancesCompare(key)(...BASE_ARGS),
-                        }}
-                      >
-                        {getRollText(
-                          item.damageResistances[key] as CharacterRollT,
-                        ) || 0}
-                      </div>
-                    </FlexContainer>
-                  ))}
-              </FlexContainer>
             )}
-          </FlexContainer>
-        </>
-      )}
+            <FlexContainer $direction='column'>
+              {item.traits.map((trait) => (
+                <div key={trait.id} style={{ marginTop: 10, marginBottom: 10 }}>
+                  <TraitScore trait={trait} compareResult={traitCompare} />
+                </div>
+              ))}
+              {item.damageResistances && (
+                <FlexContainer
+                  style={{
+                    fontFamily: 'monospace',
+                    flexWrap: 'wrap',
+                    justifyContent: 'space-evenly',
+                    marginBottom: 8,
+                  }}
+                >
+                  {getDamageTypeKeys(item.damageResistances)
+                    .filter((k) => item.damageResistances[k])
+                    .map((key) => (
+                      <FlexContainer key={key}>
+                        <Icon
+                          src={IconDamageTypeMap[key]}
+                          size={14}
+                          fill={DamageTypeKeyColors[key]}
+                          style={{
+                            marginRight: 8,
+                          }}
+                        />
+                        <div
+                          style={{
+                            fontSize: 16,
+                            lineHeight: '16px',
+                            color: resistancesCompare(key)(...BASE_ARGS),
+                          }}
+                        >
+                          {getRollText(
+                            item.damageResistances[key] as CharacterRollT,
+                          ) || 0}
+                        </div>
+                      </FlexContainer>
+                    ))}
+                </FlexContainer>
+              )}
+            </FlexContainer>
+          </>
+        )}
+      </div>
     </BoxContainer>
   )
 }

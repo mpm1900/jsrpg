@@ -62,6 +62,7 @@ export const ItemPreviewSmall = (props: ItemPreviewSmallPropsT) => {
                 item={item}
                 showEquipButton={false}
                 showCollapseButton={false}
+                showRequirementCheck={false}
               />
             ) : (
               <WeaponPreview weapon={item as WeaponT} showEquipButton={false} />

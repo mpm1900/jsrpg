@@ -62,9 +62,15 @@ export const WeaponPreview = (props: WeaponPreviewPropsT) => {
   return (
     <BoxContainer
       style={{ width: 380 }}
-      substyle={{ borderColor: borderColor }}
+      substyle={{ borderColor: borderColor, padding: 0 }}
     >
-      <FlexContainer style={{ marginBottom: 10 }}>
+      <FlexContainer
+        style={{
+          padding: 8,
+          background: 'linear-gradient(0deg, #222222 0%, #2a2a2a 100%)',
+          borderBottom: '1px solid #555',
+        }}
+      >
         <WeaponIcon weapon={weapon} size={24} fill={rarityColor} />
         <h3 style={{ margin: '0 0 0 10px', flex: 1 }}>{weapon.name}</h3>
         {weapon.id !== FISTS.id && showEquipButton ? (
@@ -103,122 +109,157 @@ export const WeaponPreview = (props: WeaponPreviewPropsT) => {
           </FlexContainer>
         )}
       </FlexContainer>
-
-      <FlexContainer style={{ marginBottom: 10 }}>
-        {showRequirement && (
-          <FullContainer>
-            <CheckPreview
-              name='Requirement'
-              showCheckButton={false}
-              check={weapon.requirementCheck}
-              compareResult={requirementCompare}
-            />
-          </FullContainer>
-        )}
-        <FullContainer>
-          <CheckPreview
-            name='Accuracy'
-            showCheckButton={false}
-            check={weapon.accuracyCheck}
-            compareResult={accuracyCompare}
-          />
-        </FullContainer>
-      </FlexContainer>
-      <div style={{ marginBottom: 10 }}>
-        <TraitScore trait={trait} compareResult={traitCompare} />
-      </div>
-      <div style={{ marginBottom: 10 }}>
-        {getKeys(weapon.events || {}).map(
-          (key) =>
-            (weapon.events[key] || []).length > 0 && (
-              <FlexContainer key={key} style={{ alignItems: 'center' }}>
-                <strong
-                  style={{
-                    fontFamily: 'monospace',
-                    marginRight: 10,
-                    color: 'rgba(255,255,255,0.5)',
-                  }}
-                >
-                  {EventsTypeMap[key]}:
-                </strong>
-                <TraitScore
-                  trait={combineTraits(weapon.events[key] as CharacterTraitT[])}
+      <div
+        style={{
+          padding: 8,
+          background: '#222',
+          boxShadow: 'inset 0px 0px 15px black',
+        }}
+      >
+        <div style={{ padding: '8px 8px 0px 8px' }}>
+          <FlexContainer style={{ marginBottom: 10 }}>
+            {showRequirement && (
+              <FullContainer>
+                <CheckPreview
+                  name='Requirement'
+                  showCheckButton={false}
+                  check={weapon.requirementCheck}
+                  compareResult={requirementCompare}
                 />
-              </FlexContainer>
-            ),
-        )}
-      </div>
-      {weapon.slotCount > 0 && (
-        <FlexContainer style={{ justifyContent: 'center', padding: 8 }}>
-          {Array(weapon.slotCount)
-            .fill(null)
-            .map((_, i) => {
-              const mod = weapon.slots[i]
-              if (mod) {
-                return (
-                  <Hover>
-                    {({ isHovering }) => (
-                      <Tooltip
-                        isOpen={isHovering}
-                        direction='down'
-                        tagName='div'
-                        padding='0'
-                        arrow={false}
-                        content={<ModPreview mod={mod} />}
-                      >
-                        <Icon
-                          src={Mod}
-                          size={20}
-                          fill={ItemRarityColorMap[mod.rarity]}
-                          style={{
-                            padding: '0 8px',
-                            cursor: 'pointer',
-                          }}
-                          onClick={() => {
-                            unequipMod(character.id, mod.id)
-                          }}
-                        />
-                      </Tooltip>
-                    )}
-                  </Hover>
-                )
-              } else {
-                return (
-                  <Icon
-                    src={Mod}
-                    size={20}
-                    fill='rgba(255,255,255,0.4)'
-                    style={{ padding: '0 8px' }}
-                  />
-                )
-              }
-            })}
-        </FlexContainer>
-      )}
-      <DamageRollScores parent={weapon}>
-        {(values, combinedRoll) => (
-          <>
-            <span
-              style={{
-                fontFamily: 'monospace',
-                color: 'rgba(255,255,255,0.25)',
-              }}
-            >
-              ({getRollRange(reduceCharacterRoll(combinedRoll, character))}){' '}
-              {getRollText(combinedRoll)}
-            </span>
-            {values.map((value) => (
-              <DamageRollScore
-                key={value.id}
-                id={value.id}
-                damageRangeText={value.damageRangeText}
-                damageRollText={value.damageRollText}
-                compareResult={damageCompare(value.id)}
+              </FullContainer>
+            )}
+            <FullContainer>
+              <CheckPreview
+                showCheckButton={false}
+                check={weapon.accuracyCheck}
+                compareResult={accuracyCompare}
               />
-            ))}
-          </>
+            </FullContainer>
+          </FlexContainer>
+          <div style={{ marginBottom: 10 }}>
+            <TraitScore trait={trait} compareResult={traitCompare} />
+          </div>
+          <div style={{ marginBottom: 10 }}>
+            {getKeys(weapon.events || {}).map(
+              (key) =>
+                (weapon.events[key] || []).length > 0 && (
+                  <FlexContainer key={key} style={{ alignItems: 'center' }}>
+                    <strong
+                      style={{
+                        fontFamily: 'monospace',
+                        marginRight: 10,
+                        color: 'rgba(255,255,255,0.5)',
+                      }}
+                    >
+                      {EventsTypeMap[key]}:
+                    </strong>
+                    <TraitScore
+                      trait={combineTraits(
+                        weapon.events[key] as CharacterTraitT[],
+                      )}
+                    />
+                  </FlexContainer>
+                ),
+            )}
+          </div>
+        </div>
+        {weapon.slotCount > 0 && (
+          <FlexContainer
+            style={{
+              justifyContent: 'center',
+              padding: 8,
+              margin: '8px 0 4px 0',
+            }}
+          >
+            <FullContainer>
+              <hr
+                style={{
+                  borderColor: 'rgba(255,255,255,0.3)',
+                  borderBottomWidth: 0,
+                }}
+              />
+            </FullContainer>
+            <FlexContainer style={{ padding: '0 20px' }}>
+              {Array(weapon.slotCount)
+                .fill(null)
+                .map((_, i) => {
+                  const mod = weapon.slots[i]
+                  if (mod) {
+                    return (
+                      <Hover>
+                        {({ isHovering }) => (
+                          <Tooltip
+                            isOpen={isHovering}
+                            direction='down'
+                            tagName='div'
+                            padding='0'
+                            arrow={false}
+                            content={<ModPreview mod={mod} />}
+                          >
+                            <Icon
+                              src={Mod}
+                              size={20}
+                              fill={ItemRarityColorMap[mod.rarity]}
+                              style={{
+                                padding: '0 8px',
+                                cursor: 'pointer',
+                              }}
+                              onClick={() => {
+                                unequipMod(character.id, mod.id)
+                              }}
+                            />
+                          </Tooltip>
+                        )}
+                      </Hover>
+                    )
+                  } else {
+                    return (
+                      <Icon
+                        src={Mod}
+                        size={20}
+                        fill='rgba(255,255,255,0.4)'
+                        style={{ padding: '0 8px' }}
+                      />
+                    )
+                  }
+                })}
+            </FlexContainer>
+            <FullContainer>
+              <hr
+                style={{
+                  borderColor: 'rgba(255,255,255,0.3)',
+                  borderBottomWidth: 0,
+                }}
+              />
+            </FullContainer>
+          </FlexContainer>
         )}
-      </DamageRollScores>
+        <DamageRollScores parent={weapon}>
+          {(values, combinedRoll) => (
+            <>
+              <span
+                style={{
+                  fontFamily: 'monospace',
+                  color: 'rgba(255,255,255,0.25)',
+                }}
+              >
+                TOTAL DAMAGE: (
+                {getRollRange(reduceCharacterRoll(combinedRoll, character))}){' '}
+                {getRollText(combinedRoll)}
+              </span>
+              {values.map((value) => (
+                <DamageRollScore
+                  key={value.id}
+                  id={value.id}
+                  damageRangeText={value.damageRangeText}
+                  damageRollText={value.damageRollText}
+                  compareResult={damageCompare(value.id)}
+                />
+              ))}
+            </>
+          )}
+        </DamageRollScores>
+      </div>
     </BoxContainer>
   )
 }
