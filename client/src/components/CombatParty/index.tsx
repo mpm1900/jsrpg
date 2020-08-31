@@ -19,6 +19,7 @@ import {
   getCheckProbability,
   makeCharacterCheck,
 } from '../../types/Roll2'
+import { Monodiv } from '../../elements/monospace'
 
 export interface CombatPartyPropsT {
   party: PartyT
@@ -75,16 +76,17 @@ export const CombatParty = (props: CombatPartyPropsT) => {
               <FlexContainer
                 $direction='column'
                 style={{
-                  fontFamily: 'monospace',
                   width: 80,
                 }}
               >
                 <FullContainer />
-                <SelectedDamageRange
-                  skillId={characterSkills[character.id]}
-                  targetId={characterTargets[character.id]}
-                  characters={characters}
-                />
+                <Monodiv>
+                  <SelectedDamageRange
+                    skillId={characterSkills[character.id]}
+                    targetId={characterTargets[character.id]}
+                    characters={characters}
+                  />
+                </Monodiv>
                 <FullContainer />
               </FlexContainer>
             )}
@@ -127,7 +129,7 @@ const SelectedDamageRange = (props: SelectedDamageRangePropsT) => {
       substyle={{ borderLeft: 'none', background: '#111' }}
     >
       {range && range !== '0' && (
-        <div style={{ marginBottom: 5 }}>({range})</div>
+        <div style={{ marginBottom: 5, fontSize: 12 }}>({range})</div>
       )}
       <div style={{ fontSize: 20 }}>{Math.floor(prob - dodgeProb)}%</div>
     </BoxContainer>

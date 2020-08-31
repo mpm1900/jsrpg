@@ -4,6 +4,7 @@ import { BoxButton } from '../../elements/box'
 import { useModalContext } from '../../contexts/ModalContext'
 import makeItem from '../../objects/builders/makeItem'
 import { ItemPreviewSmall } from '../ItemPreviewSmall'
+import { Monospace } from '../../elements/monospace'
 
 export interface CombatVictoryModalPropsT {
   reset: (done: boolean) => void
@@ -27,9 +28,9 @@ export const CombatVictoryModal = (props: CombatVictoryModalPropsT) => {
     <FlexContainer $direction='column'>
       <h1 style={{ textAlign: 'center', marginTop: 0 }}>Victory!</h1>
       <FlexContainer $direction='column' style={{ alignItems: 'center' }}>
-        <span style={{ marginBottom: 20, fontFamily: 'monospace' }}>
+        <Monospace style={{ marginBottom: 20 }}>
           Each character gained 5 XP
-        </span>
+        </Monospace>
         <span>Choose a Reward</span>
         <FlexContainer>
           {rewardChoices.map((item) => (

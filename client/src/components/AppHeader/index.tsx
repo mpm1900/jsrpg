@@ -1,6 +1,7 @@
 import React, { CSSProperties } from 'react'
 import { BoxContainer } from '../../elements/box'
 import { Link, useLocation } from 'react-router-dom'
+import { Monodiv } from '../../elements/monospace'
 
 const activeStyles: CSSProperties = {
   background: '#111',
@@ -25,15 +26,14 @@ export const AppHeader = () => {
         display: 'flex',
       }}
     >
-      <div
+      <Monodiv
         style={{
-          fontFamily: 'monospace',
           fontSize: 24,
           margin: '0 30px',
         }}
       >
         rpgjs
-      </div>
+      </Monodiv>
       <BoxContainer
         tag={Link}
         to=''

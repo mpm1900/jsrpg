@@ -32,6 +32,7 @@ import Mod from '../../icons/svg/lorc/emerald.svg'
 import { Hover } from '../Hover'
 import Tooltip from 'react-tooltip-lite'
 import { HoverToolTip } from '../Tooltip'
+import { Monospace } from '../../elements/monospace'
 
 export interface WeaponPreviewPropsT {
   weapon?: WeaponT
@@ -49,11 +50,10 @@ export const WeaponPreview = (props: WeaponPreviewPropsT) => {
   const { showEquipButton = true, showRequirement = true } = props
   const weapon = props.weapon || character.weapon
   const rarityColor = ItemRarityColorMap[weapon.rarity]
-  const borderColor = Color(rarityColor)
-    .desaturate(0.5)
-    .fade(0.5)
-    .rgb()
-    .string()
+  const borderColor =
+    weapon.rarity === 'common'
+      ? 'rgba(255,255,255,0.2)'
+      : Color(rarityColor).desaturate(0.5).fade(0.5).rgb().string()
   const requirementCompare = props.requirementCompare || ZERO_COMPARE
   const accuracyCompare = props.accuracyCompare || ZERO_COMPARE
   const traitCompare = props.traitCompare || ((key) => ZERO_COMPARE)
@@ -73,7 +73,9 @@ export const WeaponPreview = (props: WeaponPreviewPropsT) => {
         }}
       >
         <WeaponIcon weapon={weapon} size={24} fill={rarityColor} />
-        <h3 style={{ margin: '0 0 0 10px', flex: 1 }}>{weapon.name}</h3>
+        <h3 style={{ margin: '0 0 0 10px', flex: 1, lineHeight: '29px' }}>
+          {weapon.name}
+        </h3>
         {weapon.id !== FISTS.id && showEquipButton ? (
           <BoxButton
             substyle={{
@@ -122,7 +124,6 @@ export const WeaponPreview = (props: WeaponPreviewPropsT) => {
             {showRequirement && (
               <FullContainer>
                 <CheckPreview
-                  name='Requirement'
                   showCheckButton={false}
                   check={weapon.requirementCheck}
                   compareResult={requirementCompare}
@@ -145,15 +146,15 @@ export const WeaponPreview = (props: WeaponPreviewPropsT) => {
               (key) =>
                 (weapon.events[key] || []).length > 0 && (
                   <FlexContainer key={key} style={{ alignItems: 'center' }}>
-                    <strong
+                    <Monospace
                       style={{
-                        fontFamily: 'monospace',
+                        fontSize: 12,
                         marginRight: 10,
-                        color: 'rgba(255,255,255,0.5)',
+                        color: 'rgba(255,255,255,0.4)',
                       }}
                     >
                       {EventsTypeMap[key]}:
-                    </strong>
+                    </Monospace>
                     <TraitScore
                       trait={combineTraits(
                         weapon.events[key] as CharacterTraitT[],
@@ -227,16 +228,15 @@ export const WeaponPreview = (props: WeaponPreviewPropsT) => {
         <DamageRollScores parent={weapon}>
           {(values, combinedRoll) => (
             <>
-              <span
+              <Monospace
                 style={{
-                  fontFamily: 'monospace',
+                  fontSize: 12,
                   color: 'rgba(255,255,255,0.25)',
                 }}
               >
                 TOTAL DAMAGE: (
-                {getRollRange(reduceCharacterRoll(combinedRoll, character))}){' '}
-                {getRollText(combinedRoll)}
-              </span>
+                {getRollRange(reduceCharacterRoll(combinedRoll, character))})
+              </Monospace>
               {values.map((value) => (
                 <DamageRollScore
                   key={value.id}

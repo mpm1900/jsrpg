@@ -8,6 +8,7 @@ import {
 import { getSign } from '../../util/getSign'
 import { getKeys } from '../../util/getKeys'
 import { CompareResultFn, ZERO_COMPARE, BASE_ARGS } from '../../util/compare'
+import { Monodiv } from '../../elements/monospace'
 
 export interface TraitScorePropsT {
   trait: CharacterTraitT
@@ -27,7 +28,7 @@ export const TraitScore = (props: TraitScorePropsT) => {
   )
 
   return (
-    <div style={{ fontFamily: 'monospace' }}>
+    <Monodiv style={{ fontSize: 14, fontWeight: 600 }}>
       {trait.focusOffset !== 0 && (
         <span>
           {getSign(trait.focusOffset)}
@@ -73,6 +74,6 @@ export const TraitScore = (props: TraitScorePropsT) => {
           </span>
         </span>
       ))}
-    </div>
+    </Monodiv>
   )
 }

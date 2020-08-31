@@ -8,9 +8,10 @@ import {
 } from '../../types/Character'
 import { useRollContext } from '../../contexts/RollContext'
 import { BoxContainer, BoxButton } from '../../elements/box'
-import { FlexContainer } from '../../elements/flex'
+import { FlexContainer, FullContainer } from '../../elements/flex'
 import { makeCharacterCheck } from '../../types/Roll2'
 import { usePartyContext } from '../../contexts/PartyContext'
+import { Monospace } from '../../elements/monospace'
 
 export interface AbilityScorePropsT {
   id: CharacterAbilityKeyT
@@ -81,7 +82,6 @@ export const PureAbilityScore = (props: any) => {
       substyle={{
         padding: 0,
         display: 'flex',
-        fontFamily: 'monospace',
       }}
     >
       <FlexContainer
@@ -89,19 +89,18 @@ export const PureAbilityScore = (props: any) => {
         $direction='column'
         $full
       >
-        <span
+        <Monospace
           style={{
-            fontWeight: 'bold',
             color: 'rgba(255,255,255,0.5)',
             textShadow: '1px 1px 0px black',
           }}
         >
           {name} ({rawValue})
-        </span>
-        <span
+        </Monospace>
+        <FullContainer />
+        <Monospace
           style={{
-            fontSize: 36,
-            fontWeight: 'bolder',
+            fontSize: 42,
             textShadow: '1px 1px 3px black',
             color:
               value > rawValue
@@ -112,7 +111,7 @@ export const PureAbilityScore = (props: any) => {
           }}
         >
           {value}
-        </span>
+        </Monospace>
       </FlexContainer>
       {edit && (
         <FlexContainer
@@ -135,7 +134,9 @@ export const PureAbilityScore = (props: any) => {
               justifyContent: 'center',
             }}
           >
-            <div>{cost}</div>
+            <Monospace style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)' }}>
+              {cost}
+            </Monospace>
           </FlexContainer>
           <BoxButton
             style={{ margin: 0 }}

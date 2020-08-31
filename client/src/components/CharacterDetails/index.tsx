@@ -20,6 +20,7 @@ import { CombatCharacterSkills } from '../CombatCharacterSkills'
 import { CombatCharacterTargets } from '../CombatCharacterTargets'
 import { useCombatContext } from '../../contexts/CombatContext'
 import { HoverToolTip } from '../Tooltip'
+import { Monospace } from '../../elements/monospace'
 
 export interface CharacterDetailsPropsT {
   character?: ProcessedCharacterT
@@ -125,19 +126,17 @@ export const CharacterDetails = (props: CharacterDetailsPropsT) => {
                   {character.name}
                 </h2>
                 <FullContainer />
-                <strong
+                <Monospace
                   style={{
-                    fontFamily: 'monospace',
                     fontSize: 10,
                     color: 'rgba(255,255,255,0.24)',
                   }}
                 >
                   {character.abilities.strength} {character.abilities.dexterity}{' '}
                   {character.abilities.intelligence} {character.abilities.vigor}
-                </strong>
-                <strong
+                </Monospace>
+                <Monospace
                   style={{
-                    fontFamily: 'monospace',
                     fontSize: 10,
                     color: 'rgba(255,255,255,0.24)',
                   }}
@@ -145,14 +144,20 @@ export const CharacterDetails = (props: CharacterDetailsPropsT) => {
                   {character.stats.will} {character.stats.perception}{' '}
                   {character.stats.agility} {character.stats.accuracy}{' '}
                   {character.stats.evade}
-                </strong>
+                </Monospace>
               </FlexContainer>
             )}
           </FlexContainer>
           {showWeaponInspect && (
             <HoverToolTip
               direction='right'
-              content={<WeaponPreview weapon={character.weapon} />}
+              content={
+                <WeaponPreview
+                  showRequirement={false}
+                  showEquipButton={false}
+                  weapon={character.weapon}
+                />
+              }
             >
               <SmallBox>
                 <Icon src={WeaponHands} size={18} />
@@ -225,32 +230,32 @@ export const CharacterDetails = (props: CharacterDetailsPropsT) => {
               borderTop: '1px solid #555',
             }}
           >
-            <span
+            <Monospace
               style={{
-                fontFamily: 'monospace',
-                fontWeight: 'bold',
                 color: 'rgba(255,255,255,0.24)',
                 marginBottom: 2,
+                fontSize: 12,
+                fontWeight: 'normal',
               }}
             >
               SKILLS
-            </span>
+            </Monospace>
             <CombatCharacterSkills
               activeSkillId={characterSkills[character.id]}
               skills={character.skills}
               onClick={(skillId) => setCharacterSkill(character.id, skillId)}
             />
-            <span
+            <Monospace
               style={{
-                fontFamily: 'monospace',
-                fontWeight: 'bold',
                 color: 'rgba(255,255,255,0.24)',
                 marginBottom: 2,
                 marginTop: 4,
+                fontSize: 12,
+                fontWeight: 'normal',
               }}
             >
               TARGETS
-            </span>
+            </Monospace>
             <CombatCharacterTargets
               activeTargetId={characterTargets[character.id]}
               onClick={(targetId) => setCharacterTarget(character.id, targetId)}

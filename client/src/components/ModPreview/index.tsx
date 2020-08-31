@@ -9,13 +9,15 @@ import { DamageRollScores, DamageRollScore } from '../DamageRollScores'
 import { useCharacterContext } from '../../contexts/CharacterContext'
 import { TraitScore } from '../TraitScore'
 import { getSign } from '../../util/getSign'
+import { Monospace } from '../../elements/monospace'
 
 export interface ModPreviewPropsT {
   mod: WeaponModT
+  showEquipButton?: boolean
   onEquip?: (modId: string) => void
 }
 export const ModPreview = (props: ModPreviewPropsT) => {
-  const { mod, onEquip } = props
+  const { mod, showEquipButton, onEquip } = props
   const { character } = useCharacterContext()
   const weaponTrait = combineWeaponTraits(...mod.traits)
   const trait = combineTraits(weaponTrait.traits)
@@ -33,13 +35,17 @@ export const ModPreview = (props: ModPreviewPropsT) => {
         >
           {mod.name}
         </span>
-        <BoxButton onClick={() => onEquip && onEquip(mod.id)}>equip</BoxButton>
+        {showEquipButton && (
+          <BoxButton onClick={() => onEquip && onEquip(mod.id)}>
+            equip
+          </BoxButton>
+        )}
       </FlexContainer>
       {weaponTrait.accuracyOffset !== 0 && (
-        <div style={{ fontFamily: 'monospace', marginTop: 10 }}>
+        <Monospace style={{ marginTop: 10, fontSize: 14 }}>
           {getSign(weaponTrait.accuracyOffset)}
           {Math.abs(weaponTrait.accuracyOffset)} to hit
-        </div>
+        </Monospace>
       )}
       <div style={{ marginBottom: 10 }}>
         <TraitScore trait={trait} />

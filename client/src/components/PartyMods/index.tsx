@@ -13,6 +13,7 @@ export const PartyMods = () => {
         <ModPreview
           key={mod.id}
           mod={mod}
+          showEquipButton={true}
           onEquip={(modId) => {
             equipMod(rawCharacter.id, modId)
           }}

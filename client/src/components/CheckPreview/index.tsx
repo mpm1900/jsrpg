@@ -8,6 +8,7 @@ import { Icon } from '../Icon'
 import Dice6 from '../../icons/svg/delapouite/dice-six-faces-six.svg'
 import { CompareResultFn, ZERO_COMPARE, BASE_ARGS } from '../../util/compare'
 import { CharacterCheckT, ZERO_CHECK } from '../../types/Roll2'
+import { Monodiv } from '../../elements/monospace'
 
 export interface CheckPreviewPropsT {
   check: CharacterCheckT
@@ -44,12 +45,12 @@ export const CheckPreview = (props: CheckPreviewPropsT) => {
         }}
       >
         {name && <strong>{name}</strong>}
-        <div style={{ fontFamily: 'monospace', whiteSpace: 'nowrap' }}>
+        <Monodiv style={{ whiteSpace: 'nowrap' }}>
           {keyStr}
           {rollStr && getValueString(value)}{' '}
           {!rollStr && ' = ' + getValueString(check.roll.modifier)} (
           {probability}%)
-        </div>
+        </Monodiv>
       </div>
       {showCheckButton && (
         <div>

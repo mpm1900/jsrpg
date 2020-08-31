@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { useCharacterContext } from '../../contexts/CharacterContext'
 import { usePartyContext } from '../../contexts/PartyContext'
 import { sortById } from '../../util/sortById'
+import { Monospace } from '../../elements/monospace'
 
 const activeStyles: CSSProperties = {
   background: '#111',
@@ -43,12 +44,11 @@ export const CharacterHeader = () => {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            fontFamily: 'monospace',
             textShadow: '1px 1px 2px black',
             ...check(c.id),
           }}
         >
-          {c.name}
+          <Monospace>{c.name}</Monospace>
         </BoxContainer>
       ))}
     </BoxContainer>

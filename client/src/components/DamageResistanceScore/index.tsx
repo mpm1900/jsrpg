@@ -11,6 +11,7 @@ import {
   getRollRange,
   reduceCharacterRoll,
 } from '../../types/Roll2'
+import { Monodiv, Monospace } from '../../elements/monospace'
 
 export interface DamageResistanceScorePropsT {
   id: DamageTypeKeyT
@@ -33,32 +34,27 @@ export const DamageResistanceScore = (props: DamageResistanceScorePropsT) => {
       substyle={{
         display: 'flex',
         whiteSpace: 'nowrap',
-        fontFamily: 'monospace',
         alignItems: 'center',
         background: '#222',
         boxShadow: 'inset -1px 0px 10px black',
+        fontSize: 14,
       }}
     >
-      <div style={{ flex: 1, marginRight: 20 }}>
-        <FlexContainer>
-          <Icon
-            size={18}
-            src={iconUrl}
-            fill={fill}
-            style={{ marginRight: 10 }}
-          />
-          <strong
-            style={{
-              color: 'rgba(255,255,255,0.5)',
-              textShadow: '1px 1px 0px black',
-            }}
-            onClick={() => (roll ? execRoll(roll) : null)}
-          >
-            {id.toLocaleUpperCase()}
-          </strong>
-        </FlexContainer>
-      </div>
-      <div style={{ fontWeight: 'bolder' }}>{rollText ? rollText : 0}</div>
+      <FlexContainer style={{ alignItems: 'center', flex: 1, marginRight: 10 }}>
+        <Icon size={18} src={iconUrl} fill={fill} style={{ marginRight: 10 }} />
+        <Monospace
+          style={{
+            color: 'rgba(255,255,255,0.5)',
+            textShadow: '1px 1px 0px black',
+          }}
+          onClick={() => (roll ? execRoll(roll) : null)}
+        >
+          {id.toLocaleUpperCase()}
+        </Monospace>
+      </FlexContainer>
+      <Monospace style={{ fontWeight: 800 }}>
+        {rollText ? rollText : 0}
+      </Monospace>
     </BoxContainer>
   )
 }

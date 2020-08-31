@@ -6,6 +6,7 @@ import { useUIContext } from '../../contexts/UIContext'
 import { BoxContainer, BoxButton } from '../../elements/box'
 import BG from '../../assets/img/23761.jpg'
 import { CombatCharacterTargets } from '../../components/CombatCharacterTargets'
+import { Monospace } from '../../elements/monospace'
 
 export const Combat = () => {
   const {
@@ -80,26 +81,24 @@ export const Combat = () => {
         <FlexContainer
           style={{
             textTransform: 'uppercase',
-            fontFamily: 'monospace',
             fontWeight: 'bolder',
             fontSize: 24,
           }}
         >
-          Round {rounds.length + 1}
+          <Monospace>Round {rounds.length + 1}</Monospace>
         </FlexContainer>
         <FullContainer style={{ display: 'flex' }}>
           <FullContainer />
           <FlexContainer style={{ alignItems: 'center' }}>
-            <span
+            <Monospace
               style={{
-                fontFamily: 'monospace',
                 color: 'rgba(255,255,255,0.4)',
-                fontWeight: 'bold',
                 marginRight: 10,
+                fontSize: 12,
               }}
             >
               ALL TARGET
-            </span>
+            </Monospace>
             <CombatCharacterTargets
               activeTargetId={targetId}
               showRandom={false}

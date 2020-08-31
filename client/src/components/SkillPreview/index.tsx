@@ -15,6 +15,7 @@ import {
   reduceCharacterRoll,
   getRollText,
 } from '../../types/Roll2'
+import { Monospace } from '../../elements/monospace'
 
 export interface SkillPreviewPropsT {
   skillId: string
@@ -42,7 +43,7 @@ export const SkillPreview = (props: SkillPreviewPropsT) => {
         <h3 style={{ margin: '0 10px 0 0', flex: 1 }}>{skill.name}</h3>
       </FlexContainer>
 
-      <FlexContainer style={{ marginBottom: 10 }}>
+      <FlexContainer style={{ marginBottom: 10, fontSize: 14 }}>
         <strong style={{ marginRight: 10 }}>Cost</strong>
         <span>{skill.focusCost}</span>
       </FlexContainer>
@@ -68,7 +69,6 @@ export const SkillPreview = (props: SkillPreviewPropsT) => {
         {skill.combineWeaponDamage && (
           <FullContainer>
             <CheckPreview
-              name='Accuracy'
               showCheckButton={false}
               check={character.weapon.accuracyCheck}
             />
@@ -77,44 +77,44 @@ export const SkillPreview = (props: SkillPreviewPropsT) => {
       </FlexContainer>
       {skill.targetTraits.length > 0 && (
         <FlexContainer style={{ marginBottom: 10 }}>
-          <strong
+          <Monospace
             style={{
-              fontFamily: 'monospace',
               marginRight: 10,
-              color: 'rgba(255,255,255,0.5)',
+              fontSize: 12,
+              color: 'rgba(255,255,255,0.4)',
             }}
           >
             target:
-          </strong>
+          </Monospace>
           <TraitScore trait={combineTraits(skill.targetTraits)} />
         </FlexContainer>
       )}
       {skill.sourceTraits.length > 0 && (
         <FlexContainer style={{ marginBottom: 10 }}>
-          <strong
+          <Monospace
             style={{
-              fontFamily: 'monospace',
               marginRight: 10,
-              color: 'rgba(255,255,255,0.5)',
+              fontSize: 12,
+              color: 'rgba(255,255,255,0.4)',
             }}
           >
             self:
-          </strong>
+          </Monospace>
           <TraitScore trait={combineTraits(skill.sourceTraits)} />
         </FlexContainer>
       )}
       <div style={{ marginBottom: 10 }}>
         {getKeys(skill.events).map((key) => (
           <FlexContainer key={key} style={{ alignItems: 'center' }}>
-            <strong
+            <Monospace
               style={{
-                fontFamily: 'monospace',
+                fontSize: 12,
                 marginRight: 10,
-                color: 'rgba(255,255,255,0.5)',
+                color: 'rgba(255,255,255,0.4)',
               }}
             >
               {EventsTypeMap[key]}:
-            </strong>
+            </Monospace>
             <TraitScore
               trait={combineTraits(skill.events[key] as CharacterTraitT[])}
             />
@@ -125,15 +125,15 @@ export const SkillPreview = (props: SkillPreviewPropsT) => {
         <div style={{ marginBottom: 10 }}>
           {getKeys(character.weapon.events).map((key) => (
             <FlexContainer key={key} style={{ alignItems: 'center' }}>
-              <strong
+              <Monospace
                 style={{
-                  fontFamily: 'monospace',
+                  fontSize: 12,
                   marginRight: 10,
-                  color: 'rgba(255,255,255,0.5)',
+                  color: 'rgba(255,255,255,0.4)',
                 }}
               >
                 {EventsTypeMap[key]}:
-              </strong>
+              </Monospace>
               <TraitScore
                 trait={combineTraits(
                   character.weapon.events[key] as CharacterTraitT[],
@@ -150,15 +150,15 @@ export const SkillPreview = (props: SkillPreviewPropsT) => {
         >
           {(values, combinedRoll) => (
             <>
-              <span
+              <Monospace
                 style={{
-                  fontFamily: 'monospace',
+                  fontSize: 12,
                   color: 'rgba(255,255,255,0.25)',
                 }}
               >
-                ({getRollRange(reduceCharacterRoll(combinedRoll, character))}){' '}
-                {getRollText(combinedRoll)}
-              </span>
+                TOTAL DAMAGE: (
+                {getRollRange(reduceCharacterRoll(combinedRoll, character))})
+              </Monospace>
               {values.map((value) => (
                 <DamageRollScore
                   key={value.id}

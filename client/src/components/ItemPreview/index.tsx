@@ -20,6 +20,7 @@ import { ItemIcon } from '../ItemIcon'
 import { CompareResultFn, ZERO_COMPARE, BASE_ARGS } from '../../util/compare'
 import { usePartyContext } from '../../contexts/PartyContext'
 import { CharacterRollT, getRollText } from '../../types/Roll2'
+import { Monodiv } from '../../elements/monospace'
 
 export interface ItemPreviewPropsT {
   item: EquippableT
@@ -47,11 +48,10 @@ export const ItemPreview = (props: ItemPreviewPropsT) => {
   const costComare = props.costComare || ZERO_COMPARE
   const isArmor = item.type === 'armor'
   const rarityColor = ItemRarityColorMap[item.rarity]
-  const borderColor = Color(rarityColor)
-    .desaturate(0.5)
-    .fade(0.5)
-    .rgb()
-    .string()
+  const borderColor =
+    item.rarity === 'common'
+      ? 'rgba(255,255,255,0.3)'
+      : Color(rarityColor).desaturate(0.5).fade(0.5).rgb().string()
   return (
     <BoxContainer
       style={{ width: 380 }}
@@ -85,7 +85,7 @@ export const ItemPreview = (props: ItemPreviewPropsT) => {
             margin: '0 10px 0 0',
             flex: 1,
             whiteSpace: 'nowrap',
-            // color: rarityColor,
+            lineHeight: '29px',
           }}
         >
           {item.name}
@@ -171,7 +171,6 @@ export const ItemPreview = (props: ItemPreviewPropsT) => {
               {item.damageResistances && (
                 <FlexContainer
                   style={{
-                    fontFamily: 'monospace',
                     flexWrap: 'wrap',
                     justifyContent: 'space-evenly',
                     marginBottom: 8,
@@ -189,7 +188,7 @@ export const ItemPreview = (props: ItemPreviewPropsT) => {
                             marginRight: 8,
                           }}
                         />
-                        <div
+                        <Monodiv
                           style={{
                             fontSize: 16,
                             lineHeight: '16px',
@@ -199,7 +198,7 @@ export const ItemPreview = (props: ItemPreviewPropsT) => {
                           {getRollText(
                             item.damageResistances[key] as CharacterRollT,
                           ) || 0}
-                        </div>
+                        </Monodiv>
                       </FlexContainer>
                     ))}
                 </FlexContainer>

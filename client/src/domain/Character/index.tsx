@@ -18,6 +18,7 @@ import { BASIC_ATTACK, INSPECT } from '../../objects/makeSkill'
 import { BoxContainer } from '../../elements/box'
 import { CharacterHeader } from '../../components/CharacterHeader'
 import BG from '../../assets/img/forest-931706_1920.jpg'
+import { Monospace } from '../../elements/monospace'
 
 export const Character = () => {
   const { id } = useParams()
@@ -100,24 +101,24 @@ export const Character = () => {
                   boxShadow: 'inset 0px 0px 10px black',
                 }}
               >
-                <span
+                <Monospace
                   style={{
-                    fontFamily: 'monospace',
                     fontWeight: 'bold',
                     color: 'rgba(255,255,255,0.24)',
                     background: '#222',
                     marginBottom: 2,
+                    fontSize: 14,
                   }}
                 >
                   SKILLS
-                </span>
+                </Monospace>
                 <FlexContainer style={{ flexWrap: 'wrap' }}>
                   {character.skills
                     .filter(
                       (s) => s.id !== BASIC_ATTACK.id && s.id !== INSPECT.id,
                     )
                     .map((skill) => (
-                      <div style={{ padding: 3 }}>
+                      <div style={{ padding: 2.5 }}>
                         <SkillPreviewAlt key={skill.id} skill={skill} />
                       </div>
                     ))}

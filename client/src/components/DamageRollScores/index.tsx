@@ -19,6 +19,7 @@ import {
   combineCharacterRolls,
 } from '../../types/Roll2'
 import { useCharacterContext } from '../../contexts/CharacterContext'
+import { Monospace } from '../../elements/monospace'
 
 export interface HasDamageRollsT {
   damageRolls: DamageTypeRollsT
@@ -97,7 +98,7 @@ export const DamageRollScore = (props: DamageRollScorePropsT) => {
         fill={DamageTypeKeyColors[id]}
         style={{ marginBottom: 2, marginRight: 10 }}
       />
-      <h3 style={{ margin: 0 }}>
+      <Monospace style={{ margin: 0, fontSize: 18, fontWeight: 600 }}>
         <span
           style={{
             color: compareResult(...BASE_ARGS),
@@ -108,7 +109,7 @@ export const DamageRollScore = (props: DamageRollScorePropsT) => {
         <span style={{ color: 'rgba(255,255,255, 0.3)' }}>
           {damageRollText}
         </span>
-      </h3>
+      </Monospace>
     </FlexContainer>
   )
 }

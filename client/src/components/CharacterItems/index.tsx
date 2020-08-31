@@ -21,6 +21,7 @@ import { ItemIcon } from '../ItemIcon'
 import { EquipeItemCompare } from '../ItemCompare'
 import { CharacterItemFilters } from '../CharacterItemFilters'
 import { usePartyContext } from '../../contexts/PartyContext'
+import { Monospace } from '../../elements/monospace'
 
 export const CharacterItems = () => {
   const { rawCharacter } = useCharacterContext()
@@ -57,16 +58,15 @@ export const CharacterItems = () => {
       />
       <div style={{ marginTop: 10 }}>
         {weapons.length > 0 && (
-          <span
+          <Monospace
             style={{
-              fontFamily: 'monospace',
-              fontWeight: 'bold',
               color: 'rgba(255,255,255,0.24)',
               marginBottom: 2,
+              fontSize: 12,
             }}
           >
             WEAPONS
-          </span>
+          </Monospace>
         )}
         <FlexContainer
           style={{
@@ -84,16 +84,15 @@ export const CharacterItems = () => {
           ))}
         </FlexContainer>
         {armors.length > 0 && (
-          <span
+          <Monospace
             style={{
-              fontFamily: 'monospace',
-              fontWeight: 'bold',
               color: 'rgba(255,255,255,0.24)',
               marginBottom: 2,
+              fontSize: 12,
             }}
           >
             ARMOR
-          </span>
+          </Monospace>
         )}
         <FlexContainer
           style={{
@@ -111,16 +110,15 @@ export const CharacterItems = () => {
           ))}
         </FlexContainer>
         {other.length > 0 && (
-          <span
+          <Monospace
             style={{
-              fontFamily: 'monospace',
-              fontWeight: 'bold',
               color: 'rgba(255,255,255,0.24)',
               marginBottom: 2,
+              fontSize: 12,
             }}
           >
             OTHER
-          </span>
+          </Monospace>
         )}
         <FlexContainer
           style={{

@@ -4,6 +4,7 @@ import { useCharacterContext } from '../../contexts/CharacterContext'
 import { IconCharacterResourceMap } from '../../icons/maps'
 import { Icon } from '../Icon'
 import { BoxContainer } from '../../elements/box'
+import { Monospace } from '../../elements/monospace'
 
 export interface ResourceScorePropsT {
   id: CharacterResourceKeyT
@@ -19,7 +20,6 @@ export const ResourceScore = (props: ResourceScorePropsT) => {
       substyle={{
         display: 'flex',
         padding: 4,
-        fontFamily: 'monospace',
         fontSize: 16,
         background: '#1a1a1a',
         color: 'rgba(255,255,255,0.6)',
@@ -28,7 +28,7 @@ export const ResourceScore = (props: ResourceScorePropsT) => {
       <div style={{ flex: 1, marginRight: 10 }}>
         <Icon size={18} src={iconUrl} fill='rgba(255,255,255,0.8)' />
       </div>
-      {character.resources[id]}
+      <Monospace>{character.resources[id]}</Monospace>
     </BoxContainer>
   )
 }
