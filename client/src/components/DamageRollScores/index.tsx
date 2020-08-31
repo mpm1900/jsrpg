@@ -91,7 +91,13 @@ export const DamageRollScore = (props: DamageRollScorePropsT) => {
         lineHeight: '24px',
       }}
     >
-      <h3 style={{ margin: '0 8px 0 0' }}>
+      <Icon
+        src={IconDamageTypeMap[id]}
+        size={20}
+        fill={DamageTypeKeyColors[id]}
+        style={{ marginBottom: 2, marginRight: 10 }}
+      />
+      <h3 style={{ margin: 0 }}>
         <span
           style={{
             color: compareResult(...BASE_ARGS),
@@ -99,16 +105,10 @@ export const DamageRollScore = (props: DamageRollScorePropsT) => {
         >
           ({damageRangeText})
         </span>{' '}
-        <span style={{ color: 'rgba(255,255,255, 0.5)' }}>
+        <span style={{ color: 'rgba(255,255,255, 0.3)' }}>
           {damageRollText}
         </span>
       </h3>
-      <Icon
-        src={IconDamageTypeMap[id]}
-        size={20}
-        fill={DamageTypeKeyColors[id]}
-        style={{ marginBottom: 2 }}
-      />
     </FlexContainer>
   )
 }
