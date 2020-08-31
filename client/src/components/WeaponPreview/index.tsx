@@ -31,6 +31,7 @@ import { ModPreview } from '../ModPreview'
 import Mod from '../../icons/svg/lorc/emerald.svg'
 import { Hover } from '../Hover'
 import Tooltip from 'react-tooltip-lite'
+import { HoverToolTip } from '../Tooltip'
 
 export interface WeaponPreviewPropsT {
   weapon?: WeaponT
@@ -186,31 +187,20 @@ export const WeaponPreview = (props: WeaponPreviewPropsT) => {
                   const mod = weapon.slots[i]
                   if (mod) {
                     return (
-                      <Hover>
-                        {({ isHovering }) => (
-                          <Tooltip
-                            isOpen={isHovering}
-                            direction='down'
-                            tagName='div'
-                            padding='0'
-                            arrow={false}
-                            content={<ModPreview mod={mod} />}
-                          >
-                            <Icon
-                              src={Mod}
-                              size={20}
-                              fill={ItemRarityColorMap[mod.rarity]}
-                              style={{
-                                padding: '0 8px',
-                                cursor: 'pointer',
-                              }}
-                              onClick={() => {
-                                unequipMod(character.id, mod.id)
-                              }}
-                            />
-                          </Tooltip>
-                        )}
-                      </Hover>
+                      <HoverToolTip content={<ModPreview mod={mod} />}>
+                        <Icon
+                          src={Mod}
+                          size={20}
+                          fill={ItemRarityColorMap[mod.rarity]}
+                          style={{
+                            padding: '0 8px',
+                            cursor: 'pointer',
+                          }}
+                          onClick={() => {
+                            unequipMod(character.id, mod.id)
+                          }}
+                        />
+                      </HoverToolTip>
                     )
                   } else {
                     return (

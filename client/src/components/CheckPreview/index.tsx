@@ -7,7 +7,7 @@ import { FlexContainer } from '../../elements/flex'
 import { Icon } from '../Icon'
 import Dice6 from '../../icons/svg/delapouite/dice-six-faces-six.svg'
 import { CompareResultFn, ZERO_COMPARE, BASE_ARGS } from '../../util/compare'
-import { CharacterCheckT } from '../../types/Roll2'
+import { CharacterCheckT, ZERO_CHECK } from '../../types/Roll2'
 
 export interface CheckPreviewPropsT {
   check: CharacterCheckT
@@ -17,7 +17,7 @@ export interface CheckPreviewPropsT {
 }
 export const CheckPreview = (props: CheckPreviewPropsT) => {
   const {
-    check,
+    check = { ...ZERO_CHECK, keys: [] },
     name,
     showCheckButton = true,
     compareResult = ZERO_COMPARE,

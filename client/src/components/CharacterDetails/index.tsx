@@ -19,7 +19,7 @@ import { noneg } from '../../util/noneg'
 import { CombatCharacterSkills } from '../CombatCharacterSkills'
 import { CombatCharacterTargets } from '../CombatCharacterTargets'
 import { useCombatContext } from '../../contexts/CombatContext'
-import { PC_PARTY_ID } from '../../state/parties'
+import { HoverToolTip } from '../Tooltip'
 
 export interface CharacterDetailsPropsT {
   character?: ProcessedCharacterT
@@ -27,6 +27,7 @@ export interface CharacterDetailsPropsT {
   showWeaponInspect?: boolean
   showEdit?: boolean
   showSkills?: boolean
+  width?: number
 }
 export const CharacterDetails = (props: CharacterDetailsPropsT) => {
   const {
@@ -34,9 +35,10 @@ export const CharacterDetails = (props: CharacterDetailsPropsT) => {
     showInspect = false,
     showWeaponInspect = false,
     showSkills = false,
+    width,
   } = props
   const characterContext = useCharacterContext()
-  const { deleteCharacter, userParty } = usePartyContext()
+  const { deleteCharacter } = usePartyContext()
   const {
     characterSkills,
     setCharacterSkill,
@@ -45,8 +47,6 @@ export const CharacterDetails = (props: CharacterDetailsPropsT) => {
   } = useCombatContext()
   const { rawCharacter, onChange } = characterContext
   const character = props.character || characterContext.character
-  const [detailsHovering, setDetailsHovering] = useState(false)
-  const [weaponHovering, setWeaponHovering] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
   const [name, setName] = useState<string>(character.name)
   const health = noneg(character.stats.health - character.healthOffset)
@@ -57,7 +57,7 @@ export const CharacterDetails = (props: CharacterDetailsPropsT) => {
   return (
     <BoxContainer
       style={{
-        minWidth: 350,
+        minWidth: width || 350,
         transition: 'all 1s',
         border: '2px solid black',
       }}
@@ -150,38 +150,21 @@ export const CharacterDetails = (props: CharacterDetailsPropsT) => {
             )}
           </FlexContainer>
           {showWeaponInspect && (
-            <Tooltip
-              isOpen={detailsHovering}
+            <HoverToolTip
               direction='right'
-              tagName='div'
-              padding='0'
-              arrow={false}
               content={<WeaponPreview weapon={character.weapon} />}
             >
-              <SmallBox
-                onMouseEnter={() => setDetailsHovering(true)}
-                onMouseLeave={() => setDetailsHovering(false)}
-              >
+              <SmallBox>
                 <Icon src={WeaponHands} size={18} />
               </SmallBox>
-            </Tooltip>
+            </HoverToolTip>
           )}
           {showInspect && (
-            <Tooltip
-              isOpen={weaponHovering}
-              direction='right'
-              tagName='div'
-              padding='0'
-              arrow={false}
-              content={<CharacterInspect />}
-            >
-              <SmallBox
-                onMouseEnter={() => setWeaponHovering(true)}
-                onMouseLeave={() => setWeaponHovering(false)}
-              >
+            <HoverToolTip direction='right' content={<CharacterInspect />}>
+              <SmallBox>
                 <Icon src={Inspect} size={18} />
               </SmallBox>
-            </Tooltip>
+            </HoverToolTip>
           )}
           {showEdit && !isEditing && (
             <BoxButton

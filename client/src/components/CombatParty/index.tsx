@@ -57,6 +57,7 @@ export const CombatParty = (props: CombatPartyPropsT) => {
               }}
             >
               <CharacterDetails
+                width={450}
                 showInspect={
                   character.inspected ||
                   character.partyId === PC_PARTY_ID ||

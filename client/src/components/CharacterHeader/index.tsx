@@ -10,7 +10,7 @@ const activeStyles: CSSProperties = {
   boxShadow: 'inset 0 0 3px black',
 }
 const inactiveStyles: CSSProperties = {
-  backgroundColor: '#333',
+  background: '#555',
 }
 
 export const CharacterHeader = () => {
@@ -20,25 +20,31 @@ export const CharacterHeader = () => {
     character.id === id ? activeStyles : inactiveStyles
   return (
     <BoxContainer
+      style={{ borderLeft: 'none', borderRight: 'none' }}
       substyle={{
-        height: 51,
-        padding: 0,
-        alignItems: 'center',
+        height: 61,
         display: 'flex',
+        alignItems: 'center',
+        padding: '0px 8px',
+        borderColor: 'rgba(255,255,255,0.4)',
+        borderTop: 'none',
+        borderLeft: 'none',
+        borderRight: 'none',
+        background: 'rgba(255,255,255,0.4)',
       }}
     >
       {sortById(userParty.characters).map((c) => (
         <BoxContainer
           tag={Link}
           to={`/characters/${c.id}`}
-          style={{
-            height: '100%',
-          }}
+          style={{ marginRight: 4 }}
           substyle={{
-            padding: '0 20px',
+            padding: '10px',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
+            fontFamily: 'monospace',
+            textShadow: '1px 1px 2px black',
             ...check(c.id),
           }}
         >

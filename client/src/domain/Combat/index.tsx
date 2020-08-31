@@ -54,11 +54,17 @@ export const Combat = () => {
       }}
     >
       <BoxContainer
+        style={{ borderLeft: 'none', borderRight: 'none' }}
         substyle={{
-          height: 50,
+          height: 61,
           display: 'flex',
           alignItems: 'center',
           padding: '0px 8px',
+          borderColor: 'rgba(255,255,255,0.4)',
+          borderTop: 'none',
+          borderLeft: 'none',
+          borderRight: 'none',
+          background: 'rgba(255,255,255,0.12)',
         }}
       >
         <FullContainer>
