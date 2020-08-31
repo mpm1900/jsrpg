@@ -74,10 +74,11 @@ export const BoxButton = (props: BoxContainerPropsT) => {
             ...(props.style || {}),
           }}
           substyle={{
-            borderColor: isHovering ? '#999' : '#555',
+            borderColor: isHovering && !props.disabled ? '#999' : '#555',
             padding: '4px',
             cursor: props.disabled ? 'default' : 'pointer',
             background: props.disabled ? '#444' : '#111',
+            boxShadow: props.disabled ? 'none' : undefined,
             ...(props.substyle || {}),
           }}
         />
