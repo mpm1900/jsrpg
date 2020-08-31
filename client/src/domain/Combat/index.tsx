@@ -23,8 +23,8 @@ export const Combat = () => {
     let _targetId: string | undefined =
       characterTargets[rawUserParty.characters[0].id]
     if (
-      Object.keys(characterTargets).every((key) => {
-        return characterTargets[key] === _targetId
+      rawUserParty.characters.every((c) => {
+        return characterTargets[c.id] === _targetId
       })
     ) {
       return _targetId
