@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "7b5d78746d581b9da6b2dfb72fa785ff",
+    "revision": "82807e90df0886004a7481c9e855eb10",
     "url": "/jsrpg/index.html"
   },
   {
-    "revision": "a086680521d2d3519dd5",
-    "url": "/jsrpg/static/css/main.6b640b01.chunk.css"
+    "revision": "216b4a56e0ba71ac5c04",
+    "url": "/jsrpg/static/css/main.d34ff4ea.chunk.css"
   },
   {
-    "revision": "1d2a3a922a383cfd89af",
-    "url": "/jsrpg/static/js/2.35c989b2.chunk.js"
+    "revision": "c8cc229989b14ff1e2db",
+    "url": "/jsrpg/static/js/2.e376dfe0.chunk.js"
   },
   {
     "revision": "4fc96d8633d093f6effd8ad2d7e6794c",
-    "url": "/jsrpg/static/js/2.35c989b2.chunk.js.LICENSE.txt"
+    "url": "/jsrpg/static/js/2.e376dfe0.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "a086680521d2d3519dd5",
-    "url": "/jsrpg/static/js/main.eb778d63.chunk.js"
+    "revision": "216b4a56e0ba71ac5c04",
+    "url": "/jsrpg/static/js/main.2da28758.chunk.js"
   },
   {
     "revision": "c455a9ffbc4cbbcd5a32",
