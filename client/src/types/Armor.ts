@@ -1,5 +1,4 @@
 import { EquippableT } from './Item'
-import { DamageTypeRollsT } from './Damage'
 
 export type ArmorTypeT =
   | 'helmet'
@@ -12,7 +11,6 @@ export type ArmorTypeT =
 export interface ArmorT extends EquippableT {
   type: 'armor'
   armorType: ArmorTypeT
-  damageResistances: DamageTypeRollsT
 }
 
 export const ArmorTypeSortKey: Record<ArmorTypeT, number> = {

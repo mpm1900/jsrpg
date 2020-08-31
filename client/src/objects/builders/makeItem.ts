@@ -3,13 +3,12 @@ import { getRandom } from '../../util/getRandom'
 import { WeaponTypeT, WeaponT } from '../../types/Weapon'
 import { getKeys } from '../../util/getKeys'
 import { ArmorT, ArmorTypeT } from '../../types/Armor'
-import { BASIC_SHIELD } from '../basicShield'
 import { FISTS } from '../fists'
-import { BASIC_TOME } from '../basicTome'
 import { CharacterSkillCheckKeyT } from '../../types/Character'
 
 import { buildArmor } from './armor/createArmor'
 import { buildWeapon } from './weapons/createWeapon'
+import { BASE_EQUIPPABLE } from '../util'
 
 type _ItemModifierValuesT = Record<CharacterSkillCheckKeyT, number>
 export type ItemModifierValuesT = Partial<_ItemModifierValuesT>
@@ -98,8 +97,7 @@ const itemCore: ItemMakerMapT = {
       boots: () => buildArmor('boots'),
       gloves: () => buildArmor('gloves'),
     }),
-  shield: () => BASIC_SHIELD,
-  tome: () => BASIC_TOME,
+  offhand: () => BASE_EQUIPPABLE('offhand'),
 }
 
 export default (): EquippableT => makeItem(itemCore)

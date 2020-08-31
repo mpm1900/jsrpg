@@ -16,11 +16,10 @@ export interface ItemT {
   rarity: ItemRarityT
   icon?: string
 }
-export type ItemTypeT = 'weapon' | 'armor' | 'shield' | 'tome'
+export type ItemTypeT = 'weapon' | 'armor' | 'offhand'
 export interface EquippableT extends ItemT {
   equippable: true
   type: ItemTypeT
-  rarity: ItemRarityT
   cost: number
   resource: CharacterResourceKeyT
   requirementCheck: CharacterCheckT

@@ -1,4 +1,4 @@
-import { EquippableT, ItemRarityT } from './Item'
+import { EquippableT, ItemRarityT, ItemT } from './Item'
 import {
   DamageTypeRollsT,
   ZERO_DAMAGE_ROLLS,
@@ -65,11 +65,7 @@ export const ZERO_WEAPON_TRAIT: WeaponTraitT = {
   events: {},
   traits: [],
 }
-export interface WeaponModT {
-  id: string
-  name: string
-  icon?: string
-  rarity: ItemRarityT
+export interface WeaponModT extends ItemT {
   traits: WeaponTraitT[]
 }
 

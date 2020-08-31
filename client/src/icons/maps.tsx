@@ -65,8 +65,7 @@ export const IconDamageTypeMap: Record<DamageTypeKeyT, string> = {
 export const IconItemTypeMap: Record<ItemTypeT, string> = {
   weapon: '',
   armor: '',
-  shield: Shield,
-  tome: Tome,
+  offhand: '',
 }
 
 export const IconWeaponTypeMap: Record<WeaponTypeT, string> = {
