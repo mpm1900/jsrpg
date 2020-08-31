@@ -15,7 +15,6 @@ import {
   checkCharacterActiveTargets,
 } from './util'
 import { useCombatLogContext } from '../CombatLogContext'
-import { useInterval } from '../../hooks/useInterval'
 import { useModalContext } from '../ModalContext'
 import { useHistory } from 'react-router'
 import { CombatVictoryModal } from '../../components/CombatVictoryModal'
@@ -162,6 +161,15 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
       open(() => <CombatVictoryModal reset={reset} />, {}, true)
       setCallback((item) => {
         upsertItem(item)
+        rawUserParty.characters.forEach((c) => {
+          upsertCharacter({
+            ...c,
+            resources: {
+              ...c.resources,
+              characterPoints: c.resources.characterPoints + 5,
+            },
+          })
+        })
       })
     } else {
       open(() => <CombatLossModal wins={wins} />, {}, true)
@@ -177,7 +185,6 @@ export const CombatContextProvider = (props: CombatContextProviderPropsT) => {
       finish(false)
     } else {
       if (checkParty(enemyParty) && !done) {
-        setCallback(() => {})
         finish(true)
         setWins((w) => w + 1)
       }
